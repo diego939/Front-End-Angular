@@ -1,0 +1,17 @@
+nav{
+    height: 65px;
+    line-height: 60px;
+    color: #fff;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.flotar-derecha{
+    float: right;
+    margin-right: 4px;
+}
+
+button{
+    margin-right: 2px;
+}

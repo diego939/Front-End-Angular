@@ -1,0 +1,88 @@
+<header>
+    <img class="imgFondo shadow-lg" src="../../../assets/mi-fondo.jpg" alt="">
+    <img class="imgPerfil shadow-lg" src="../../../assets/foto-perfil.jpg" alt="">
+    <h1 class="nombre-usuario" id="nombreUsuario"> {{nombreUsuario+' '}}
+      <!-- <a href="#" class="btn" (click)="editarNombre()"><i class="fa fa-pencil"></i></a> -->
+    </h1><br>
+  <div class="panel-seccion border-1 border-secondary bg-white">
+    <div class="card">
+      <h5 class="descripcion text-dark mt-2">Desarrollador full stack java</h5>
+      <h6 class="descripcion text-dark"><i class="fa fa-home"></i> {{'"'+localidad +', '+ provincia +'" ('+pais+') '}} </h6>
+      <h6 class="descripcion text-dark"><i class="fa fa-envelope-o"></i> {{correo}}</h6>
+      <h6 class="descripcion text-dark"><i class="fa fa-mobile-phone"></i> {{celular}}</h6>
+      <br>
+    </div>
+     <!-- <button type="button" class="descripcion btn btn-outline-secondary m-2" data-bs-toggle="modal" data-bs-target="#myModalInfoPersonal"> Editar información Personal <i class="fa fa-pencil-square-o"></i></button> -->
+  </div>
+  </header>
+  
+  <!-- Navegador -->
+  <ul class="nav nav-tabs border-t border-dark m-2">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#aCercaDe">Acerca de mi</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#miExperiencia">Experiencia</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#miEducacion">Educación</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#misHabilidades">Habilidades</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#misProyectos">Proyectos</a>
+      </li>
+  </ul>
+  <br>
+  
+  
+  <!-- The Modal -->
+  <div class="modal" id="myModalInfoPersonal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Mis datos personales</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fa fa-home"></i></span>
+              <input type="text" class="form-control" placeholder="Localidad" name="localidad">
+            </div><br>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fa fa-home"></i></span>
+              <input type="text" class="form-control" placeholder="Provincia" name="provincia">
+            </div><br>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fa fa-home"></i></span>
+              <input type="text" class="form-control" placeholder="País" ngModel="pais">
+            </div><br>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fa fa-envelope-o"></i></span>
+              <input type="text" class="form-control" placeholder="Correo" name="correo">
+            </div><br>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fa fa-mobile-phone"></i></span>
+              <input type="text" class="form-control" placeholder="Celular" name="celular">
+            </div><br>
+  
+            <div>
+                <button type="button" class="btn btn-primary" (click)="editarMisDatos(localidad,pais,correo)">Editar <i class="fa fa-pencil-square-o"></i></button>
+            </div>
+          </form>
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>

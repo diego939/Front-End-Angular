@@ -1,0 +1,56 @@
+<nav class="bg-secondary mb-3"> 
+    <img src="../../../assets/ArgentinaProgramaLogo.png" alt="" style="height: 100%;">
+    <div class="flotar-derecha">
+      <button class="btn btn-secondary btn-lg"><i class="fa fa-instagram"></i></button>
+      <button class="btn btn-secondary btn-lg"><i class="fa fa-twitter-square"></i></button>
+      <button class="btn btn-secondary btn-lg"><i class="fa fa-whatsapp"></i></button>
+      <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#myModalLogin"><i class="fa fa-user"> Login</i></button>
+      <!-- <button class="btn btn-outline-light"><i class="fa fa-power-off"> Logout</i></button> -->
+    </div> 
+  </nav>
+  
+  
+  <!-- The Modal -->
+  <div class="modal" id="myModalLogin">
+  <div class="modal-dialog">
+    <div class="modal-content">
+  
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title text-center">Iniciar Sesión</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+  
+      <!-- Modal body -->
+      <div class="modal-body">
+        <h1 class="text-center" style="color:skyblue; font-size: 100px;"><i class="fa fa-user"></i></h1>
+        <form action="/action_page.php">
+          <div class="mb-3 mt-3">
+            <div class="input-group">
+              <span class="input-group-text"><i class="	fa fa-user"></i></span>
+              <input type="text" class="form-control" placeholder="Nombre de usuario">
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="input-group">
+              <span class="input-group-text"><i class="fa fa-asterisk"></i></span>
+              <input type="password" class="form-control" placeholder="Escriba Contraseña">
+            </div>
+          </div>
+          <div class="form-check mb-3">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" name="remember"> Recordar Mis datos
+            </label>
+          </div>
+          <button type="submit" class="btn btn-primary">Aceptar</button>
+        </form>
+      </div>
+  
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Salir</button>
+      </div>
+  
+    </div>
+  </div>
+  </div>
