@@ -40,3 +40,31 @@ img {
 .infoPersonal{
     margin-bottom: 20px;
 }
+
+
+@media handheld, screen and (min-width: 600px) and (max-width: 1023px) {
+
+.imgFondo {
+    height: 300px;
+  }
+
+.imgPerfil {
+    height: 150px;
+    width: 150px;
+    margin-top: 225px;
+  }
+
+
+}
+
+@media handheld, screen and (max-width: 599px) {
+  .imgFondo {
+    height: 200px;
+  }
+
+.imgPerfil {
+    height: 100px;
+    width: 100px;
+    margin-top: 150px;
+  }
+}

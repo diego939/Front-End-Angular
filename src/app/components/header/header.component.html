@@ -1,20 +1,22 @@
-<header>
-    <img class="imgFondo shadow-lg" src="../../../assets/mi-fondo.jpg" alt="">
-    <img class="imgPerfil shadow-lg" src="../../../assets/foto-perfil.jpg" alt="">
-    <h1 class="nombre-usuario" id="nombreUsuario"> {{nombreUsuario+' '}}
+<header *ngFor="let item of miPortfolio.Persona">
+    <img class="imgFondo shadow-lg" src="../../../assets/{{item.image_portada}}" alt="">
+    <img class="imgPerfil shadow-lg" src="../../../assets/{{item.image_perfil}}" alt="">
+  <div class="panel-seccion mt-4">
+    <h1 class="nombre-usuario" id="nombreUsuario">{{item.nombres + ' ' + item.apellido}}
       <!-- <a href="#" class="btn" (click)="editarNombre()"><i class="fa fa-pencil"></i></a> -->
     </h1><br>
-  <div class="panel-seccion border-1 border-secondary bg-white">
-    <div class="card">
-      <h5 class="descripcion text-dark mt-2">Desarrollador full stack java</h5>
-      <h6 class="descripcion text-dark"><i class="fa fa-home"></i> {{'"'+localidad +', '+ provincia +'" ('+pais+') '}} </h6>
-      <h6 class="descripcion text-dark"><i class="fa fa-envelope-o"></i> {{correo}}</h6>
-      <h6 class="descripcion text-dark"><i class="fa fa-mobile-phone"></i> {{celular}}</h6>
+  <div class="card border border-dark bg-white">
+    <div>
+      <h5 class="descripcion text-dark mt-2">{{item.ocupacion}}</h5>
+      <h6 class="descripcion text-dark"><i class="fa fa-home"></i> {{' ' + item.localidad + ', ' + item.provincia + ' (' + item.pais + ')'}} </h6>
+      <h6 class="descripcion text-dark"><i class="fa fa-envelope-o"></i> {{' ' + item.mail}}</h6>
+      <h6 class="descripcion text-dark"><i class="fa fa-mobile-phone"></i> {{' ' +item.celular}}</h6>
       <br>
     </div>
      <!-- <button type="button" class="descripcion btn btn-outline-secondary m-2" data-bs-toggle="modal" data-bs-target="#myModalInfoPersonal"> Editar información Personal <i class="fa fa-pencil-square-o"></i></button> -->
   </div>
-  </header>
+</div>
+</header>
   
   <!-- Navegador -->
   <ul class="nav nav-tabs border-t border-dark m-2">
@@ -38,7 +40,7 @@
   
   
   <!-- The Modal -->
-  <div class="modal" id="myModalInfoPersonal">
+  <div class="modal" id="myModalInfoPersonal" *ngFor="let item of miPortfolio.Persona">
     <div class="modal-dialog">
       <div class="modal-content">
   
@@ -52,28 +54,32 @@
         <div class="modal-body">
           <form>
             <div class="input-group">
-              <span class="input-group-text"><i class="fa fa-home"></i></span>
-              <input type="text" class="form-control" placeholder="Localidad" name="localidad">
+              <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+              <input type="text" class="form-control" placeholder="ocupacion" name="ocupacion" [value]="item.ocupacion">
             </div><br>
             <div class="input-group">
               <span class="input-group-text"><i class="fa fa-home"></i></span>
-              <input type="text" class="form-control" placeholder="Provincia" name="provincia">
+              <input type="text" class="form-control" placeholder="Localidad" name="localidad" [value]="item.localidad">
             </div><br>
             <div class="input-group">
               <span class="input-group-text"><i class="fa fa-home"></i></span>
-              <input type="text" class="form-control" placeholder="País" ngModel="pais">
+              <input type="text" class="form-control" placeholder="Provincia" name="provincia" [value]="item.provincia">
+            </div><br>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fa fa-home"></i></span>
+              <input type="text" class="form-control" placeholder="País" ngModel="pais" [value]="item.pais">
             </div><br>
             <div class="input-group">
               <span class="input-group-text"><i class="fa fa-envelope-o"></i></span>
-              <input type="text" class="form-control" placeholder="Correo" name="correo">
+              <input type="text" class="form-control" placeholder="Correo" name="correo" [value]="item.mail">
             </div><br>
             <div class="input-group">
               <span class="input-group-text"><i class="fa fa-mobile-phone"></i></span>
-              <input type="text" class="form-control" placeholder="Celular" name="celular">
+              <input type="text" class="form-control" placeholder="Celular" name="celular" [value]="item.celular">
             </div><br>
   
             <div>
-                <button type="button" class="btn btn-primary" (click)="editarMisDatos(localidad,pais,correo)">Editar <i class="fa fa-pencil-square-o"></i></button>
+                <button type="button" class="btn btn-primary" >Editar <i class="fa fa-pencil-square-o"></i></button>
             </div>
           </form>
         </div>
