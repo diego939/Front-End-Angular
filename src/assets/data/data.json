@@ -144,6 +144,73 @@
 			"foto": "ReactJS Certificado-1.png"
 		}
 
+	  ],
+
+	  "HabilidadesBlandas": [
+
+		{"nombreHabilidad": "Trabajo en equipo",
+		"progreso": 60
+		},
+	
+		{"nombreHabilidad": "Resolución de Problemas",
+		"progreso": 80},
+	
+		{"nombreHabilidad": "Diseño de sistemas",
+		"progreso": 80}
+	
+	  ],
+	
+	  "MisTecnologias": [
+	
+		{
+			"nombreTecnologia": "HTML",
+			"nivel": 80
+		},
+	
+		{
+			"nombreTecnologia": "CSS",
+			"nivel": 80
+		},
+	
+		{
+			"nombreTecnologia": "JavaScript",
+			"nivel": 80
+		},
+	
+		{
+			"nombreTecnologia": "PHP",
+			"nivel": 60
+		},
+	
+		{
+			"nombreTecnologia": "MySQL",
+			"nivel": 100
+		},
+	
+		{
+			"nombreTecnologia": "Bootstrap",
+			"nivel": 80
+		},
+	
+		{
+			"nombreTecnologia": "Java",
+			"nivel": 60
+		}
+	
+	  ],
+
+	  "MisProyectos": [
+
+		{
+			"nombreProyecto": "Tienda en linea",
+			"descripcionProyecto": "Desarrollamos un proyecto web con dinamismo de control de stock de productos y sistema de ventas de productos con facturaciones."
+		},
+	
+		{
+			"nombreProyecto": "Calculadora Básica",
+			"descripcionProyecto": "Se desarrolló un pequeño proyecto de una calculadora básica en javascript, con las funcionalidades básicas para realizar operaciones simples."
+		}
+	
 	  ]
 
 }

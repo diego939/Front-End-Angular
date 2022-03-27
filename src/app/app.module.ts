@@ -10,6 +10,9 @@ import {HttpClientModule} from '@angular/common/http';
 import { SeccionACercaDeComponent } from './components/seccion-a-cerca-de/seccion-a-cerca-de.component';
 import {FormsModule} from '@angular/forms';
 import { ExperienciaYEducacionComponent } from './components/experiencia-y-educacion/experiencia-y-educacion.component';
+import { SeccionHabilidadesComponent } from './components/seccion-habilidades/seccion-habilidades.component';
+import { SeccionMisProyectosComponent } from './components/seccion-mis-proyectos/seccion-mis-proyectos.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
@@ -19,6 +22,9 @@ import { ExperienciaYEducacionComponent } from './components/experiencia-y-educa
     HeaderComponent,
     SeccionACercaDeComponent,
     ExperienciaYEducacionComponent,
+    SeccionHabilidadesComponent,
+    SeccionMisProyectosComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

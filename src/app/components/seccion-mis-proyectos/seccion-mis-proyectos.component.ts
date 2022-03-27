@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { PortfolioService } from 'src/app/servicios/portfolio.service';
 
 @Component({
-  selector: 'app-seccion-a-cerca-de',
-  templateUrl: './seccion-a-cerca-de.component.html',
-  styleUrls: ['./seccion-a-cerca-de.component.css']
+  selector: 'app-seccion-mis-proyectos',
+  templateUrl: './seccion-mis-proyectos.component.html',
+  styleUrls: ['./seccion-mis-proyectos.component.css']
 })
+export class SeccionMisProyectosComponent implements OnInit {
 
-export class SeccionACercaDeComponent implements OnInit {
-  
   miPortfolio: any;
 
   constructor(private datosPortfolio: PortfolioService) { 
@@ -19,11 +18,6 @@ export class SeccionACercaDeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  editarInformacion(){
-    this.miPortfolio.Persona.sobre_mi = this.miPortfolio.Persona.sobre_mi;
-
   }
 
 }

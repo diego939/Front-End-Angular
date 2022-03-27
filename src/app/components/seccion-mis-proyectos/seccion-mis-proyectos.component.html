@@ -1,0 +1,17 @@
+<section class="panel-seccion" id="misProyectos">
+    <h1>
+      <span class="float-left"><i class="fa fa-newspaper-o"></i> Proyectos</span>
+      <!-- <span class="btn flotar-derecha"><i class="fa fa-plus-square-o"></i></span> -->
+    </h1><br>
+    <div *ngFor="let item of miPortfolio.MisProyectos; let indice=index" class="card m-2 border border-dark">
+      <div class="card-header">
+        <span class="h4 text-primary">{{item.nombreProyecto}}</span>
+        <!-- <span class="btn flotar-derecha"><i class="fa fa-trash-o"></i></span> -->
+        <!-- <span class="btn flotar-derecha"><i class="fa fa-pencil"></i></span> -->
+      </div>
+      <div class="card-body">
+        <span class="strong">{{item.descripcionProyecto}}</span>
+      </div>
+    </div>
+  </section>
+
