@@ -17,5 +17,133 @@
 			"image_perfil": "foto-perfil.jpg",
 			"id_domicilio":"2"
 		}
-	]
+	],
+
+	"Titulos": [
+		{
+			"id": "1",
+			"instituto": "UTN-FBRA cursos a distancia", 
+			"titulo": "Desarrollo Web frond end"
+		},
+
+		{
+			"id": "2",
+			"instituto": "Educacion IT", 
+			"titulo": "Desarrollo fullstack con java"
+		},
+
+		{
+			"id": "3",
+			"instituto": "UNNE - Facultad de Ciencias Exactas" , 
+			"titulo": "Licenciado en Sistemas de información"
+		}
+	],
+
+	"Experiencias":  [
+		{ 
+			"id": "1",
+			"puesto": "Freelance full stack developer", 
+			"empresa": "Bruno Gas", 
+			"descripcion": "Se desarrolló una aplicación web que administre las ventas de una tienda de artículos de gas. controlando el stock y realice pedidos de productos a través de la web. El proyecto fue realizado en el framework Codeigniter, con lenguajes JavaScript y PHP para el bak end", 
+			"anioIngreso": "ene 2020", 
+			"anioEgreso": "jul 2020"
+		 },
+	
+		{
+			"id": "2", 
+			"puesto": "Operador Informático", 
+			"empresa": "Soluciones PC", 
+			"descripcion": "Instalación de sistemas operativos, backup y mantenimiento de PC." , 
+			"anioIngreso": "dic 2018", 
+			"anioEgreso": "jul 2019" 
+		}
+	  ],
+
+	  "Certificados": [
+		{
+			"id": "1",
+			"nombre": "Argentina Programa Yo Programo", 
+			"foto": "argentina_programa_octubre_diciembre_2021-1.png"
+		},
+
+		{
+			"id": "2",
+			"nombre": "Bases De Datos SQL", 
+			"foto": "CertificacionBaseDeDatos-1.png"
+		},
+
+		{
+			"id": "3",
+			"nombre": "Java Hibernate", 
+			"foto": "certificado Java Hibernate-1.png"
+		},
+
+		{
+			"id": "4",
+			"nombre": "Desarrollo fullstack con Java", 
+			"foto": "CertificadoDigitalers2021-1.png"
+		},
+
+		{
+			"id": "5",
+			"nombre": "Git", 
+			"foto": "certificadoGit-1.png"
+		},
+
+		{
+			"id": "6",
+			"nombre": "Desarrollo Web", 
+			"foto": "CertificadoUTN-1.png"
+		},
+
+		{
+			"id": "7",
+			"nombre": "Bases De Datos Oracle", 
+			"foto": "Diego David Almirón-Oracle-1.png"
+		},
+
+		{
+			"id": "8",
+			"nombre": "Seguridad Informática", 
+			"foto": "Diego-David Almirón-Seguridad Informática-1.png"
+		},
+
+		{
+			"id": "9",
+			"nombre": "Fundamentos Web Html", 
+			"foto": "Fundamentos Web certificado-1.png"
+		},
+
+		{
+			"id": "10",
+			"nombre": "Java Para no Programadores", 
+			"foto": "Java para no programadores certificado-1.png"
+		},
+
+		{
+			"id": "11",
+			"nombre": "Java Spring boot", 
+			"foto": "Java Spring certificado-1.png"
+		},
+
+		{
+			"id": "12",
+			"nombre": "Java Standard Web Programming", 
+			"foto": "Java Standard Web Programming, J2SE Certificado-1.png"
+		},
+
+		{
+			"id": "13",
+			"nombre": "Javascript desde cero", 
+			"foto": "Javascript desde cero certificado-1.png"
+		},
+
+		{
+			"id": "14",
+			"nombre": "ReactJS", 
+			"foto": "ReactJS Certificado-1.png"
+		}
+
+	  ]
+
 }

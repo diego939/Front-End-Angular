@@ -9,6 +9,7 @@ import { HeaderComponent } from './components/header/header.component';
 import {HttpClientModule} from '@angular/common/http';
 import { SeccionACercaDeComponent } from './components/seccion-a-cerca-de/seccion-a-cerca-de.component';
 import {FormsModule} from '@angular/forms';
+import { ExperienciaYEducacionComponent } from './components/experiencia-y-educacion/experiencia-y-educacion.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import {FormsModule} from '@angular/forms';
     NavComponent,
     HeaderComponent,
     SeccionACercaDeComponent,
+    ExperienciaYEducacionComponent,
   ],
   imports: [
     BrowserModule,
