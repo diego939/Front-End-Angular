@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PortfolioService } from 'src/app/servicios/portfolio.service';
 
+import { ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from "../../servicios/auth.service";
+
 @Component({
   selector: 'app-experiencia-y-educacion',
   templateUrl: './experiencia-y-educacion.component.html',
@@ -8,14 +12,78 @@ import { PortfolioService } from 'src/app/servicios/portfolio.service';
 })
 export class ExperienciaYEducacionComponent implements OnInit {
 
+  @ViewChild('closebuttonEditarInstituto') closebuttonEditarInstituto: any;
+  @ViewChild('closebuttonAddInstituto') closebuttonAddInstituto: any;
+  @ViewChild('closebuttonEliminarInstituto') closebuttonEliminarInstituto: any;
+  @ViewChild('closebuttonEditarExperiencia') closebuttonEditarExperiencia: any;
+  @ViewChild('closebuttonAddExperiencia') closebuttonAddExperiencia: any;
+  @ViewChild('closebuttonEliminarExperiencia') closebuttonEliminarExperiencia: any;
+
+  form1edit: FormGroup;
+  
+  form1add: FormGroup;
+
+  form1delete: FormGroup;
+
+  form2edit: FormGroup;
+  
+  form2add: FormGroup;
+
+  form2delete: FormGroup;
+
   miPortfolio: any;
+
+  logueado: any;
   
 
-  constructor(private datosPortfolio: PortfolioService) { 
+  constructor(private datosPortfolio: PortfolioService, private formBuilder: FormBuilder,private authService: AuthService) { 
     this.datosPortfolio.obtenerDatos().subscribe(data => {
       console.log(data);
       this.miPortfolio = data;
     });
+
+    this.form1edit= this.formBuilder.group({
+      instituto: '',
+      titulo: ''
+   })
+
+   this.form1add= this.formBuilder.group({
+    instituto: '',
+    titulo: ''
+  })
+
+  this.form1delete= this.formBuilder.group({
+    instituto: '',
+    titulo: ''
+ })
+
+   this.form2edit= this.formBuilder.group({
+    puesto: '',
+    empresa: '',
+    descripcion: '',
+    anioIngreso: '',
+    anioEgreso:''
+ })
+
+ this.form2add= this.formBuilder.group({
+  puesto: '',
+  empresa: '',
+  descripcion: '',
+  anioIngreso: '',
+  anioEgreso:''
+  })
+
+  this.form2delete= this.formBuilder.group({
+    puesto: '',
+    empresa: '',
+    descripcion: '',
+    anioIngreso: '',
+    anioEgreso:''
+ })
+
+
+
+   this.logueado = this.authService;
   }
 
   ngOnInit(): void {
@@ -94,6 +162,92 @@ export class ExperienciaYEducacionComponent implements OnInit {
   mostrarCertificado(indice: number){
     this.fotoSelect =  this.miPortfolio.Certificados[indice].foto;
     this.nombreSelect = this.miPortfolio.Certificados[indice].nombre;
+  }
+
+  
+  editarTitulo(item:number){
+    this.closebuttonEditarInstituto.nativeElement.click();
+    this.miPortfolio.Titulos[item].instituto=this.form1edit.value.instituto;
+    this.miPortfolio.Titulos[item].titulo=this.form1edit.value.titulo;
+  }
+
+  nombreInstitutoSelect: string = '';
+  tituloInstitutoSelect: string = '';
+  auxIndex: number = 0;
+  mostrarTitulo(item: number){
+    this.auxIndex = item;
+    this.nombreInstitutoSelect= this.miPortfolio.Titulos[this.auxIndex].instituto;
+    this.tituloInstitutoSelect=this.miPortfolio.Titulos[this.auxIndex].titulo;
+  } 
+
+
+  nombreInstituto: string = "";
+  tituloInstituto: string = "";
+  agregarTitulo(){
+
+    this.closebuttonAddInstituto.nativeElement.click();
+
+    this.nombreInstituto = this.form1add.value.instituto;
+    this.tituloInstituto = this.form1add.value.titulo;
+
+    this.miPortfolio.Titulos.push({instituto: this.nombreInstituto, titulo: this.tituloInstituto});
+    alert('Se agregó un nuevo Instituto a tu lista');
+  }
+
+  eliminarTitulo(indice: number){
+    this.closebuttonEliminarInstituto.nativeElement.click();
+    alert('Se eliminó el Centro educativo: "'+ this.miPortfolio.Titulos[indice].instituto + '"');
+    this.miPortfolio.Titulos.splice(indice, 1);
+  }
+
+  // FUNCIONES DEL AREA EXPERIENCIA
+  editarExperiencia(item:number){
+    this.closebuttonEditarExperiencia.nativeElement.click();
+    this.miPortfolio.Experiencias[item].puesto=this.form2edit.value.puesto;
+    this.miPortfolio.Experiencias[item].empresa=this.form2edit.value.empresa;
+    this.miPortfolio.Experiencias[item].descripcion=this.form2edit.value.descripcion;
+    this.miPortfolio.Experiencias[item].anioIngreso=this.form2edit.value.anioIngreso;
+    this.miPortfolio.Experiencias[item].anioEgreso=this.form2edit.value.anioEgreso;
+  }
+
+
+  puestoExperienciaSelect: string = '';
+  empresaExperienciaSelect: string = '';
+  descripcionExperienciaSelect: string = '';
+  anioIngresoExperienciaSelect: string = '';
+  anioEgresoExperienciaSelect: string = '';
+  //auxIndex: number = 0; //ya se definió un auxiliar arriba
+  mostrarExperiencia(item: number){
+    this.auxIndex = item;
+    this.puestoExperienciaSelect= this.miPortfolio.Experiencias[this.auxIndex].puesto;
+    this.empresaExperienciaSelect= this.miPortfolio.Experiencias[this.auxIndex].empresa;
+    this.descripcionExperienciaSelect= this.miPortfolio.Experiencias[this.auxIndex].descripcion;
+    this.anioIngresoExperienciaSelect= this.miPortfolio.Experiencias[this.auxIndex].anioIngreso;
+    this.anioEgresoExperienciaSelect= this.miPortfolio.Experiencias[this.auxIndex].anioEgreso;
+  }
+
+  puestoExperiencia: string = '';
+  empresaExperiencia: string = '';
+  descripcionExperiencia: string = '';
+  anioIngresoExperiencia: string = '';
+  anioEgresoExperiencia: string = '';
+  agregarExperiencia(){
+    this.closebuttonAddExperiencia.nativeElement.click();
+
+    this.puestoExperiencia = this.form2add.value.puesto;
+    this.empresaExperiencia = this.form2add.value.empresa;
+    this.descripcionExperiencia = this.form2add.value.descripcion;
+    this.anioIngresoExperiencia = this.form2add.value.anioIngreso;
+    this.anioEgresoExperiencia = this.form2add.value.anioEgreso;
+
+    this.miPortfolio.Experiencias.push({puesto: this.puestoExperiencia, empresa: this.empresaExperiencia, descripcion: this.descripcionExperiencia, anioIngreso: this.anioIngresoExperiencia , anioEgreso: this.anioEgresoExperiencia});
+    alert('Se agregó una nueva Experiencia a tu lista');
+  }
+
+  eliminarExperiencia(indice: number){
+    this.closebuttonEliminarExperiencia.nativeElement.click();
+    alert('Se eliminó la experiencia: "'+ this.miPortfolio.Experiencias[indice].puesto + '"');
+    this.miPortfolio.Experiencias.splice(indice, 1);
   }
 
 }

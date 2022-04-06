@@ -1,10 +1,23 @@
-nav{
+.navegador{
     height: 65px;
     line-height: 60px;
     color: #fff;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
+}
+
+.navegador a{
+    margin-right: 1px;
+}
+
+.redsoc{
+    text-decoration: none;
+}
+
+
+.login{
+    font-family: sans-serif;
 }
 
 .flotar-derecha{
@@ -14,4 +27,63 @@ nav{
 
 button{
     margin-right: 2px;
+}
+
+@media handheld, screen and (min-width: 600px) and (max-width: 1023px) {
+    .navegador{
+        height: 65px;
+        line-height: 60px;
+        color: #fff;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .redsoc{
+        text-decoration: none;
+    }
+    
+    .login{
+        font-family: sans-serif;
+    }
+}
+@media handheld, screen and (min-width: 320px) and (max-width: 599px) {
+    .navegador{
+        height: 65px;
+        line-height: 60px;
+        color: #fff;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .redsoc{
+        text-decoration: none;
+    }
+
+    .login{
+        display: none;
+    }
+
+}
+
+@media handheld, screen and (max-width: 319px) {
+    .navegador{
+        height: 65px;
+        line-height: 60px;
+        color: #fff;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+
+    .redsoc{
+        display: none;
+    }
+
+    .login{
+        display: none;
+    }
+
 }

@@ -1,13 +1,13 @@
 <section class="panel-seccion" id="miExperiencia">
     <h1>
       <span class="float-left"><i class="fa fa-suitcase"></i> Experiencia</span>
-      <!-- <span class="btn flotar-derecha"><i class="fa fa-plus-square-o"></i></span> -->
+      <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarExperiencia" *ngIf="logueado.logEstado==1"><i class="fa fa-plus-square-o"></i></span>
     </h1>
     <div class="card mt-2 border border-dark" *ngFor="let item of miPortfolio.Experiencias; let indice=index">
       <!-- Header Carta -->
       <div class="card-header h4"><i class="fa fa-bookmark"></i> {{item.puesto}}
-        <!-- <span class="btn flotar-derecha"><i class="fa fa-trash-o"></i></span> -->
-        <!-- <span class="btn flotar-derecha"><i class="fa fa-pencil"></i></span> -->
+        <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarExperiencia" (click)="mostrarExperiencia(indice)" *ngIf="logueado.logEstado==1"><i class="fa fa-trash-o"></i></span>
+        <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarExperiencia" (click)="mostrarExperiencia(indice)" *ngIf="logueado.logEstado==1"><i class="fa fa-pencil"></i></span>
       </div>
 
       <!-- body Carta -->
@@ -17,14 +17,149 @@
       </div>
 
       <!-- Footer Carta -->
-      <div class="card-footer"> {{item.anioIngreso}} - {{item.anioEgreso}}</div>
+      <div class="card-footer"> {{item.anioIngreso | date:'mediumDate'}} - {{item.anioEgreso | date:'mediumDate'}}</div>
     </div><br>
       <hr class="border border-2 border-dark">
 
-      <!-- Seccion Educación -->
+      <!-- MODALES PARA LA EXPERIENCIA -->
+
+      <!-- MODAL PARA AGREGAR UNA EXPERIENCIA-->
+      <div class="modal" id="myModalAgregarExperiencia">
+        <div class="modal-dialog">
+          <div class="modal-content">
+      
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Agregar nueva Experiencia</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+      
+            <!-- Modal body -->
+            <div class="modal-body">
+              <form [formGroup]="form2add">
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fa fa-bookmark"></i></span>
+                  <input type="text" class="form-control" placeholder="puesto" name="puesto" formControlName="puesto" [ngModel]="puestoExperiencia">
+                </div><br>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+                  <input type="text" class="form-control" placeholder="empresa" name="empresa" formControlName="empresa" [ngModel]="empresaExperiencia">
+                </div><br>
+                <p>Descripción del puesto:</p>
+                <div class="input-group">
+                  <textarea rows="7" type="text" class="form-control" placeholder="descripcion" name="descripcion" formControlName="descripcion" [ngModel]="descripcionExperiencia"></textarea>
+                </div><br>
+                <p>Fecha de ingreso:</p>
+                <div class="input-group">
+                  <input type="date" class="form-control" placeholder="Mes y Año de ingreso" name="anioIngreso" formControlName="anioIngreso" [ngModel]="anioIngresoExperiencia">
+                </div><br>
+                <p>Fecha de Egreso:</p>
+                <div class="input-group">
+                  <input type="date" class="form-control" placeholder="Mes y año egreso" name="anioEgreso" formControlName="anioEgreso" [ngModel]="anioEgresoExperiencia">
+                </div><br>
+                
+                <div>
+                    <button type="submit" class="btn btn-primary" 
+                    (click)="agregarExperiencia()">Agregar <i class="fa fa-plus-square-o"></i></button>
+                </div>
+              </form>
+            </div>
+      
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebuttonAddExperiencia>Cancelar</button>
+            </div>
+      
+          </div>
+        </div>
+      </div>
+
+        <!-- MODAL DE EDICION EXPERIENCIA -->
+        <div class="modal" id="myModalEditarExperiencia" *ngFor="let item of miPortfolio.Titulos, let indice=index">
+          <div class="modal-dialog">
+            <div class="modal-content">
+        
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Editar Experiencia</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+        
+              <!-- Modal body -->
+              <div class="modal-body">
+                <form [formGroup]="form2edit">
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-bookmark"></i></span>
+                    <input type="text" class="form-control" placeholder="puesto" name="puesto" formControlName="puesto" [ngModel]="puestoExperienciaSelect">
+                  </div><br>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+                    <input type="text" class="form-control" placeholder="empresa" name="empresa" formControlName="empresa" [ngModel]="empresaExperienciaSelect">
+                  </div><br>
+                  <p>Descripción del puesto:</p>
+                  <div class="input-group">
+                    <textarea rows="7" type="text" class="form-control" placeholder="descripcion" name="descripcion" formControlName="descripcion" [ngModel]="descripcionExperienciaSelect"></textarea>
+                  </div><br>
+                  <p>Fecha de Ingreso:</p>
+                  <div class="input-group">
+                    <input type="date" class="form-control" placeholder="Mes y Año de ingreso" name="anioIngreso" formControlName="anioIngreso" [ngModel]="anioIngresoExperienciaSelect">
+                  </div><br>
+                  <p>Fecha de Egreso:</p>
+                  <div class="input-group">
+                    <input type="date" class="form-control" placeholder="Mes y año egreso" name="anioEgreso" formControlName="anioEgreso" [ngModel]="anioEgresoExperienciaSelect">
+                  </div><br>
+                  <div>
+                      <button type="submit" class="btn btn-primary" 
+                      (click)=" editarExperiencia(auxIndex)">Editar <i class="fa fa-pencil-square-o"></i></button>
+                  </div>
+                </form>
+              </div>
+        
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebuttonEditarExperiencia>Cancelar</button>
+              </div>
+        
+            </div>
+          </div>
+        </div>
+
+        <!-- MODAL DE ELIMINACION DE EXPERIENCIA -->
+        <div class="modal" id="myModalEliminarExperiencia" *ngFor="let item of miPortfolio.Titulos, let indice=index">
+          <div class="modal-dialog">
+            <div class="modal-content">
+        
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Eliminar Esta Experiencia?</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+        
+              <!-- Modal body -->
+              <div class="modal-body">
+                <form [formGroup]="form2delete">
+                    <h6>{{puestoExperienciaSelect}}</h6>
+                    <p class="text-primary">{{empresaExperienciaSelect}}: </p>
+                    <p>{{descripcionExperienciaSelect}}</p>
+                  <div>
+                      <button type="submit" class="btn btn-primary" (click)=" eliminarExperiencia(auxIndex)">Eliminar <i class="fa fa-trash-o"></i></button>
+                  </div>
+                </form>
+              </div>
+        
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebuttonEliminarExperiencia>Cancelar</button>
+              </div>
+        
+            </div>
+          </div>
+        </div>
+
+      <!-- SECCIÓN EDUCACIÓN -->
       <h1>
         <span class="float-left" id="miEducacion"><i class="fa fa-graduation-cap"></i> Educación</span>
-        <!-- <span class="btn flotar-derecha" (click)="agregarTitulo()"><i class="fa fa-plus-square-o"></i></span> -->
+        <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarTitulo" *ngIf="logueado.logEstado==1"><i class="fa fa-plus-square-o"></i></span>
       </h1><br>
 
       <!-- Nav tabs -->
@@ -49,8 +184,8 @@
                         <th>Titulo</th>
                         <th></th>
                         <th></th>
-                        <!-- <th></th> -->
-                        <!-- <th></th> -->
+                        <th *ngIf="logueado.logEstado==1"></th>
+                        <th *ngIf="logueado.logEstado==1"></th>
                     </tr>
                     <tbody>
                         <tr *ngFor="let item of miPortfolio.Titulos; let indice=index">
@@ -58,15 +193,122 @@
                             <td>{{item.titulo}}</td>
                             <td></td>
                             <td></td>
-                            <!-- <td><button class="btn" (click)="editarTitulo(indice)"><i class="fa fa-pencil"></i></button></td> -->
-                            <!-- <td><button class="btn" (click)="eliminarTitulo(indice)"><i class="fa fa-trash-o"></i></button></td> -->
+                            <td *ngIf="logueado.logEstado==1"><button class="btn" data-bs-toggle="modal" data-bs-target="#myModalEditarTitulo" (click)="mostrarTitulo(indice)"><i class="fa fa-pencil"></i></button></td>
+                            <td *ngIf="logueado.logEstado==1"><button class="btn" data-bs-toggle="modal" data-bs-target="#myModalEliminarTitulo" (click)="mostrarTitulo(indice)"><i class="fa fa-trash-o"></i></button></td>
                         </tr>
                     </tbody>
             </table>
           </div>
         </div>
         </div>
+
+        <!-- MODAL PARA AGREGAR UN CENTRO EDUCATIVO-->
+        <div class="modal" id="myModalAgregarTitulo">
+          <div class="modal-dialog">
+            <div class="modal-content">
         
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Agregar un Instituto</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+        
+              <!-- Modal body -->
+              <div class="modal-body">
+                <form [formGroup]="form1add">
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+                    <input type="text" class="form-control" placeholder="instituto" name="instituto" formControlName="instituto" [ngModel]="nombreInstituto">
+                  </div><br>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+                    <input type="text" class="form-control" placeholder="titulo" name="titulo" formControlName="titulo" [ngModel]="tituloInstituto">
+                  </div><br>
+                  <div>
+                      <button type="submit" class="btn btn-primary" 
+                      (click)="agregarTitulo()">Agregar <i class="fa fa-plus-square-o"></i></button>
+                  </div>
+                </form>
+              </div>
+        
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebuttonAddInstituto>Cancelar</button>
+              </div>
+        
+            </div>
+          </div>
+        </div>
+
+          <!-- MODAL DE EDICION EDUCACIÓN -->
+          <div class="modal" id="myModalEditarTitulo" *ngFor="let item of miPortfolio.Titulos, let indice=index">
+            <div class="modal-dialog">
+              <div class="modal-content">
+          
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Editar Centro educativo</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+          
+                <!-- Modal body -->
+                <div class="modal-body">
+                  <form [formGroup]="form1edit">
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+                      <input type="text" class="form-control" placeholder="instituto" name="instituto" formControlName="instituto" [ngModel]="nombreInstitutoSelect">
+                    </div><br>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+                      <input type="text" class="form-control" placeholder="titulo" name="titulo" formControlName="titulo" [ngModel]="tituloInstitutoSelect">
+                    </div><br>
+                    <div>
+                        <button type="submit" class="btn btn-primary" 
+                        (click)=" editarTitulo(auxIndex)">Editar <i class="fa fa-pencil-square-o"></i></button>
+                    </div>
+                  </form>
+                </div>
+          
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebuttonEditarInstituto>Cancelar</button>
+                </div>
+          
+              </div>
+            </div>
+          </div>
+
+          <!-- MODAL DE ELIMINACION DE CENTRO EDUCATIVO -->
+          <div class="modal" id="myModalEliminarTitulo" *ngFor="let item of miPortfolio.Titulos, let indice=index">
+            <div class="modal-dialog">
+              <div class="modal-content">
+          
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Eliminar Centro educativo?</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+          
+                <!-- Modal body -->
+                <div class="modal-body">
+                  <form [formGroup]="form1delete">
+                      <h6>{{nombreInstitutoSelect}}</h6>
+                      <p>{{tituloInstitutoSelect}}</p>
+                    <div>
+                        <button type="submit" class="btn btn-primary" (click)=" eliminarTitulo(auxIndex)">Eliminar <i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </form>
+                </div>
+          
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebuttonEliminarInstituto>Cancelar</button>
+                </div>
+          
+              </div>
+            </div>
+          </div>
+
         <div class="tab-pane fade card" id="menu1">
           <div>
             <h4 class="m-2 card-header"><i class="fa fa-certificate"></i> Certificados</h4>
@@ -81,7 +323,9 @@
           </div>
       </div>
 
-      <!-- The Modal -->
+
+
+      <!-- MODAL PARA VER LOS CERTIFICADOS -->
       <div class="modal" id="myModalCertificados">
         <div class="modal-dialog">
           <div class="modal-content">

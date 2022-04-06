@@ -1,7 +1,7 @@
 {
     "Persona": [
 		{
-			"id": "1",
+			"id_persona": "1",
 			"nombres": "Diego",
 			"apellido": "Almirón",
 			"fecha_nacimiento": "17/03/1990",
@@ -16,6 +16,15 @@
 			"image_portada": "mi-fondo.jpg",
 			"image_perfil": "foto-perfil.jpg",
 			"id_domicilio":"2"
+		}
+	],
+	
+	"Usuarios": [
+		{
+			"id_usuario": "1",
+			"usuario": "diego@gmail.com",
+			"pass": "RGllZ28xMjM0",
+			"persona_id": "1"
 		}
 	],
 
@@ -45,8 +54,8 @@
 			"puesto": "Freelance full stack developer", 
 			"empresa": "Bruno Gas", 
 			"descripcion": "Se desarrolló una aplicación web que administre las ventas de una tienda de artículos de gas. controlando el stock y realice pedidos de productos a través de la web. El proyecto fue realizado en el framework Codeigniter, con lenguajes JavaScript y PHP para el bak end", 
-			"anioIngreso": "ene 2020", 
-			"anioEgreso": "jul 2020"
+			"anioIngreso": "2020-01-12", 
+			"anioEgreso": "2020-04-27"
 		 },
 	
 		{
@@ -54,8 +63,8 @@
 			"puesto": "Operador Informático", 
 			"empresa": "Soluciones PC", 
 			"descripcion": "Instalación de sistemas operativos, backup y mantenimiento de PC." , 
-			"anioIngreso": "dic 2018", 
-			"anioEgreso": "jul 2019" 
+			"anioIngreso": "2018-12-27", 
+			"anioEgreso": "2019-07-12" 
 		}
 	  ],
 

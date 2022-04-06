@@ -1,17 +1,126 @@
 <section class="panel-seccion" id="misProyectos">
     <h1>
       <span class="float-left"><i class="fa fa-newspaper-o"></i> Proyectos</span>
-      <!-- <span class="btn flotar-derecha"><i class="fa fa-plus-square-o"></i></span> -->
+      <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarProyecto" *ngIf="logueado.logEstado==1"><i class="fa fa-plus-square-o"></i></span>
     </h1><br>
     <div *ngFor="let item of miPortfolio.MisProyectos; let indice=index" class="card m-2 border border-dark">
       <div class="card-header">
         <span class="h4 text-primary">{{item.nombreProyecto}}</span>
-        <!-- <span class="btn flotar-derecha"><i class="fa fa-trash-o"></i></span> -->
-        <!-- <span class="btn flotar-derecha"><i class="fa fa-pencil"></i></span> -->
+        <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarProyecto" (click)="mostrarProyecto(indice)" *ngIf="logueado.logEstado==1"><i class="fa fa-trash-o"></i></span>
+        <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarProyecto" (click)="mostrarProyecto(indice)" *ngIf="logueado.logEstado==1"><i class="fa fa-pencil"></i></span>
       </div>
       <div class="card-body">
         <span class="strong">{{item.descripcionProyecto}}</span>
       </div>
     </div>
+
+    <!-- MODALES PARA MIS PROYECTOS -->
+
+      <!-- MODAL PARA AGREGAR UN PROYECTO-->
+      <div class="modal" id="myModalAgregarProyecto">
+        <div class="modal-dialog">
+          <div class="modal-content">
+      
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Agregar nuevo proyecto</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+      
+            <!-- Modal body -->
+            <div class="modal-body">
+              <form [formGroup]="formProyectoAdd">
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fa fa-newspaper-o"></i></span>
+                  <input type="text" class="form-control" placeholder="Nombre del proyecto" name="nombreProyecto" formControlName="nombreProyecto" [ngModel]="nombreDeProyecto">
+                </div><br>
+                <p>Descripción del proyecto:</p>
+                <div class="input-group">
+                  <textarea rows="7" type="text" class="form-control" placeholder="descripcion" name="descripcionProyecto" formControlName="descripcionProyecto" [ngModel]="descripcionDeProyecto"></textarea>
+                </div><br>
+                <div>
+                    <button type="submit" class="btn btn-primary" 
+                    (click)="agregarProyecto()">Agregar <i class="fa fa-plus-square-o"></i></button>
+                </div>
+              </form>
+            </div>
+      
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebuttonAddProyecto>Cancelar</button>
+            </div>
+      
+          </div>
+        </div>
+      </div>
+
+        <!-- MODAL DE EDICION DE PROYECTO -->
+        <div class="modal" id="myModalEditarProyecto" *ngFor="let item of miPortfolio.MisProyectos, let indice=index">
+          <div class="modal-dialog">
+            <div class="modal-content">
+        
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Editar Proyecto</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+        
+              <!-- Modal body -->
+              <div class="modal-body">
+                <form [formGroup]="formProyectoEdit">
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-newspaper-o"></i></span>
+                    <input type="text" class="form-control" placeholder="nombre Del proyecto" name="nombreProyecto" formControlName="nombreProyecto" [ngModel]="nombreProyectoSelect">
+                  </div><br>
+                  <p>Descripción del proyecto:</p>
+                  <div class="input-group">
+                    <textarea rows="7" type="text" class="form-control" placeholder="descripcion del proyecto" name="descripcionProyecto" formControlName="descripcionProyecto" [ngModel]="descripcionProyectoSelect"></textarea>
+                  </div><br>
+                  <div>
+                      <button type="submit" class="btn btn-primary" 
+                      (click)=" editarProyecto(auxIndex)">Editar <i class="fa fa-pencil-square-o"></i></button>
+                  </div>
+                </form>
+              </div>
+        
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebuttonEditarProyecto>Cancelar</button>
+              </div>
+        
+            </div>
+          </div>
+        </div>
+
+        <!-- MODAL DE ELIMINACION DE PROYECTO -->
+        <div class="modal" id="myModalEliminarProyecto" *ngFor="let item of miPortfolio.MisProyectos, let indice=index">
+          <div class="modal-dialog">
+            <div class="modal-content">
+        
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Eliminar Este Proyecto?</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+        
+              <!-- Modal body -->
+              <div class="modal-body">
+                <form [formGroup]="formProyectoDelete">
+                    <h6>{{nombreProyectoSelect}}</h6>
+                    <p>{{descripcionProyectoSelect}}</p>
+                  <div>
+                      <button type="submit" class="btn btn-primary" (click)=" eliminarProyecto(auxIndex)">Eliminar <i class="fa fa-trash-o"></i></button>
+                  </div>
+                </form>
+              </div>
+        
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebuttonEliminarProyecto>Cancelar</button>
+              </div>
+        
+            </div>
+          </div>
+        </div>
   </section>
 

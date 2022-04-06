@@ -99,13 +99,13 @@
     <!-- Tab panes -->
     <div class="tab-content mt-4">
       <div class="tab-pane container active" id="habBlandas">
-        <!-- <span class="btn flotar-derecha"><i class="fa fa-plus-square-o"></i></span> -->
+        <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarHabilidad" *ngIf="logueado.logEstado==1"><i class="fa fa-plus-square-o"></i></span>
         <h5 class="text-center m-2"><i class="fa fa-cogs"></i> Habilidades Blandas</h5><hr>
         <span *ngFor="let item of miPortfolio.HabilidadesBlandas; let indice=index">
           <h6>
             <span>{{item.nombreHabilidad}}</span>
-            <!-- <span class="btn flotar-derecha"><i class="fa fa-trash-o"></i></span> -->
-            <!-- <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalHabilidad" (click)="seleccionarHabilidad(indice,item.nombreHabilidad)"> <i class="fa fa-pencil"></i></span> -->
+            <span class="btn flotar-derecha"><i class="fa fa-trash-o" data-bs-toggle="modal" data-bs-target="#myModalEliminarHabilidad" (click)="mostrarHabilidad(indice)" *ngIf="logueado.logEstado==1"></i></span>
+            <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarHabilidad" (click)="mostrarHabilidad(indice)" *ngIf="logueado.logEstado==1"> <i class="fa fa-pencil"></i></span>
           </h6><br>
           <div class="progress">
             <div class="progress-bar bg-primary" role="progressbar" [style.width.%]="item.progreso" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">{{item.progreso}}%</div>
@@ -115,13 +115,13 @@
       </div>
 
       <div class="tab-pane container fade" id="habTecno">
-        <!-- <span class="btn flotar-derecha"><i class="fa fa-plus-square-o"></i></span> -->
+        <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarTecnologia" *ngIf="logueado.logEstado==1"><i class="fa fa-plus-square-o"></i></span>
         <h5 class="text-center m-2"><i class="fa fa-wrench"></i> Herramientas y Lenguajes de Programación</h5><hr>
         <span *ngFor="let item of miPortfolio.MisTecnologias; let indice=index">
           <h6>
             <span>{{item.nombreTecnologia}}</span>
-            <!-- <span class="btn flotar-derecha"><i class="fa fa-trash-o"></i></span> -->
-            <!-- <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalTecnologia" (click)="seleccionarHabilidad(indice,item.nombreTecnologia)"> <i class="fa fa-pencil"></i></span> -->
+            <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarTecnologia" (click)="mostrarTecnologia(indice)" *ngIf="logueado.logEstado==1"><i class="fa fa-trash-o"></i></span>
+            <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarTecnologia" (click)="mostrarTecnologia(indice)" *ngIf="logueado.logEstado==1"> <i class="fa fa-pencil"></i></span>
           </h6><br>
           <div class="progress">
             <div class="progress-bar bg-primary" role="progressbar" [style.width.%]="item.nivel" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">{{item.nivel}}%</div>
@@ -131,71 +131,238 @@
       </div>
     </div>
 
-    
+    <!-- MODALES PARA LAS HABILIDADES ------------------------------------------------------------------------------------------------------------------------>
 
-    
-    <!-- The Modal -->
-    <div class="modal" id="myModalHabilidad">
-      <div class="modal-dialog">
-        <div class="modal-content">
-    
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">{{mostrarNombre}}</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      <!-- MODAL PARA AGREGAR UNA HABILIDAD-->
+      <div class="modal" id="myModalAgregarHabilidad">
+        <div class="modal-dialog">
+          <div class="modal-content">
+      
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Agregar nueva Habilidad</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+      
+            <!-- Modal body -->
+            <div class="modal-body">
+              <form [formGroup]="formHabilidadAdd">
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fa fa-gears"></i></span>
+                  <input type="text" class="form-control" placeholder="Nombre de la habilidad" name="nombreHabilidad" formControlName="nombreHabilidad" [ngModel]="nombreDeHabilidad">
+                </div><br>
+                  <select type="text" class="form-select" name="progreso" formControlName="progreso" [ngModel]="progresoDeHabilidad">
+                    <option value="20">Regular 20%</option>
+                    <option value="40">Básico 40%</option>
+                    <option value="60">Bueno 60%</option>
+                    <option value="80">Muy bueno 80%</option>
+                    <option value="100">Excelente 100%</option>
+                  </select><br>
+                <div>
+                    <button type="submit" class="btn btn-primary" 
+                    (click)="agregarHabilidad()">Agregar <i class="fa fa-plus-square-o"></i></button>
+                </div>
+              </form>
+            </div>
+      
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebuttonAddHabilidad>Cancelar</button>
+            </div>
+      
           </div>
-          
-          <!-- Modal body -->
-        <div class="modal-body">
-          <div class="dropdown">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-              Seleccione Nivel de Habilidad
-            </button>
-            <ul class="dropdown-menu">
-              <li *ngFor="let item of opciones; let indice=index"><a class="dropdown-item" href="#" data-bs-dismiss="modal" (click)="nivelHabilidad(item,auxIndice)">{{item}} <i class="fa fa-refresh fa-spin"></i></a></li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
-        </div>
-
         </div>
       </div>
-    </div>
 
-    <!-- The Modal -->
-    <div class="modal" id="myModalTecnologia">
-      <div class="modal-dialog">
-        <div class="modal-content">
-    
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">{{mostrarNombre}}</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          
-          <!-- Modal body -->
-        <div class="modal-body">
-          <div class="dropdown">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-              Seleccione Nivel de Habilidad
-            </button>
-            <ul class="dropdown-menu">
-              <li *ngFor="let item of opciones; let indice=index"><a class="dropdown-item" href="#" data-bs-dismiss="modal" (click)="nivelTecnologia(item,auxIndice)">{{item}} <i class="fa fa-refresh fa-spin"></i></a></li>
-            </ul>
+        <!-- MODAL DE EDICION HABILIDAD -->
+        <div class="modal" id="myModalEditarHabilidad" *ngFor="let item of miPortfolio.HabilidadesBlandas, let indice=index">
+          <div class="modal-dialog">
+            <div class="modal-content">
+        
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Editar Habilidad</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+        
+              <!-- Modal body -->
+              <div class="modal-body">
+                <form [formGroup]="formHabilidadEdit">
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-gears"></i></span>
+                    <input type="text" class="form-control" placeholder="nombre De Habilidad" name="nombreHabilidad" formControlName="nombreHabilidad" [ngModel]="nombreHabilidadSelect">
+                  </div><br>
+                  <select type="text" class="form-select" name="progreso" formControlName="progreso" [ngModel]="progresoSelect">
+                    <option value="20">Regular 20%</option>
+                    <option value="40">Básico 40%</option>
+                    <option value="60">Bueno 60%</option>
+                    <option value="80">Muy bueno 80%</option>
+                    <option value="100">Excelente 100%</option>
+                  </select><br>
+                  <div>
+                      <button type="submit" class="btn btn-primary" 
+                      (click)=" editarHabilidad(auxIndex)">Editar <i class="fa fa-pencil-square-o"></i></button>
+                  </div>
+                </form>
+              </div>
+        
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebuttonEditarHabilidad>Cancelar</button>
+              </div>
+        
+            </div>
           </div>
         </div>
 
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
+        <!-- MODAL DE ELIMINACION DE HABILIDAD -->
+        <div class="modal" id="myModalEliminarHabilidad" *ngFor="let item of miPortfolio.HabilidadesBlandas, let indice=index">
+          <div class="modal-dialog">
+            <div class="modal-content">
+        
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Eliminar Esta Habilidad?</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+        
+              <!-- Modal body -->
+              <div class="modal-body">
+                <form [formGroup]="formHabilidadDelete">
+                    <h6>{{nombreHabilidadSelect}}</h6>
+                    <div class="progress">
+                      <div class="progress-bar bg-primary" role="progressbar" [style.width.%]="progresoSelect" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">{{progresoSelect}}%</div>
+                    </div><br>
+                  <div>
+                      <button type="submit" class="btn btn-primary" (click)=" eliminarHabilidad(auxIndex)">Eliminar <i class="fa fa-trash-o"></i></button>
+                  </div>
+                </form>
+              </div>
+        
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebuttonEliminarHabilidad>Cancelar</button>
+              </div>
+        
+            </div>
+          </div>
         </div>
 
+      <!-- MODALES PARA LAS TECNOLOGÍAS ---------------------------------------------------------------------------------------------------->
+
+      <!-- MODAL PARA AGREGAR UNA TECNOLOGIA-->
+      <div class="modal" id="myModalAgregarTecnologia">
+        <div class="modal-dialog">
+          <div class="modal-content">
+      
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Agregar nueva Tecnología</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+      
+            <!-- Modal body -->
+            <div class="modal-body">
+              <form [formGroup]="formTecnologiaAadd">
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fa fa-wrench"></i></span>
+                  <input type="text" class="form-control" placeholder="Nombre de la tecnologia" name="nombreTecnologia" formControlName="nombreTecnologia" [ngModel]="nombreDeTecnologia">
+                </div><br>
+                  <select type="text" class="form-select" name="nivel" formControlName="nivel" [ngModel]="nivelDeTecnologia">
+                    <option value="20">Regular 20%</option>
+                    <option value="40">Básico 40%</option>
+                    <option value="60">Bueno 60%</option>
+                    <option value="80">Muy bueno 80%</option>
+                    <option value="100">Excelente 100%</option>
+                  </select><br>
+                <div>
+                    <button type="submit" class="btn btn-primary" 
+                    (click)="agregarTecnologia()">Agregar <i class="fa fa-plus-square-o"></i></button>
+                </div>
+              </form>
+            </div>
+      
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebuttonAddTecnologia>Cancelar</button>
+            </div>
+      
+          </div>
         </div>
       </div>
-    </div>
+
+        <!-- MODAL DE EDICION TECNOLOGÍA -->
+        <div class="modal" id="myModalEditarTecnologia" *ngFor="let item of miPortfolio.MisTecnologias, let indice=index">
+          <div class="modal-dialog">
+            <div class="modal-content">
+        
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Editar Tecnología</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+        
+              <!-- Modal body -->
+              <div class="modal-body">
+                <form [formGroup]="formTecnologiaEdit">
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-wrench"></i></span>
+                    <input type="text" class="form-control" placeholder="nombre De la tecnología" name="nombreTecnologia" formControlName="nombreTecnologia" [ngModel]="nombreTecnologiaSelect">
+                  </div><br>
+                  <select type="text" class="form-select" name="nivel" formControlName="nivel" [ngModel]="nivelSelect">
+                    <option value="20">Regular 20%</option>
+                    <option value="40">Básico 40%</option>
+                    <option value="60">Bueno 60%</option>
+                    <option value="80">Muy bueno 80%</option>
+                    <option value="100">Excelente 100%</option>
+                  </select><br>
+                  <div>
+                      <button type="submit" class="btn btn-primary" 
+                      (click)=" editarTecnologia(auxIndex)">Editar <i class="fa fa-pencil-square-o"></i></button>
+                  </div>
+                </form>
+              </div>
+        
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebuttonEditarTecnologia>Cancelar</button>
+              </div>
+        
+            </div>
+          </div>
+        </div>
+
+        <!-- MODAL DE ELIMINACION DE TECNOLOGÍA -->
+        <div class="modal" id="myModalEliminarTecnologia" *ngFor="let item of miPortfolio.MisTecnologias, let indice=index">
+          <div class="modal-dialog">
+            <div class="modal-content">
+        
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Eliminar Esta Tecnología?</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+        
+              <!-- Modal body -->
+              <div class="modal-body">
+                <form [formGroup]="formTecnologiaDelete">
+                    <h6>{{nombreTecnologiaSelect}}</h6>
+                    <div class="progress">
+                      <div class="progress-bar bg-primary" role="progressbar" [style.width.%]="nivelSelect" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">{{nivelSelect}}%</div>
+                    </div><br>
+                  <div>
+                      <button type="submit" class="btn btn-primary" (click)=" eliminarTecnologia(auxIndex)">Eliminar <i class="fa fa-trash-o"></i></button>
+                  </div>
+                </form>
+              </div>
+        
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebuttonEliminarTecnologia>Cancelar</button>
+              </div>
+        
+            </div>
+          </div>
+        </div>
 
 </section>

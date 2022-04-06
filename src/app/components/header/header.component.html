@@ -1,9 +1,9 @@
-<header *ngFor="let item of miPortfolio.Persona">
+<header *ngFor="let item of miPortfolio.Persona, let indice=index">
     <img class="imgFondo shadow-lg" src="../../../assets/{{item.image_portada}}" alt="">
     <img class="imgPerfil shadow-lg" src="../../../assets/{{item.image_perfil}}" alt="">
   <div class="panel-seccion mt-4">
     <h1 class="nombre-usuario" id="nombreUsuario">{{item.nombres + ' ' + item.apellido}}
-      <!-- <a href="#" class="btn" (click)="editarNombre()"><i class="fa fa-pencil"></i></a> -->
+      <a href="#"  class="btn" data-bs-toggle="modal" data-bs-target="#myModalInfoPersonal" *ngIf="logueado.logEstado==1"><i class="fa fa-pencil"></i></a>
     </h1><br>
   <div class="card border border-dark bg-white">
     <div>
@@ -18,29 +18,39 @@
 </div>
 </header>
   
-  <!-- Navegador -->
-  <ul class="nav nav-tabs border-t border-dark m-2">
-      <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#aCercaDe">Acerca de mi</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#miExperiencia">Experiencia</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#miEducacion">Educación</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#misHabilidades">Habilidades</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#misProyectos">Proyectos</a>
-      </li>
-  </ul>
-  <br>
+  <nav class="navbar navbar-expand-lg navbar-dark m-2 rounded" style="background-color: rgb(249, 253, 251); border: #000 solid 1px;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="javascript:void(0)"></a>
+      <button class="navbar-toggler border border-1 border-dark m-1" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+        <span class="navbar-toggler-icon">
+          <i class="fa fa-bars" style="color:#000; font-size:28px;"></i>
+        </span>
+      </button>
+      <div class="collapse navbar-collapse text-center" id="mynavbar">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item btn border border-1 border-dark m-1">
+            <a class="navbar-brand text-dark" href="javascript:void(0)" data-toggle="tab" href="#aCercaDe">A CERCA DE</a>
+          </li>
+          <li class="nav-item btn border border-1 border-dark m-1">
+            <a class="navbar-brand text-dark" href="javascript:void(0)" data-toggle="tab" href="#miExperiencia">EXPERIENCIA</a>
+          </li>
+          <li class="nav-item btn border border-1 border-dark m-1">
+            <a class="navbar-brand text-dark" href="javascript:void(0)" data-toggle="tab" href="#miEducacion">EDUCACIÓN</a>
+          </li>
+          <li class="nav-item btn border border-1 border-dark m-1">
+            <a class="navbar-brand text-dark" href="javascript:void(0)" data-toggle="tab" href="#misHabilidades">HABILIDADES</a>
+          </li>
+          <li class="nav-item btn border border-1 border-dark m-1">
+            <a class="navbar-brand text-dark" href="javascript:void(0)" data-toggle="tab" href="#misProyectos">PROYECTOS</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
   
   
   <!-- The Modal -->
-  <div class="modal" id="myModalInfoPersonal" *ngFor="let item of miPortfolio.Persona">
+  <div class="modal" id="myModalInfoPersonal" *ngFor="let item of miPortfolio.Persona, let indice=index">
     <div class="modal-dialog">
       <div class="modal-content">
   
@@ -52,41 +62,50 @@
   
         <!-- Modal body -->
         <div class="modal-body">
-          <form>
+          <form [formGroup]="form">
             <div class="input-group">
               <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
-              <input type="text" class="form-control" placeholder="ocupacion" name="ocupacion" [value]="item.ocupacion">
+              <input type="text" class="form-control" placeholder="nombres" name="nombres" formControlName="nombres" [ngModel]="item.nombres">
+            </div><br>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+              <input type="text" class="form-control" placeholder="apellido" name="apellido" formControlName="apellido" [ngModel]="item.apellido">
+            </div><br>
+            <div class="input-group">
+              <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+              <!-- <input type="text" class="form-control" placeholder="ocupacion" name="ocupacion" [value]="item.ocupacion"> -->
+              <input type="text" class="form-control" placeholder="ocupacion" name="ocupacion" formControlName="ocupacion" [ngModel]="item.ocupacion">
             </div><br>
             <div class="input-group">
               <span class="input-group-text"><i class="fa fa-home"></i></span>
-              <input type="text" class="form-control" placeholder="Localidad" name="localidad" [value]="item.localidad">
+              <input type="text" class="form-control" placeholder="Localidad" name="localidad" formControlName="localidad" [ngModel]="item.localidad">
             </div><br>
             <div class="input-group">
               <span class="input-group-text"><i class="fa fa-home"></i></span>
-              <input type="text" class="form-control" placeholder="Provincia" name="provincia" [value]="item.provincia">
+              <input type="text" class="form-control" placeholder="Provincia" name="provincia" formControlName="provincia" [ngModel]="item.provincia">
             </div><br>
             <div class="input-group">
               <span class="input-group-text"><i class="fa fa-home"></i></span>
-              <input type="text" class="form-control" placeholder="País" ngModel="pais" [value]="item.pais">
+              <input type="text" class="form-control" placeholder="País" name="pais" formControlName="pais" [ngModel]="item.pais">
             </div><br>
             <div class="input-group">
               <span class="input-group-text"><i class="fa fa-envelope-o"></i></span>
-              <input type="text" class="form-control" placeholder="Correo" name="correo" [value]="item.mail">
+              <input type="text" class="form-control" placeholder="Correo" name="correo" formControlName="mail" [ngModel]="item.mail">
             </div><br>
             <div class="input-group">
               <span class="input-group-text"><i class="fa fa-mobile-phone"></i></span>
-              <input type="text" class="form-control" placeholder="Celular" name="celular" [value]="item.celular">
+              <input type="text" class="form-control" placeholder="Celular" name="celular" formControlName="celular" [ngModel]="item.celular">
             </div><br>
-  
             <div>
-                <button type="button" class="btn btn-primary" >Editar <i class="fa fa-pencil-square-o"></i></button>
+                <button type="submit" class="btn btn-primary" 
+                (click)="modificarDatos(indice)">Editar <i class="fa fa-pencil-square-o"></i></button>
             </div>
           </form>
         </div>
   
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebutton>Cancelar</button>
         </div>
   
       </div>
