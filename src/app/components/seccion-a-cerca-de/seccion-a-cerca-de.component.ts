@@ -4,6 +4,7 @@ import { PortfolioService } from 'src/app/servicios/portfolio.service';
 import { ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from "../../servicios/auth.service";
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 
 @Component({
@@ -15,12 +16,14 @@ import { AuthService } from "../../servicios/auth.service";
 export class SeccionACercaDeComponent implements OnInit {
   
   @ViewChild('closebutton') closebutton: any;
+  @ViewChild('llamarModalacercaDe') llamarModalacercaDe: any;
 
   form: FormGroup;
 
   miPortfolio: any;
 
   logueado: any;
+
 
   constructor(private datosPortfolio: PortfolioService, private formBuilder: FormBuilder,private authService: AuthService) { 
     this.datosPortfolio.obtenerDatos().subscribe(data => {
@@ -29,7 +32,7 @@ export class SeccionACercaDeComponent implements OnInit {
     });
 
     this.form= this.formBuilder.group({
-      sobre_mi: '',
+      sobre_mi: ['', [Validators.required, Validators.minLength(40)]],
    })
 
    this.logueado = this.authService;
@@ -37,10 +40,61 @@ export class SeccionACercaDeComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  get SobreMi(){
+    return this.form.get("sobre_mi");
+   }
+
+   get SobreMiValid(){
+    return this.SobreMi?.touched && !this.SobreMi?.valid;
+  }
+
+
+   sobreMiEnviar(event: Event, item:number){
+    // Detenemos la propagación o ejecución del compotamiento submit de un form
+    event.preventDefault; 
+ 
+    if (this.form.valid){
+      // Llamamos a nuestro servicio para enviar los datos al servidor
+      // También podríamos ejecutar alguna lógica extra
+        this.editarInformacion(item);
+
+    }else{
+      // Corremos todas las validaciones para que se ejecuten los mensajes de error en el template     
+      this.form.markAllAsTouched(); 
+      this.llamarModalacercaDe.nativeElement.click();
+    }
+ 
+  }
   
   editarInformacion(item:number){
-    this.miPortfolio.Persona[item].sobre_mi=this.form.value.sobre_mi;
 
+    if( this.miPortfolio.Persona[item].sobre_mi==this.form.value.sobre_mi){
+      this.sincambios()
+    }else{
+      this.cambios()
+    this.miPortfolio.Persona[item].sobre_mi=this.form.value.sobre_mi;
+    }
+  }
+
+  sincambios(){
+    
+    Swal.fire({
+      icon: 'info',
+      title: 'Sin cambios!!!',
+      showConfirmButton: false,
+      timer: 4000
+})
+  }
+
+  cambios(){
+    
+    Swal.fire({
+      icon: 'success',
+      title: 'Cambios Guardados!!!',
+      showConfirmButton: false,
+      timer: 4000
+})
   }
 
 }

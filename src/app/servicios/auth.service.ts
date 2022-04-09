@@ -40,8 +40,7 @@ export class AuthService {
 
    login(){
 
-    //this.router.navigate(['bienvenido']);
-
+    this.router.navigate(['bienvenido']);
     this.logueadoActivo();
     this.logueadoEstado();
    }
@@ -50,6 +49,7 @@ export class AuthService {
     //this.router.navigate(['inicio']);
      this.logueadoInactivo();
      this.logueadoEstado();
+     location.href ='/';
    }
 
    /*logout(){

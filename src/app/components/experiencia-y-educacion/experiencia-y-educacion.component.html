@@ -17,7 +17,7 @@
       </div>
 
       <!-- Footer Carta -->
-      <div class="card-footer"> {{item.anioIngreso | date:'mediumDate'}} - {{item.anioEgreso | date:'mediumDate'}}</div>
+      <div class="card-footer"> {{item.anioIngreso | date:'LLL yyyy'}} - {{item.anioEgreso | date:'LLL yyyy'}}</div>
     </div><br>
       <hr class="border border-2 border-dark">
 
@@ -209,7 +209,7 @@
         
               <!-- Modal Header -->
               <div class="modal-header">
-                <h4 class="modal-title">Agregar un Instituto</h4>
+                <h4 class="modal-title">Agregar una institución</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
               </div>
         
@@ -217,11 +217,11 @@
               <div class="modal-body">
                 <form [formGroup]="form1add">
                   <div class="input-group">
-                    <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
-                    <input type="text" class="form-control" placeholder="instituto" name="instituto" formControlName="instituto" [ngModel]="nombreInstituto">
+                    <span class="input-group-text"><i class="fa fa-university"></i></span>
+                    <input type="text" class="form-control" placeholder="institución" name="instituto" formControlName="instituto" [ngModel]="nombreInstituto">
                   </div><br>
                   <div class="input-group">
-                    <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+                    <span class="input-group-text"><i class="fa fa-certificate"></i></span>
                     <input type="text" class="form-control" placeholder="titulo" name="titulo" formControlName="titulo" [ngModel]="tituloInstituto">
                   </div><br>
                   <div>
@@ -255,11 +255,11 @@
                 <div class="modal-body">
                   <form [formGroup]="form1edit">
                     <div class="input-group">
-                      <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
-                      <input type="text" class="form-control" placeholder="instituto" name="instituto" formControlName="instituto" [ngModel]="nombreInstitutoSelect">
+                      <span class="input-group-text"><i class="fa fa-university"></i></span>
+                      <input type="text" class="form-control" placeholder="institución" name="instituto" formControlName="instituto" [ngModel]="nombreInstitutoSelect">
                     </div><br>
                     <div class="input-group">
-                      <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+                      <span class="input-group-text"><i class="fa fa-certificate"></i></span>
                       <input type="text" class="form-control" placeholder="titulo" name="titulo" formControlName="titulo" [ngModel]="tituloInstitutoSelect">
                     </div><br>
                     <div>

@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from "../../servicios/auth.service";
 import {  Router, ActivatedRoute } from '@angular/router';
 import { ViewChild } from '@angular/core';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 
 
@@ -16,7 +17,7 @@ import { ViewChild } from '@angular/core';
 })
 export class NavComponent implements OnInit {
   @ViewChild('closebutton') closebutton: any;
-
+  @ViewChild('closebuttonBienvenido') closebuttonBienvenido: any;
   logueado: any;
   
   miPortfolio: any;
@@ -96,6 +97,7 @@ export class NavComponent implements OnInit {
       //SESIONES 
       //this.authService.login(this.correo,atob(this.contra));
       this.closebutton.nativeElement.click();
+      this.closebuttonBienvenido.nativeElement.click();
       return this.logueado.login();
     }else{
       this.dispararMensaje();
@@ -103,7 +105,21 @@ export class NavComponent implements OnInit {
   }
   mensaje: string ='';
   dispararMensaje(){
-    this.mensaje = "Usuario o contraseña no valido";
+    //this.mensaje = "Usuario o contraseña no valido";
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Usuario o contraseña no validos',
+    })
+  }
+
+  simpleAlert(){
+    Swal.fire({
+      icon: 'success',
+      title: 'Bienvenido!!!',
+      showConfirmButton: false,
+      timer: 4000
+})
   }
 
 }

@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BienvenidoComponent implements OnInit {
 
-  saludo: string = 'Bienvenido.....';
+  saludo: string = 'Bienvenido.....!!!';
 
   constructor() { }
 

@@ -7,7 +7,7 @@ import { AuthGuard } from './guardian/auth.guard';
 
 const routes: Routes = [
   {path: 'inicio', component: AppComponent},
-  {path: 'bienvenido', component: AppComponent},
+  {path: 'bienvenido', component: BienvenidoComponent},
   //Ruta donde se va direccionar cuando inicie sesión 
   {path: 'perfil', component: AppComponent, canActivate: [AuthGuard]}
 ];
