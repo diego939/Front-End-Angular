@@ -1,13 +1,13 @@
 <section class="panel-seccion" id="miExperiencia">
     <h1>
       <span class="float-left"><i class="fa fa-suitcase"></i> Experiencia</span>
-      <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarExperiencia" *ngIf="logueado.logEstado==1"><i class="fa fa-plus-square-o"></i></span>
+      <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarExperiencia"><i class="fa fa-plus-square-o"></i></span>
     </h1>
     <div class="card mt-2 border border-dark" *ngFor="let item of miPortfolio.Experiencias; let indice=index">
       <!-- Header Carta -->
       <div class="card-header h4"><i class="fa fa-bookmark"></i> {{item.puesto}}
-        <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarExperiencia" (click)="mostrarExperiencia(indice)" *ngIf="logueado.logEstado==1"><i class="fa fa-trash-o"></i></span>
-        <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarExperiencia" (click)="mostrarExperiencia(indice)" *ngIf="logueado.logEstado==1"><i class="fa fa-pencil"></i></span>
+        <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarExperiencia" (click)="mostrarExperiencia(indice)"><i class="fa fa-trash-o"></i></span>
+        <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarExperiencia" (click)="mostrarExperiencia(indice)" ><i class="fa fa-pencil"></i></span>
       </div>
 
       <!-- body Carta -->
@@ -36,31 +36,53 @@
       
             <!-- Modal body -->
             <div class="modal-body">
-              <form [formGroup]="form2add">
+              <form [formGroup]="form2add" (ngSubmit)="enviarExperienciaAdd($event)">
                 <div class="input-group">
                   <span class="input-group-text"><i class="fa fa-bookmark"></i></span>
                   <input type="text" class="form-control" placeholder="puesto" name="puesto" formControlName="puesto" [ngModel]="puestoExperiencia">
                 </div><br>
+                <!-- Gracias al getter que configuramos en el controlador -->
+                <div class="text-danger" *ngIf="Puesto?.errors  && Puesto?.touched">    
+                  <p *ngIf="Puesto?.hasError('required')" class="error">
+                    El campo Puesto es obligatorio
+                  </p>
+                </div>
                 <div class="input-group">
                   <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
                   <input type="text" class="form-control" placeholder="empresa" name="empresa" formControlName="empresa" [ngModel]="empresaExperiencia">
                 </div><br>
+                <!-- Gracias al getter que configuramos en el controlador -->
+                <div class="text-danger" *ngIf="Empresa?.errors  && Empresa?.touched">    
+                  <p *ngIf="Empresa?.hasError('required')" class="error">
+                    El campo Empresa es obligatorio
+                  </p>
+                </div>
                 <p>Descripción del puesto:</p>
                 <div class="input-group">
                   <textarea rows="7" type="text" class="form-control" placeholder="descripcion" name="descripcion" formControlName="descripcion" [ngModel]="descripcionExperiencia"></textarea>
                 </div><br>
+                <!-- Gracias al getter que configuramos en el controlador -->
+                <div class="text-danger" *ngIf="Descripcion?.errors  && Descripcion?.touched">    
+                  <p *ngIf="Descripcion?.hasError('required')" class="error">
+                    Hacer una descripción del puesto que ocupa (tareas)
+                  </p>
+                </div>
                 <p>Fecha de ingreso:</p>
                 <div class="input-group">
                   <input type="date" class="form-control" placeholder="Mes y Año de ingreso" name="anioIngreso" formControlName="anioIngreso" [ngModel]="anioIngresoExperiencia">
                 </div><br>
+                <!-- Gracias al getter que configuramos en el controlador -->
+                <div class="text-danger" *ngIf="AnioIngreso?.errors  && AnioIngreso?.touched">    
+                  <p *ngIf="AnioIngreso?.hasError('required')" class="error">
+                    Necesitamos una fecha aproximada de ingreso a la empresa
+                  </p>
+                </div>
                 <p>Fecha de Egreso:</p>
                 <div class="input-group">
                   <input type="date" class="form-control" placeholder="Mes y año egreso" name="anioEgreso" formControlName="anioEgreso" [ngModel]="anioEgresoExperiencia">
                 </div><br>
-                
                 <div>
-                    <button type="submit" class="btn btn-primary" 
-                    (click)="agregarExperiencia()">Agregar <i class="fa fa-plus-square-o"></i></button>
+                    <button type="submit" class="btn btn-primary">Agregar <i class="fa fa-plus-square-o"></i></button>
                 </div>
               </form>
             </div>
@@ -87,30 +109,60 @@
         
               <!-- Modal body -->
               <div class="modal-body">
-                <form [formGroup]="form2edit">
+                <form [formGroup]="form2edit" (ngSubmit)="enviarExperienciaEdit($event,auxIndex)">
                   <div class="input-group">
                     <span class="input-group-text"><i class="fa fa-bookmark"></i></span>
                     <input type="text" class="form-control" placeholder="puesto" name="puesto" formControlName="puesto" [ngModel]="puestoExperienciaSelect">
                   </div><br>
+                  <!-- Gracias al getter que configuramos en el controlador -->
+                  <div class="text-danger" *ngIf="PuestoEdit?.errors  && PuestoEdit?.touched">    
+                    <p *ngIf="PuestoEdit?.hasError('required')" class="error">
+                      El campo Puesto es obligatorio
+                    </p>
+                  </div>
                   <div class="input-group">
                     <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
                     <input type="text" class="form-control" placeholder="empresa" name="empresa" formControlName="empresa" [ngModel]="empresaExperienciaSelect">
                   </div><br>
+                  <!-- Gracias al getter que configuramos en el controlador -->
+                  <div class="text-danger" *ngIf="EmpresaEdit?.errors  && EmpresaEdit?.touched">    
+                    <p *ngIf="EmpresaEdit?.hasError('required')" class="error">
+                      El campo Empresa es obligatorio
+                    </p>
+                  </div>
                   <p>Descripción del puesto:</p>
                   <div class="input-group">
                     <textarea rows="7" type="text" class="form-control" placeholder="descripcion" name="descripcion" formControlName="descripcion" [ngModel]="descripcionExperienciaSelect"></textarea>
                   </div><br>
+                  <!-- Gracias al getter que configuramos en el controlador -->
+                  <div class="text-danger" *ngIf="DescripcionEdit?.errors  && DescripcionEdit?.touched">    
+                    <p *ngIf="DescripcionEdit?.hasError('required')" class="error">
+                      Hacer una descripción del puesto que ocupa (tareas)
+                    </p>
+                  </div>
                   <p>Fecha de Ingreso:</p>
                   <div class="input-group">
                     <input type="date" class="form-control" placeholder="Mes y Año de ingreso" name="anioIngreso" formControlName="anioIngreso" [ngModel]="anioIngresoExperienciaSelect">
                   </div><br>
+                  <!-- Gracias al getter que configuramos en el controlador -->
+                  <div class="text-danger" *ngIf="AnioIngresoEdit?.errors  && AnioIngresoEdit?.touched">    
+                    <p *ngIf="AnioIngresoEdit?.hasError('required')" class="error">
+                      Necesitamos una fecha aproximada de ingreso a la empresa
+                    </p>
+                  </div>
                   <p>Fecha de Egreso:</p>
                   <div class="input-group">
                     <input type="date" class="form-control" placeholder="Mes y año egreso" name="anioEgreso" formControlName="anioEgreso" [ngModel]="anioEgresoExperienciaSelect">
                   </div><br>
+                  <!-- Gracias al getter que configuramos en el controlador -->
+                  <div class="text-danger" *ngIf="AnioEgreso?.errors  && AnioEgreso?.touched">    
+                    <p *ngIf="AnioEgreso?.hasError('required')" class="error">
+                      Necesitamos una fecha aproximada de Egreso de la empresa
+                    </p>
+                  </div>
                   <div>
-                      <button type="submit" class="btn btn-primary" 
-                      (click)=" editarExperiencia(auxIndex)">Editar <i class="fa fa-pencil-square-o"></i></button>
+                      <!-- <button type="submit" class="btn btn-primary" (click)=" editarExperiencia(auxIndex)">Editar <i class="fa fa-pencil-square-o"></i></button> -->
+                      <button type="submit" class="btn btn-primary">Editar <i class="fa fa-pencil-square-o"></i></button>
                   </div>
                 </form>
               </div>

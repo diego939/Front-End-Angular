@@ -4,6 +4,7 @@ import { PortfolioService } from 'src/app/servicios/portfolio.service';
 import { ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from "../../servicios/auth.service";
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'app-experiencia-y-educacion',
@@ -58,19 +59,19 @@ export class ExperienciaYEducacionComponent implements OnInit {
  })
 
    this.form2edit= this.formBuilder.group({
-    puesto: '',
-    empresa: '',
-    descripcion: '',
-    anioIngreso: '',
-    anioEgreso:''
+    puesto: ['', [Validators.required]],
+    empresa: ['', [Validators.required]],
+    descripcion: ['', [Validators.required]],
+    anioIngreso: ['', [Validators.required]],
+    anioEgreso: '',
  })
 
  this.form2add= this.formBuilder.group({
-  puesto: '',
-  empresa: '',
-  descripcion: '',
-  anioIngreso: '',
-  anioEgreso:''
+  puesto: ['', [Validators.required]],
+  empresa: ['', [Validators.required]],
+  descripcion: ['', [Validators.required]],
+  anioIngreso: ['', [Validators.required]],
+  anioEgreso: '',
   })
 
   this.form2delete= this.formBuilder.group({
@@ -88,6 +89,9 @@ export class ExperienciaYEducacionComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+
+   
   // variables y funciones a modo de prueba
   /*titulos: Array<{ instituto: string, titulo: string }> = [
     {instituto: 'UTN-FBRA cursos a distancia', titulo: 'Desarrollo Web'},
@@ -201,29 +205,78 @@ export class ExperienciaYEducacionComponent implements OnInit {
   }
 
   // FUNCIONES DEL AREA EXPERIENCIA
-  editarExperiencia(item:number){
-    this.closebuttonEditarExperiencia.nativeElement.click();
-    this.miPortfolio.Experiencias[item].puesto=this.form2edit.value.puesto;
-    this.miPortfolio.Experiencias[item].empresa=this.form2edit.value.empresa;
-    this.miPortfolio.Experiencias[item].descripcion=this.form2edit.value.descripcion;
-    this.miPortfolio.Experiencias[item].anioIngreso=this.form2edit.value.anioIngreso;
-    this.miPortfolio.Experiencias[item].anioEgreso=this.form2edit.value.anioEgreso;
+
+
+  // Funciones para agregar Experiencia
+
+  //getters de experiencia add 
+
+
+    get Puesto(){
+      return this.form2add.get("puesto");
+     }
+  
+     get Empresa(){
+      return this.form2add.get("empresa");
+     }
+  
+     get Descripcion(){
+      return this.form2add.get("descripcion");
+     }
+  
+     get AnioIngreso(){
+      return this.form2add.get("anioIngreso");
+     }
+  
+     get AnioEgreso(){
+      return this.form2add.get("anioEgreso");
+     }
+
+  enviarExperienciaAdd(event: Event){
+    // Detenemos la propagación o ejecución del compotamiento submit de un form
+    event.preventDefault; 
+ 
+    if (this.form2add.valid){
+      // Llamamos a nuestro servicio para enviar los datos al servidor
+      // También podríamos ejecutar alguna lógica extra
+      this.controlarFechasAdd();
+    }else{
+      // Corremos todas las validaciones para que se ejecuten los mensajes de error en el template     
+      this.form2add.markAllAsTouched(); 
+    }
   }
-
-
-  puestoExperienciaSelect: string = '';
-  empresaExperienciaSelect: string = '';
-  descripcionExperienciaSelect: string = '';
-  anioIngresoExperienciaSelect: string = '';
-  anioEgresoExperienciaSelect: string = '';
-  //auxIndex: number = 0; //ya se definió un auxiliar arriba
-  mostrarExperiencia(item: number){
-    this.auxIndex = item;
-    this.puestoExperienciaSelect= this.miPortfolio.Experiencias[this.auxIndex].puesto;
-    this.empresaExperienciaSelect= this.miPortfolio.Experiencias[this.auxIndex].empresa;
-    this.descripcionExperienciaSelect= this.miPortfolio.Experiencias[this.auxIndex].descripcion;
-    this.anioIngresoExperienciaSelect= this.miPortfolio.Experiencias[this.auxIndex].anioIngreso;
-    this.anioEgresoExperienciaSelect= this.miPortfolio.Experiencias[this.auxIndex].anioEgreso;
+  fechaActual = new Date();
+  controlarFechasAdd(){
+    if(this.form2add.value.anioIngreso <= this.form2add.value.anioEgreso || this.form2add.value.anioEgreso === ''){
+      //Si la fecha de ingreso es menor o igual a la de egreso va a pasar al siguiente if
+      //Tengo que convertir el formato de fecha actual a yyyy-mm-dd con fechaActual.toISOString().split('T')[0]
+      if(this.form2add.value.anioIngreso > this.fechaActual.toISOString().split('T')[0]){
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'La fecha de ingreso no pueden superar a la fecha actual',
+        })
+      }else{
+        if(this.form2add.value.anioEgreso > this.fechaActual.toISOString().split('T')[0]){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'La fecha de egreso no pueden superar a la fecha actual',
+          })
+        }else{
+          //Si las fechas no superan a la fecha actual va agregar correctamente
+          this.agregarExperiencia();
+        }
+      }
+        
+    }else{
+      //Si la fecha de ingreso es mayor a la de egreso va a tirar un mensaje de error
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'La fecha de ingreso no puede ser anterior a la fecha de egreso',
+      })
+    }
   }
 
   puestoExperiencia: string = '';
@@ -241,13 +294,144 @@ export class ExperienciaYEducacionComponent implements OnInit {
     this.anioEgresoExperiencia = this.form2add.value.anioEgreso;
 
     this.miPortfolio.Experiencias.push({puesto: this.puestoExperiencia, empresa: this.empresaExperiencia, descripcion: this.descripcionExperiencia, anioIngreso: this.anioIngresoExperiencia , anioEgreso: this.anioEgresoExperiencia});
-    alert('Se agregó una nueva Experiencia a tu lista');
+    Swal.fire({
+      icon: 'success',
+      title: 'Se agregó una nueva Experiencia!!!',
+      showConfirmButton: false,
+      timer: 4000
+    })
   }
+
+
+
+  // Funciones para Editar Experiencia
+
+  //getters de experiencia add 
+
+
+  get PuestoEdit(){
+    return this.form2edit.get("puesto");
+   }
+
+   get EmpresaEdit(){
+    return this.form2edit.get("empresa");
+   }
+
+   get DescripcionEdit(){
+    return this.form2edit.get("descripcion");
+   }
+
+   get AnioIngresoEdit(){
+    return this.form2edit.get("anioIngreso");
+   }
+
+   get AnioEgresoEdit(){
+    return this.form2edit.get("anioEgreso");
+   }
+
+   enviarExperienciaEdit(event: Event, item:number){
+    // Detenemos la propagación o ejecución del compotamiento submit de un form
+    event.preventDefault; 
+ 
+    if (this.form2edit.valid){
+      // Llamamos a nuestro servicio para enviar los datos al servidor
+      // También podríamos ejecutar alguna lógica extra
+      this.controlarFechasEdit(item);
+    }else{
+      // Corremos todas las validaciones para que se ejecuten los mensajes de error en el template     
+      this.form2edit.markAllAsTouched(); 
+    }
+  }
+
+  controlarFechasEdit(item: number){
+    if(this.form2edit.value.anioIngreso <= this.form2edit.value.anioEgreso || this.form2edit.value.anioEgreso === ''){
+       //Si la fecha de ingreso es menor o igual a la de egreso va a pasar al siguiente if
+      //Tengo que convertir el formato de fecha actual a yyyy-mm-dd con fechaActual.toISOString().split('T')[0]
+      if(this.form1edit.value.anioIngreso > this.fechaActual.toISOString().split('T')[0]){
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'La fecha de ingreso no pueden superar a la fecha actual',
+        })
+      }else{
+        if(this.form2edit.value.anioEgreso > this.fechaActual.toISOString().split('T')[0]){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'La fecha de egreso no pueden superar a la fecha actual',
+          })
+        }else{
+          //Si las fechas no superan a la fecha actual va agregar correctamente
+          this.editarExperiencia(item);
+        }
+      }
+        
+    }else{
+      //Si la fecha de ingreso es mayor a la de egreso va a tirar un mensaje de error
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'La fecha de ingreso no puede ser anterior a la fecha de egreso',
+      })
+    }
+  }
+
+  editarExperiencia(item:number){
+    this.closebuttonEditarExperiencia.nativeElement.click();
+    if(this.miPortfolio.Experiencias[item].puesto==this.form2edit.value.puesto
+      && this.miPortfolio.Experiencias[item].empresa==this.form2edit.value.empresa
+      && this.miPortfolio.Experiencias[item].descripcion==this.form2edit.value.descripcion
+      && this.miPortfolio.Experiencias[item].anioIngreso==this.form2edit.value.anioIngreso
+      &&this.miPortfolio.Experiencias[item].anioEgreso==this.form2edit.value.anioEgreso){
+        Swal.fire({
+          icon: 'info',
+          title: 'Sin cambios!!!',
+          showConfirmButton: false,
+          timer: 4000
+    })
+    }else{
+      this.miPortfolio.Experiencias[item].puesto=this.form2edit.value.puesto;
+      this.miPortfolio.Experiencias[item].empresa=this.form2edit.value.empresa;
+      this.miPortfolio.Experiencias[item].descripcion=this.form2edit.value.descripcion;
+      this.miPortfolio.Experiencias[item].anioIngreso=this.form2edit.value.anioIngreso;
+      this.miPortfolio.Experiencias[item].anioEgreso=this.form2edit.value.anioEgreso;
+      Swal.fire({
+        icon: 'success',
+        title: 'Cambios Guardados!!!',
+        showConfirmButton: false,
+        timer: 4000
+  })
+    }
+  }
+
+  // Funciones para Eliminar Experiencia
 
   eliminarExperiencia(indice: number){
     this.closebuttonEliminarExperiencia.nativeElement.click();
-    alert('Se eliminó la experiencia: "'+ this.miPortfolio.Experiencias[indice].puesto + '"');
+    Swal.fire({
+      icon: 'success',
+      title: 'Se eliminó la experiencia: "'+ this.miPortfolio.Experiencias[indice].puesto + '"',
+      showConfirmButton: false,
+      timer: 4000
+    })
     this.miPortfolio.Experiencias.splice(indice, 1);
+  }
+
+  // Funciones para Mostrar Experiencia
+
+  puestoExperienciaSelect: string = '';
+  empresaExperienciaSelect: string = '';
+  descripcionExperienciaSelect: string = '';
+  anioIngresoExperienciaSelect: string = '';
+  anioEgresoExperienciaSelect: string = '';
+  //auxIndex: number = 0; //ya se definió un auxiliar arriba
+  mostrarExperiencia(item: number){
+    this.auxIndex = item;
+    this.puestoExperienciaSelect= this.miPortfolio.Experiencias[this.auxIndex].puesto;
+    this.empresaExperienciaSelect= this.miPortfolio.Experiencias[this.auxIndex].empresa;
+    this.descripcionExperienciaSelect= this.miPortfolio.Experiencias[this.auxIndex].descripcion;
+    this.anioIngresoExperienciaSelect= this.miPortfolio.Experiencias[this.auxIndex].anioIngreso;
+    this.anioEgresoExperienciaSelect= this.miPortfolio.Experiencias[this.auxIndex].anioEgreso;
   }
 
 }
