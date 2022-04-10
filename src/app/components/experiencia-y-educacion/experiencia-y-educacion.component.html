@@ -1,13 +1,13 @@
 <section class="panel-seccion" id="miExperiencia">
     <h1>
       <span class="float-left"><i class="fa fa-suitcase"></i> Experiencia</span>
-      <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarExperiencia"><i class="fa fa-plus-square-o"></i></span>
+      <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarExperiencia"><i class="fa fa-plus-square-o"></i></span>
     </h1>
     <div class="card mt-2 border border-dark" *ngFor="let item of miPortfolio.Experiencias; let indice=index">
       <!-- Header Carta -->
       <div class="card-header h4"><i class="fa fa-bookmark"></i> {{item.puesto}}
-        <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarExperiencia" (click)="mostrarExperiencia(indice)"><i class="fa fa-trash-o"></i></span>
-        <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarExperiencia" (click)="mostrarExperiencia(indice)" ><i class="fa fa-pencil"></i></span>
+        <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarExperiencia" (click)="mostrarExperiencia(indice)"><i class="fa fa-trash-o"></i></span>
+        <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarExperiencia" (click)="mostrarExperiencia(indice)" ><i class="fa fa-pencil"></i></span>
       </div>
 
       <!-- body Carta -->
@@ -211,7 +211,6 @@
       <!-- SECCIÓN EDUCACIÓN -->
       <h1>
         <span class="float-left" id="miEducacion"><i class="fa fa-graduation-cap"></i> Educación</span>
-        <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarTitulo" *ngIf="logueado.logEstado==1"><i class="fa fa-plus-square-o"></i></span>
       </h1><br>
 
       <!-- Nav tabs -->
@@ -227,6 +226,7 @@
       <!-- Tab panes -->
       <div class="tab-content card mt-2 border border-dark">
         <div class="tab-pane active" id="home">
+          <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarTitulo"><i class="fa fa-plus-square-o"></i></span>
           <h4 class=" card-header"><i class="fa fa-institution"></i> Institutos</h4>
           <div class="col-md-12 col-md-offset-1">
             <div class="table-responsive">
@@ -267,18 +267,29 @@
         
               <!-- Modal body -->
               <div class="modal-body">
-                <form [formGroup]="form1add">
+                <form [formGroup]="form1add" (ngSubmit)="enviarTituloAdd($event)">
                   <div class="input-group">
                     <span class="input-group-text"><i class="fa fa-university"></i></span>
                     <input type="text" class="form-control" placeholder="institución" name="instituto" formControlName="instituto" [ngModel]="nombreInstituto">
                   </div><br>
+                  <!-- Gracias al getter que configuramos en el controlador -->
+                  <div class="text-danger" *ngIf="Instituto?.errors  && Instituto?.touched">    
+                    <p *ngIf="Instituto?.hasError('required')" class="error">
+                      El campo Institución es obligatorio
+                    </p>
+                  </div>
                   <div class="input-group">
                     <span class="input-group-text"><i class="fa fa-certificate"></i></span>
                     <input type="text" class="form-control" placeholder="titulo" name="titulo" formControlName="titulo" [ngModel]="tituloInstituto">
                   </div><br>
+                  <!-- Gracias al getter que configuramos en el controlador -->
+                  <div class="text-danger" *ngIf="Titulo?.errors  && Titulo?.touched">    
+                    <p *ngIf="Titulo?.hasError('required')" class="error">
+                      El campo Titulo es obligatorio
+                    </p>
+                  </div>
                   <div>
-                      <button type="submit" class="btn btn-primary" 
-                      (click)="agregarTitulo()">Agregar <i class="fa fa-plus-square-o"></i></button>
+                      <button type="submit" class="btn btn-primary">Agregar <i class="fa fa-plus-square-o"></i></button>
                   </div>
                 </form>
               </div>
@@ -305,18 +316,29 @@
           
                 <!-- Modal body -->
                 <div class="modal-body">
-                  <form [formGroup]="form1edit">
+                  <form [formGroup]="form1edit" (ngSubmit)="enviarTituloEdit($event, auxIndex)">
                     <div class="input-group">
                       <span class="input-group-text"><i class="fa fa-university"></i></span>
                       <input type="text" class="form-control" placeholder="institución" name="instituto" formControlName="instituto" [ngModel]="nombreInstitutoSelect">
                     </div><br>
+                      <!-- Gracias al getter que configuramos en el controlador -->
+                    <div class="text-danger" *ngIf="InstitutoEdit?.errors  && InstitutoEdit?.touched">    
+                      <p *ngIf="InstitutoEdit?.hasError('required')" class="error">
+                        El campo Institución es obligatorio
+                      </p>
+                    </div>
                     <div class="input-group">
                       <span class="input-group-text"><i class="fa fa-certificate"></i></span>
                       <input type="text" class="form-control" placeholder="titulo" name="titulo" formControlName="titulo" [ngModel]="tituloInstitutoSelect">
                     </div><br>
+                    <!-- Gracias al getter que configuramos en el controlador -->
+                    <div class="text-danger" *ngIf="TituloEdit?.errors  && TituloEdit?.touched">    
+                      <p *ngIf="TituloEdit?.hasError('required')" class="error">
+                        El campo Titulo es obligatorio
+                      </p>
+                    </div>
                     <div>
-                        <button type="submit" class="btn btn-primary" 
-                        (click)=" editarTitulo(auxIndex)">Editar <i class="fa fa-pencil-square-o"></i></button>
+                        <button type="submit" class="btn btn-primary">Editar <i class="fa fa-pencil-square-o"></i></button>
                     </div>
                   </form>
                 </div>

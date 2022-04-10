@@ -44,13 +44,13 @@ export class ExperienciaYEducacionComponent implements OnInit {
     });
 
     this.form1edit= this.formBuilder.group({
-      instituto: '',
-      titulo: ''
+      instituto: ['', [Validators.required]],
+      titulo: ['', [Validators.required]],
    })
 
    this.form1add= this.formBuilder.group({
-    instituto: '',
-    titulo: ''
+    instituto: ['', [Validators.required]],
+    titulo: ['', [Validators.required]],
   })
 
   this.form1delete= this.formBuilder.group({
@@ -161,6 +161,8 @@ export class ExperienciaYEducacionComponent implements OnInit {
     this.nombreSelect = this.certificados[indice].nombre;
   }*/
 
+  //Funcion para mostrar certificados
+  
   fotoSelect: string = '';
   nombreSelect: string = '';
   mostrarCertificado(indice: number){
@@ -168,11 +170,102 @@ export class ExperienciaYEducacionComponent implements OnInit {
     this.nombreSelect = this.miPortfolio.Certificados[indice].nombre;
   }
 
+  // Funciones para agregar Titulos
+
+  //Getters de Agregar Titulos
+
+  get Titulo(){
+    return this.form1add.get("titulo");
+   }
+
+   get Instituto(){
+    return this.form1add.get("instituto");
+   }
+
+   enviarTituloAdd(event: Event){
+    // Detenemos la propagación o ejecución del compotamiento submit de un form
+    event.preventDefault; 
+ 
+    if (this.form1add.valid){
+      // Llamamos a nuestro servicio para enviar los datos al servidor
+      // También podríamos ejecutar alguna lógica extra
+      this.agregarTitulo();
+    }else{
+      // Corremos todas las validaciones para que se ejecuten los mensajes de error en el template     
+      this.form1add.markAllAsTouched(); 
+    }
+  }
+
+
+   //Función para el agregado de titulos
+
+  nombreInstituto: string = "";
+  tituloInstituto: string = "";
+  agregarTitulo(){
+
+    this.closebuttonAddInstituto.nativeElement.click();
+
+    this.nombreInstituto = this.form1add.value.instituto;
+    this.tituloInstituto = this.form1add.value.titulo;
+
+    this.miPortfolio.Titulos.push({instituto: this.nombreInstituto, titulo: this.tituloInstituto});
+    Swal.fire({
+      icon: 'success',
+      title: 'Se agregó la institución: "'+ this.nombreInstituto + '"',
+      showConfirmButton: false,
+      timer: 4000
+    })
+  }
+
+  
+  //Funciones para editar titulos
+
+  //Getters para editar titulos
+
+  get TituloEdit(){
+    return this.form1edit.get("titulo");
+   }
+
+   get InstitutoEdit(){
+    return this.form1edit.get("instituto");
+   }
+
+   enviarTituloEdit(event: Event, item: number){
+    // Detenemos la propagación o ejecución del compotamiento submit de un form
+    event.preventDefault; 
+ 
+    if (this.form1edit.valid){
+      // Llamamos a nuestro servicio para enviar los datos al servidor
+      // También podríamos ejecutar alguna lógica extra
+      this.editarTitulo(item);
+    }else{
+      // Corremos todas las validaciones para que se ejecuten los mensajes de error en el template     
+      this.form1edit.markAllAsTouched(); 
+    }
+  }
+
+
   
   editarTitulo(item:number){
     this.closebuttonEditarInstituto.nativeElement.click();
+    if(this.miPortfolio.Titulos[item].instituto==this.form1edit.value.instituto
+      && this.miPortfolio.Titulos[item].titulo==this.form1edit.value.titulo){
+        Swal.fire({
+          icon: 'info',
+          title: 'Sin cambios!!!',
+          showConfirmButton: false,
+          timer: 4000
+    })
+    }else{
+      Swal.fire({
+        icon: 'success',
+        title: 'Cambios guardados!!!',
+        showConfirmButton: false,
+        timer: 4000
+    })
     this.miPortfolio.Titulos[item].instituto=this.form1edit.value.instituto;
     this.miPortfolio.Titulos[item].titulo=this.form1edit.value.titulo;
+    }
   }
 
   nombreInstitutoSelect: string = '';
@@ -185,22 +278,15 @@ export class ExperienciaYEducacionComponent implements OnInit {
   } 
 
 
-  nombreInstituto: string = "";
-  tituloInstituto: string = "";
-  agregarTitulo(){
-
-    this.closebuttonAddInstituto.nativeElement.click();
-
-    this.nombreInstituto = this.form1add.value.instituto;
-    this.tituloInstituto = this.form1add.value.titulo;
-
-    this.miPortfolio.Titulos.push({instituto: this.nombreInstituto, titulo: this.tituloInstituto});
-    alert('Se agregó un nuevo Instituto a tu lista');
-  }
 
   eliminarTitulo(indice: number){
     this.closebuttonEliminarInstituto.nativeElement.click();
-    alert('Se eliminó el Centro educativo: "'+ this.miPortfolio.Titulos[indice].instituto + '"');
+    Swal.fire({
+      icon: 'success',
+      title: 'Se eliminó el Centro educativo: "'+ this.miPortfolio.Titulos[indice].instituto + '"',
+      showConfirmButton: false,
+      timer: 4000
+  })
     this.miPortfolio.Titulos.splice(indice, 1);
   }
 
@@ -245,6 +331,7 @@ export class ExperienciaYEducacionComponent implements OnInit {
       this.form2add.markAllAsTouched(); 
     }
   }
+
   fechaActual = new Date();
   controlarFechasAdd(){
     if(this.form2add.value.anioIngreso <= this.form2add.value.anioEgreso || this.form2add.value.anioEgreso === ''){
@@ -279,6 +366,8 @@ export class ExperienciaYEducacionComponent implements OnInit {
     }
   }
 
+  //Función para agregar experiencia
+
   puestoExperiencia: string = '';
   empresaExperiencia: string = '';
   descripcionExperiencia: string = '';
@@ -296,7 +385,7 @@ export class ExperienciaYEducacionComponent implements OnInit {
     this.miPortfolio.Experiencias.push({puesto: this.puestoExperiencia, empresa: this.empresaExperiencia, descripcion: this.descripcionExperiencia, anioIngreso: this.anioIngresoExperiencia , anioEgreso: this.anioEgresoExperiencia});
     Swal.fire({
       icon: 'success',
-      title: 'Se agregó una nueva Experiencia!!!',
+      title: 'Se agregó nueva Experiencia: "'+ this.puestoExperiencia + '"',
       showConfirmButton: false,
       timer: 4000
     })
@@ -328,6 +417,8 @@ export class ExperienciaYEducacionComponent implements OnInit {
    get AnioEgresoEdit(){
     return this.form2edit.get("anioEgreso");
    }
+
+   // funciones para editar experiencia
 
    enviarExperienciaEdit(event: Event, item:number){
     // Detenemos la propagación o ejecución del compotamiento submit de un form
