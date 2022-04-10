@@ -1,13 +1,13 @@
 <section class="panel-seccion" id="misProyectos">
     <h1>
       <span class="float-left"><i class="fa fa-newspaper-o"></i> Proyectos</span>
-      <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarProyecto" *ngIf="logueado.logEstado==1"><i class="fa fa-plus-square-o"></i></span>
+      <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarProyecto"><i class="fa fa-plus-square-o"></i></span>
     </h1><br>
     <div *ngFor="let item of miPortfolio.MisProyectos; let indice=index" class="card m-2 border border-dark">
       <div class="card-header">
         <span class="h4 text-primary">{{item.nombreProyecto}}</span>
-        <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarProyecto" (click)="mostrarProyecto(indice)" *ngIf="logueado.logEstado==1"><i class="fa fa-trash-o"></i></span>
-        <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarProyecto" (click)="mostrarProyecto(indice)" *ngIf="logueado.logEstado==1"><i class="fa fa-pencil"></i></span>
+        <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarProyecto" (click)="mostrarProyecto(indice)" ><i class="fa fa-trash-o"></i></span>
+        <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarProyecto" (click)="mostrarProyecto(indice)" ><i class="fa fa-pencil"></i></span>
       </div>
       <div class="card-body">
         <span class="strong">{{item.descripcionProyecto}}</span>
@@ -29,18 +29,27 @@
       
             <!-- Modal body -->
             <div class="modal-body">
-              <form [formGroup]="formProyectoAdd">
+              <form [formGroup]="formProyectoAdd" (ngSubmit)="enviarProyectoAdd($event)">
                 <div class="input-group">
                   <span class="input-group-text"><i class="fa fa-newspaper-o"></i></span>
                   <input type="text" class="form-control" placeholder="Nombre del proyecto" name="nombreProyecto" formControlName="nombreProyecto" [ngModel]="nombreDeProyecto">
                 </div><br>
+                <div class="text-danger" *ngIf="NombreProyecto?.errors  && NombreProyecto?.touched">    
+                  <p *ngIf="NombreProyecto?.hasError('required')" class="error">
+                    El nombre del proyecto es obligatorio
+                  </p>
+                </div>
                 <p>Descripción del proyecto:</p>
                 <div class="input-group">
                   <textarea rows="7" type="text" class="form-control" placeholder="descripcion" name="descripcionProyecto" formControlName="descripcionProyecto" [ngModel]="descripcionDeProyecto"></textarea>
                 </div><br>
+                <div class="text-danger" *ngIf="DescripcionProyecto?.errors  && DescripcionProyecto?.touched">    
+                  <p *ngIf="DescripcionProyecto?.hasError('required')" class="error">
+                    La descripción del proyecto es obligatoria
+                  </p>
+                </div>
                 <div>
-                    <button type="submit" class="btn btn-primary" 
-                    (click)="agregarProyecto()">Agregar <i class="fa fa-plus-square-o"></i></button>
+                    <button type="submit" class="btn btn-primary">Agregar <i class="fa fa-plus-square-o"></i></button>
                 </div>
               </form>
             </div>
@@ -72,10 +81,20 @@
                     <span class="input-group-text"><i class="fa fa-newspaper-o"></i></span>
                     <input type="text" class="form-control" placeholder="nombre Del proyecto" name="nombreProyecto" formControlName="nombreProyecto" [ngModel]="nombreProyectoSelect">
                   </div><br>
+                  <div class="text-danger" *ngIf="NombreProyectoEdit?.errors  && NombreProyectoEdit?.touched">    
+                    <p *ngIf="NombreProyectoEdit?.hasError('required')" class="error">
+                      El nombre del proyecto es obligatorio
+                    </p>
+                  </div>
                   <p>Descripción del proyecto:</p>
                   <div class="input-group">
                     <textarea rows="7" type="text" class="form-control" placeholder="descripcion del proyecto" name="descripcionProyecto" formControlName="descripcionProyecto" [ngModel]="descripcionProyectoSelect"></textarea>
                   </div><br>
+                  <div class="text-danger" *ngIf="DescripcionProyectoEdit?.errors  && DescripcionProyectoEdit?.touched">    
+                    <p *ngIf="DescripcionProyectoEdit?.hasError('required')" class="error">
+                      La descripción del proyecto es obligatoria
+                    </p>
+                  </div>
                   <div>
                       <button type="submit" class="btn btn-primary" 
                       (click)=" editarProyecto(auxIndex)">Editar <i class="fa fa-pencil-square-o"></i></button>
