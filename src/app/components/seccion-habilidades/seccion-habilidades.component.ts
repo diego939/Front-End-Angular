@@ -4,6 +4,7 @@ import { PortfolioService } from 'src/app/servicios/portfolio.service';
 import { ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from "../../servicios/auth.service";
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
   selector: 'app-seccion-habilidades',
@@ -46,13 +47,13 @@ export class SeccionHabilidadesComponent implements OnInit {
     });
 
     this.formHabilidadEdit= this.formBuilder.group({
-      nombreHabilidad: '',
-      progreso: ''
+      nombreHabilidad: ['', [Validators.required]],
+      progreso: ['', [Validators.required]],
    })
 
    this.formHabilidadAdd= this.formBuilder.group({
-    nombreHabilidad: '',
-    progreso: ''
+    nombreHabilidad: ['', [Validators.required]],
+    progreso: ['', [Validators.required]],
     })
 
   this.formHabilidadDelete= this.formBuilder.group({
@@ -61,13 +62,13 @@ export class SeccionHabilidadesComponent implements OnInit {
   })
 
   this.formTecnologiaEdit= this.formBuilder.group({
-    nombreTecnologia: '',
-    nivel: ''
+    nombreTecnologia: ['', [Validators.required]],
+    nivel: ['', [Validators.required]],
   })
 
   this.formTecnologiaAadd= this.formBuilder.group({
-    nombreTecnologia: '',
-    nivel: ''
+    nombreTecnologia: ['', [Validators.required]],
+    nivel: ['', [Validators.required]],
   })
 
   this.formTecnologiaDelete= this.formBuilder.group({
@@ -135,11 +136,100 @@ export class SeccionHabilidadesComponent implements OnInit {
 
   // CRUD DE HABILIDADES
 
+  //Getters para agregar habilidad
+
+  get NombreHabilidad(){
+    return this.formHabilidadAdd.get("nombreHabilidad");
+   }
+
+   get Progreso(){
+    return this.formHabilidadAdd.get("progreso");
+   }
+
+   enviarHabilidadAdd(event: Event){
+    // Detenemos la propagación o ejecución del compotamiento submit de un form
+    event.preventDefault; 
+ 
+    if (this.formHabilidadAdd.valid){
+      // Llamamos a nuestro servicio para enviar los datos al servidor
+      // También podríamos ejecutar alguna lógica extra
+      this.agregarHabilidad();
+    }else{
+      // Corremos todas las validaciones para que se ejecuten los mensajes de error en el template     
+      this.formHabilidadAdd.markAllAsTouched(); 
+    }
+  }
+
+
+  // Funcion para agregar habilidad
+  nombreDeHabilidad: string = "";
+  progresoDeHabilidad: string = "";
+  agregarHabilidad(){
+
+    this.closebuttonAddHabilidad.nativeElement.click();
+
+    this.nombreDeHabilidad = this.formHabilidadAdd.value.nombreHabilidad;
+    this.progresoDeHabilidad= this.formHabilidadAdd.value.progreso;
+
+    this.miPortfolio.HabilidadesBlandas.push({nombreHabilidad: this.nombreDeHabilidad, progreso: this.progresoDeHabilidad});
+    Swal.fire({
+      icon: 'success',
+      title: 'Se agregó la habilidad: "'+ this.nombreDeHabilidad + '"',
+      showConfirmButton: false,
+      timer: 4000
+    })
+  }
+
+  //Funciones para editar habilidad
+
+  //Getters para editar habilidad
+
+  get NombreHabilidadEdit(){
+    return this.formHabilidadEdit.get("nombreHabilidad");
+   }
+
+   get ProgresoEdit(){
+    return this.formHabilidadEdit.get("progreso");
+   }
+
+   enviarHabilidadEdit(event: Event, item: number){
+    // Detenemos la propagación o ejecución del compotamiento submit de un form
+    event.preventDefault; 
+ 
+    if (this.formHabilidadEdit.valid){
+      // Llamamos a nuestro servicio para enviar los datos al servidor
+      // También podríamos ejecutar alguna lógica extra
+      this.editarHabilidad(item);
+    }else{
+      // Corremos todas las validaciones para que se ejecuten los mensajes de error en el template     
+      this.formHabilidadEdit.markAllAsTouched(); 
+    }
+  }
+
+  //Funcion para Editar habilidad
+
   editarHabilidad(item:number){
     this.closebuttonEditarHabilidad.nativeElement.click();
-    this.miPortfolio.HabilidadesBlandas[item].nombreDeHabilidad=this.formHabilidadEdit.value.nombreHabilidad;
-    this.miPortfolio.HabilidadesBlandas[item].progreso=this.formHabilidadEdit.value.progreso;
-    alert('Se editó la habilidad: "'+ this.miPortfolio.HabilidadesBlandas[item].nombreHabilidad + '"');
+
+    if(this.miPortfolio.HabilidadesBlandas[item].nombreDeHabilidad!=this.formHabilidadEdit.value.nombreHabilidad
+      && this.miPortfolio.HabilidadesBlandas[item].progreso!=this.formHabilidadEdit.value.progreso){
+
+      this.miPortfolio.HabilidadesBlandas[item].nombreDeHabilidad=this.formHabilidadEdit.value.nombreHabilidad;
+        this.miPortfolio.HabilidadesBlandas[item].progreso=this.formHabilidadEdit.value.progreso;
+        Swal.fire({
+          icon: 'success',
+          title: 'Se editó la habilidad: "'+ this.miPortfolio.HabilidadesBlandas[item].nombreHabilidad + '"',
+          showConfirmButton: false,
+          timer: 4000
+      })
+      }else{
+        Swal.fire({
+          icon: 'info',
+          title: 'Sin cambios!!!',
+          showConfirmButton: false,
+          timer: 4000
+      })
+      }
   }
 
   nombreHabilidadSelect: string = '';
@@ -152,42 +242,45 @@ export class SeccionHabilidadesComponent implements OnInit {
   } 
 
 
-  nombreDeHabilidad: string = "";
-  progresoDeHabilidad: string = "";
-  agregarHabilidad(){
-
-    this.closebuttonAddHabilidad.nativeElement.click();
-
-    this.nombreDeHabilidad = this.formHabilidadAdd.value.nombreHabilidad;
-    this.progresoDeHabilidad= this.formHabilidadAdd.value.progreso;
-
-    this.miPortfolio.HabilidadesBlandas.push({nombreHabilidad: this.nombreDeHabilidad, progreso: this.progresoDeHabilidad});
-    alert('Se agregó una nueva habilidad a tu lista');
-  }
 
   eliminarHabilidad(indice: number){
     this.closebuttonEliminarHabilidad.nativeElement.click();
-    alert('Se eliminó la habilidad: "'+ this.miPortfolio.HabilidadesBlandas[indice].nombreHabilidad + '"');
+    Swal.fire({
+          icon: 'success',
+          title: 'Se eliminó la habilidad: "'+ this.miPortfolio.HabilidadesBlandas[indice].nombreHabilidad + '"',
+          showConfirmButton: false,
+          timer: 4000
+      })
     this.miPortfolio.HabilidadesBlandas.splice(indice, 1);
   }
 
   // CRUD DE TECNOLOGÍAS
 
-  editarTecnologia(item:number){
-    this.closebuttonEditarTecnologia.nativeElement.click();
-    this.miPortfolio.MisTecnologias[item].nombreTecnologia=this.formTecnologiaEdit.value.nombreTecnologia;
-    this.miPortfolio.MisTecnologias[item].nivel=this.formTecnologiaEdit.value.nivel;
-    alert('Se editó la tecnología: "'+ this.miPortfolio.MisTecnologias[item].nombreTecnologia + '"');
-  }
+  //Getters para agregar tecnologias
 
-  nombreTecnologiaSelect: string = '';
-  nivelSelect: string = '';
-  //auxIndex: number = 0; //ya se definió para habilidades un auxiliar
-  mostrarTecnologia(item: number){
-    this.auxIndex = item;
-    this.nombreTecnologiaSelect= this.miPortfolio.MisTecnologias[this.auxIndex].nombreTecnologia;
-    this.nivelSelect=this.miPortfolio.MisTecnologias[this.auxIndex].nivel;
-  } 
+  get NombreTecnologiaAdd(){
+    return this.formTecnologiaAadd.get("nombreTecnologia");
+   }
+
+   get NivelAdd(){
+    return this.formTecnologiaAadd.get("nivel");
+   }
+  
+   //Métodos para agregar tecnología
+
+   enviarTecnologiaAdd(event: Event){
+    // Detenemos la propagación o ejecución del compotamiento submit de un form
+    event.preventDefault; 
+ 
+    if (this.formTecnologiaAadd.valid){
+      // Llamamos a nuestro servicio para enviar los datos al servidor
+      // También podríamos ejecutar alguna lógica extra
+      this.agregarTecnologia();
+    }else{
+      // Corremos todas las validaciones para que se ejecuten los mensajes de error en el template     
+      this.formTecnologiaAadd.markAllAsTouched(); 
+    }
+  }
 
 
   nombreDeTecnologia: string = "";
@@ -200,13 +293,83 @@ export class SeccionHabilidadesComponent implements OnInit {
     this.nivelDeTecnologia = this.formTecnologiaAadd.value.nivel;
 
     this.miPortfolio.MisTecnologias.push({nombreTecnologia: this.nombreDeTecnologia, nivel: this.nivelDeTecnologia});
-    alert('Se agregó una nueva tecnología a tu lista');
+    Swal.fire({
+      icon: 'success',
+      title: 'Se agregó una tecnología: "'+ this.nombreDeTecnologia + '"',
+      showConfirmButton: false,
+      timer: 4000
+    })
+  }
+
+  //Getters para editar tecnologias
+
+  get NombreTecnologiaEdit(){
+    return this.formTecnologiaEdit.get("nombreTecnologia");
+   }
+
+   get NivelEdit(){
+    return this.formTecnologiaEdit.get("nivel");
+   }
+  
+   //Métodos para editar tecnología
+
+   enviarTecnologiaEdit(event: Event, item: number){
+    // Detenemos la propagación o ejecución del compotamiento submit de un form
+    event.preventDefault; 
+ 
+    if (this.formTecnologiaEdit.valid){
+      // Llamamos a nuestro servicio para enviar los datos al servidor
+      // También podríamos ejecutar alguna lógica extra
+      this.editarTecnologia(item);
+    }else{
+      // Corremos todas las validaciones para que se ejecuten los mensajes de error en el template     
+      this.formTecnologiaEdit.markAllAsTouched(); 
+    }
+  }
+
+
+  editarTecnologia(item:number){
+    this.closebuttonEditarTecnologia.nativeElement.click();
+
+    if(this.miPortfolio.MisTecnologias[item].nombreTecnologia==this.formTecnologiaEdit.value.nombreTecnologia
+      && this.miPortfolio.MisTecnologias[item].nivel==this.formTecnologiaEdit.value.nivel){
+
+            Swal.fire({
+              icon: 'info',
+              title: 'Sin cambios!!!',
+              showConfirmButton: false,
+              timer: 4000
+          })
+      }else{
+          this.miPortfolio.MisTecnologias[item].nombreTecnologia=this.formTecnologiaEdit.value.nombreTecnologia;
+            this.miPortfolio.MisTecnologias[item].nivel=this.formTecnologiaEdit.value.nivel;
+            Swal.fire({
+              icon: 'success',
+              title: 'Se editó la tecnología: "'+ this.miPortfolio.MisTecnologias[item].nombreTecnologia + '"',
+              showConfirmButton: false,
+              timer: 4000
+          })
+      }
   }
 
   eliminarTecnologia(indice: number){
     this.closebuttonEliminarTecnologia.nativeElement.click();
-    alert('Se eliminó la tecnología: "'+ this.miPortfolio.MisTecnologias[indice].nombreTecnologia+ '"');
+      Swal.fire({
+        icon: 'success',
+        title: 'Se eliminó la tecnología: "'+ this.miPortfolio.MisTecnologias[indice].nombreTecnologia + '"',
+        showConfirmButton: false,
+        timer: 4000
+      })
     this.miPortfolio.MisTecnologias.splice(indice, 1);
   }
+
+  nombreTecnologiaSelect: string = '';
+  nivelSelect: string = '';
+  //auxIndex: number = 0; //ya se definió para habilidades un auxiliar
+  mostrarTecnologia(item: number){
+    this.auxIndex = item;
+    this.nombreTecnologiaSelect= this.miPortfolio.MisTecnologias[this.auxIndex].nombreTecnologia;
+    this.nivelSelect=this.miPortfolio.MisTecnologias[this.auxIndex].nivel;
+  } 
 
 }
