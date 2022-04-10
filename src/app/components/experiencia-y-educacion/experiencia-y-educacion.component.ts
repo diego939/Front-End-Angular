@@ -259,7 +259,7 @@ export class ExperienciaYEducacionComponent implements OnInit {
     }else{
       Swal.fire({
         icon: 'success',
-        title: 'Cambios guardados!!!',
+        title: 'Se editó: "'+ this.miPortfolio.Titulos[item].instituto + '"',
         showConfirmButton: false,
         timer: 4000
     })
