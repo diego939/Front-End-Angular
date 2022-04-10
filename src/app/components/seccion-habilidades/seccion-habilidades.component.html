@@ -99,13 +99,13 @@
     <!-- Tab panes -->
     <div class="tab-content mt-4">
       <div class="tab-pane container active" id="habBlandas">
-        <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarHabilidad"><i class="fa fa-plus-square-o"></i></span>
+        <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarHabilidad"><i class="fa fa-plus-square-o"></i></span>
         <h5 class="text-center m-2"><i class="fa fa-cogs"></i> Habilidades Blandas</h5><hr>
         <span *ngFor="let item of miPortfolio.HabilidadesBlandas; let indice=index">
           <h6>
             <span>{{item.nombreHabilidad}}</span>
-            <span class="btn flotar-derecha"><i class="fa fa-trash-o" data-bs-toggle="modal" data-bs-target="#myModalEliminarHabilidad" (click)="mostrarHabilidad(indice)"></i></span>
-            <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarHabilidad" (click)="mostrarHabilidad(indice)"> <i class="fa fa-pencil"></i></span>
+            <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha"><i class="fa fa-trash-o" data-bs-toggle="modal" data-bs-target="#myModalEliminarHabilidad" (click)="mostrarHabilidad(indice)"></i></span>
+            <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarHabilidad" (click)="mostrarHabilidad(indice)"> <i class="fa fa-pencil"></i></span>
           </h6><br>
           <div class="progress">
             <div class="progress-bar bg-primary" role="progressbar" [style.width.%]="item.progreso" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">{{item.progreso}}%</div>
@@ -115,13 +115,13 @@
       </div>
 
       <div class="tab-pane container fade" id="habTecno">
-        <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarTecnologia"><i class="fa fa-plus-square-o"></i></span>
+        <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarTecnologia"><i class="fa fa-plus-square-o"></i></span>
         <h5 class="text-center m-2"><i class="fa fa-wrench"></i> Herramientas y Lenguajes de Programación</h5><hr>
         <span *ngFor="let item of miPortfolio.MisTecnologias; let indice=index">
           <h6>
             <span>{{item.nombreTecnologia}}</span>
-            <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarTecnologia" (click)="mostrarTecnologia(indice)" ><i class="fa fa-trash-o"></i></span>
-            <span class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarTecnologia" (click)="mostrarTecnologia(indice)" > <i class="fa fa-pencil"></i></span>
+            <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarTecnologia" (click)="mostrarTecnologia(indice)" ><i class="fa fa-trash-o"></i></span>
+            <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarTecnologia" (click)="mostrarTecnologia(indice)" > <i class="fa fa-pencil"></i></span>
           </h6><br>
           <div class="progress">
             <div class="progress-bar bg-primary" role="progressbar" [style.width.%]="item.nivel" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">{{item.nivel}}%</div>
