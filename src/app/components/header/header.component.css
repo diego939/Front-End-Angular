@@ -27,6 +27,20 @@ img {
     z-index: 2;
   }
 
+  .edit1{
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 10px;
+    z-index: 3;
+  }
+
+  .edit2{
+    position: absolute;
+    z-index: 4;
+    margin-top: 450px;
+    margin-left: 180px;
+  }
+
 .nombre-usuario{
     margin-left: 20px;
     text-shadow: 1px 6px 2px #ace5ff;
@@ -53,6 +67,11 @@ img {
     margin-top: 225px;
   }
 
+  .edit2{
+    margin-top: 350px;
+    margin-left: 120px;
+  }
+
 
 }
 
@@ -65,5 +84,10 @@ img {
     height: 100px;
     width: 100px;
     margin-top: 150px;
+  }
+
+  .edit2{
+    margin-top: 225px;
+    margin-left: 80px;
   }
 }

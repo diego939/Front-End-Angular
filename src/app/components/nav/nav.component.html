@@ -1,11 +1,12 @@
 <span #closebuttonBienvenido (click)="simpleAlert()"></span>
 <nav class="navegador" style="background-color: rgb(34, 3, 70);"> 
   <a routerLink="/"><img src="../../../assets/ArgentinaProgramaLogo.png" alt="" style="height: 100%;"></a>
+  <span class="login">#YoProgramo</span>
     <div class="flotar-derecha">
       <a target="blank" href="https://github.com/DiegoDavid17" class="redsoc btn btn-outline-light btn-lg fa fa-github"></a>
       <a target="blank" href="https://www.linkedin.com/in/diego-david-almir%C3%B3n-575832211" class="redsoc btn btn-outline-light btn-lg fa fa-linkedin-square"></a>
       <a target="blank" href="https://wa.me/543795315483" class="redsoc btn btn-outline-light btn-lg fa fa-whatsapp"></a>
-      <button *ngIf="logueado.logEstado==0" class="btn btn-outline-light btn-lg fa fa-user" data-bs-toggle="modal" data-bs-target="#myModalLogin"> <span class="login"> Login</span></button>
+      <button *ngIf="logueado.logEstado==0" class="btn btn-outline-light btn-lg" data-bs-toggle="modal" data-bs-target="#myModalLogin"><mat-icon class="mt-1">account_circle</mat-icon> <span class="login"> Login</span></button>
       <button (click)="logueado.logout()" *ngIf="logueado.logEstado==1" class="btn btn-outline-light btn-lg fa fa-power-off" > <span class="login"> Logout</span></button>
     </div> 
   </nav>  

@@ -1,5 +1,11 @@
-<header *ngFor="let item of miPortfolio.Persona, let indice=index">
+<header *ngFor="let item of miPortfolio, let indice=index">
+    <div class="edit1" *ngIf="logueado.logEstado==1"> 
+      <h6 class="btn btn-outline-light rounded-circle" (click)="cambiarFotoPortada(indice)"><i class="	fa fa-camera"></i></h6>
+    </div>
     <img class="imgFondo shadow-lg" src="../../../assets/{{item.image_portada}}" alt="">
+    <div class="edit2" *ngIf="logueado.logEstado==1"> 
+      <h6 class="btn btn-outline-dark rounded-circle" (click)="cambiarFotoPerfil(indice)"><i class="	fa fa-camera"></i></h6>
+    </div>
     <img class="imgPerfil shadow-lg" src="../../../assets/{{item.image_perfil}}" alt="">
   <div class="panel-seccion mt-4">
     <h1 class="nombre-usuario" id="nombreUsuario">{{item.nombres + ' ' + item.apellido}}
@@ -50,7 +56,7 @@
   
   
   <!-- The Modal -->
-  <div class="modal" id="myModalInfoPersonal" *ngFor="let item of miPortfolio.Persona, let indice=index">
+  <div class="modal" id="myModalInfoPersonal" *ngFor="let item of miPortfolio, let indice=index">
     <div class="modal-dialog">
       <div class="modal-content">
   

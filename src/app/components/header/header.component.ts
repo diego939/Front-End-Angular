@@ -4,6 +4,10 @@ import { ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from "../../servicios/auth.service";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
+import { __values } from 'tslib';
+
 
 
 @Component({
@@ -30,10 +34,12 @@ export class HeaderComponent implements OnInit {
 
   mensajeMail = '';
 
-  constructor(private datosPortfolio: PortfolioService, private formBuilder: FormBuilder,private authService: AuthService) { 
+  fileName = '';
+
+  constructor(private datosPortfolio: PortfolioService, private formBuilder: FormBuilder,private authService: AuthService, private http: HttpClient) { 
     this.datosPortfolio.obtenerDatos().subscribe(data => {
       console.log(data);
-      this.miPortfolio = data;
+      this.miPortfolio = data.Persona;
 
     });
 
@@ -46,6 +52,7 @@ export class HeaderComponent implements OnInit {
       pais: ['', [Validators.required]],
       mail: ['', [Validators.required]],
       celular:['', [Validators.required]],
+      image_portada:'',
    })
 
    this.logueado = this.authService;
@@ -148,26 +155,26 @@ export class HeaderComponent implements OnInit {
 
         this.closebutton.nativeElement.click();
         
-        if( this.miPortfolio.Persona[item].nombres==this.form.value.nombres
-          && this.miPortfolio.Persona[item].apellido==this.form.value.apellido
-          && this.miPortfolio.Persona[item].ocupacion==this.form.value.ocupacion
-          &&this.miPortfolio.Persona[item].localidad==this.form.value.localidad
-          &&this.miPortfolio.Persona[item].provincia==this.form.value.provincia
-          &&this.miPortfolio.Persona[item].pais==this.form.value.pais
-          &&this.miPortfolio.Persona[item].mail==this.form.value.mail
-          &&this.miPortfolio.Persona[item].celular==this.form.value.celular
+        if( this.miPortfolio[item].nombres==this.form.value.nombres
+          && this.miPortfolio[item].apellido==this.form.value.apellido
+          && this.miPortfolio[item].ocupacion==this.form.value.ocupacion
+          &&this.miPortfolio[item].localidad==this.form.value.localidad
+          &&this.miPortfolio[item].provincia==this.form.value.provincia
+          &&this.miPortfolio[item].pais==this.form.value.pais
+          &&this.miPortfolio[item].mail==this.form.value.mail
+          &&this.miPortfolio[item].celular==this.form.value.celular
           ){
           this.sincambios()
         }else{
           this.cambios()
-        this.miPortfolio.Persona[item].nombres=this.form.value.nombres;
-        this.miPortfolio.Persona[item].apellido=this.form.value.apellido;
-        this.miPortfolio.Persona[item].ocupacion=this.form.value.ocupacion;
-        this.miPortfolio.Persona[item].localidad=this.form.value.localidad;
-        this.miPortfolio.Persona[item].provincia=this.form.value.provincia;
-        this.miPortfolio.Persona[item].pais=this.form.value.pais;
-        this.miPortfolio.Persona[item].mail=this.form.value.mail;
-        this.miPortfolio.Persona[item].celular=this.form.value.celular;
+        this.miPortfolio[item].nombres=this.form.value.nombres;
+        this.miPortfolio[item].apellido=this.form.value.apellido;
+        this.miPortfolio[item].ocupacion=this.form.value.ocupacion;
+        this.miPortfolio[item].localidad=this.form.value.localidad;
+        this.miPortfolio[item].provincia=this.form.value.provincia;
+        this.miPortfolio[item].pais=this.form.value.pais;
+        this.miPortfolio[item].mail=this.form.value.mail;
+        this.miPortfolio[item].celular=this.form.value.celular;
         }
   }
 
@@ -190,5 +197,73 @@ export class HeaderComponent implements OnInit {
       timer: 4000
 })
   }
+
+
+
+modificarPortada(item: number){
+  this.miPortfolio[item].image_portada='portada.jpg';
+  //this.closebutton.nativeElement.click();
+}
+
+modificarPerfil(item: number){
+  this.miPortfolio[item].image_perfil='avatar.jpg';
+  //this.closebutton.nativeElement.click();
+}
+
+
+cambiarFotoPerfil(index: number){
+  Swal.fire({
+    title: 'Cambiar Perfil',
+    imageUrl: '../../../assets/'+this.miPortfolio[index].image_perfil,
+    input: 'file',
+    imageWidth: 300,
+    imageHeight: 300,
+    imageAlt: 'Custom image',
+    showCancelButton: true,
+    confirmButtonColor: '#0d6efd',
+    cancelButtonColor: '#dc3545',
+    confirmButtonText: "Editar",
+    cancelButtonText: "Cancelar",
+  }).then(resultado => {
+    if (resultado.value) {
+        // Hicieron click en "Editar"
+        this.modificarPerfil(index);
+    } else {
+        // Hicieron click en "Cancelar"
+        this.sincambios();
+    }
+});
+}
+
+cambiarFotoPortada(index: number){
+  Swal.fire({
+    title: 'Cambiar Portada',
+    imageUrl: '../../../assets/'+this.miPortfolio[index].image_portada,
+    input: 'file',
+    imageWidth: 500,
+    imageHeight: 200,
+    imageAlt: 'Custom image',
+    showCancelButton: true,
+    confirmButtonColor: '#0d6efd',
+    cancelButtonColor: '#dc3545',
+    confirmButtonText: "Editar",
+    cancelButtonText: "Cancelar",
+  }).then(resultado => {
+    if (resultado.value) {
+        // Hicieron click en "Editar"
+        //this.modificarPortada(index,Swal.getInput()?.value.slice(12));
+        //let nombre =  Swal.getInput()?.value.slice(12).valueOf();
+        //alert(nombre)
+        this.modificarPortada(index)
+    } else {
+        // Hicieron click en "Cancelar"
+        this.sincambios();
+    }
+});
+
+}
+
+
+
 
 }
