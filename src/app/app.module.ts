@@ -16,6 +16,11 @@ import { SeccionMisProyectosComponent } from './components/seccion-mis-proyectos
 import { FooterComponent } from './components/footer/footer.component';
 import { BienvenidoComponent } from './components/bienvenido/bienvenido.component';
 
+/* Angular material */
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AngularMaterialModule } from './angular-material.module';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
 
 @NgModule({
   declarations: [
@@ -35,9 +40,12 @@ import { BienvenidoComponent } from './components/bienvenido/bienvenido.componen
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    SweetAlert2Module . forChild ( {  /* opciones */  } )
+    SweetAlert2Module . forChild ( {  /* opciones */  } ),
+    BrowserAnimationsModule,
+    AngularMaterialModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
