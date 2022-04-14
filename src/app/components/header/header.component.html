@@ -1,22 +1,22 @@
 <header *ngFor="let item of miPortfolio, let indice=index">
     <div class="edit1" *ngIf="logueado.logEstado==1"> 
-      <h6 class="btn btn-outline-light rounded-circle" (click)="cambiarFotoPortada(indice)"><i class="	fa fa-camera"></i></h6>
+      <h6 class="btn btn-outline-light rounded-circle border-2" (click)="cambiarFotoPortada(indice)"><i class="bi bi-camera-fill"></i></h6>
     </div>
     <img class="imgFondo shadow-lg" src="../../../assets/{{item.image_portada}}" alt="">
     <div class="edit2" *ngIf="logueado.logEstado==1"> 
-      <h6 class="btn btn-outline-dark rounded-circle" (click)="cambiarFotoPerfil(indice)"><i class="	fa fa-camera"></i></h6>
+      <h6 class="btn btn-outline-dark rounded-circle border-2" (click)="cambiarFotoPerfil(indice)"><i class="bi bi-camera-fill"></i></h6>
     </div>
     <img class="imgPerfil shadow-lg" src="../../../assets/{{item.image_perfil}}" alt="">
   <div class="panel-seccion mt-4">
     <h1 class="nombre-usuario" id="nombreUsuario">{{item.nombres + ' ' + item.apellido}}
-      <a href="#"  class="btn" data-bs-toggle="modal" data-bs-target="#myModalInfoPersonal" *ngIf="logueado.logEstado==1"><i class="fa fa-pencil"></i></a>
+      <a href="#"  class="btn" data-bs-toggle="modal" data-bs-target="#myModalInfoPersonal" *ngIf="logueado.logEstado==1"><i class="bi bi-pencil-fill"></i></a>
     </h1><br>
   <div class="card border border-dark bg-white">
     <div>
       <h5 class="descripcion text-dark mt-2">{{item.ocupacion}}</h5>
-      <h6 class="descripcion text-dark"><i class="fa fa-home"></i> {{' ' + item.localidad + ', ' + item.provincia + ' (' + item.pais + ')'}} </h6>
-      <h6 class="descripcion text-dark"><i class="fa fa-envelope-o"></i> {{' ' + item.mail}}</h6>
-      <h6 class="descripcion text-dark"><i class="fa fa-mobile-phone"></i> {{' ' +item.celular}}</h6>
+      <h6 class="descripcion text-dark"><i class="bi bi-geo-alt-fill"></i> {{' ' + item.localidad + ', ' + item.provincia + ' (' + item.pais + ')'}} </h6>
+      <h6 class="descripcion text-dark"><i class="bi bi-envelope-fill"></i> {{' ' + item.mail}}</h6>
+      <h6 class="descripcion text-dark"><i class="bi bi-phone-fill"></i> {{' ' +item.celular}}</h6>
       <br>
     </div>
      <!-- <button type="button" class="descripcion btn btn-outline-secondary m-2" data-bs-toggle="modal" data-bs-target="#myModalInfoPersonal" *ngIf="logueado.logEstado==1"> Editar información Personal <i class="fa fa-pencil-square-o"></i></button> -->
@@ -70,7 +70,7 @@
         <div class="modal-body">
           <form [formGroup]="form" (ngSubmit)="onEnviar($event, indice)">
             <div class="input-group">
-              <span class="input-group-text"><i class="	fa fa-user"></i></span>
+              <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
               <input type="text" class="form-control" placeholder="Nombres" name="nombres" formControlName="nombres" [ngModel]="item.nombres">
             </div><br>
             <!-- Gracias al getter que configuramos en el controlador -->
@@ -80,7 +80,7 @@
               </p>
             </div>
             <div class="input-group">
-              <span class="input-group-text"><i class="	fa fa-user"></i></span>
+              <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
               <input type="text" class="form-control" placeholder="Apellido" name="apellido" formControlName="apellido" [ngModel]="item.apellido">
             </div><br>
             <div class="text-danger" *ngIf="Apellido?.errors  && Apellido?.touched">    
@@ -89,7 +89,7 @@
               </p>
             </div>
             <div class="input-group">
-              <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+              <span class="input-group-text"><i class="bi bi-person-workspace"></i></span>
               <!-- <input type="text" class="form-control" placeholder="ocupacion" name="ocupacion" [value]="item.ocupacion"> -->
               <input type="text" class="form-control" placeholder="Ocupacion" name="ocupacion" formControlName="ocupacion" [ngModel]="item.ocupacion">
             </div><br>
@@ -99,7 +99,7 @@
               </p>
             </div>
             <div class="input-group">
-              <span class="input-group-text"><i class="fa fa-home"></i></span>
+              <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
               <input type="text" class="form-control" placeholder="Localidad" name="localidad" formControlName="localidad" [ngModel]="item.localidad">
             </div><br>
             <div class="text-danger" *ngIf="Localidad?.errors  && Localidad?.touched">    
@@ -108,7 +108,7 @@
               </p>
             </div>
             <div class="input-group">
-              <span class="input-group-text"><i class="fa fa-home"></i></span>
+              <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
               <input type="text" class="form-control" placeholder="Provincia" name="provincia" formControlName="provincia" [ngModel]="item.provincia">
             </div><br>
             <div class="text-danger" *ngIf="Provincia?.errors  && Provincia?.touched">    
@@ -117,7 +117,7 @@
               </p>
             </div>
             <div class="input-group">
-              <span class="input-group-text"><i class="fa fa-home"></i></span>
+              <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
               <input type="text" class="form-control" placeholder="País" name="pais" formControlName="pais" [ngModel]="item.pais">
             </div><br>
             <div class="text-danger" *ngIf="Pais?.errors  && Pais?.touched">    
@@ -126,7 +126,7 @@
               </p>
             </div>
             <div class="input-group">
-              <span class="input-group-text"><i class="fa fa-envelope-o"></i></span>
+              <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
               <input type="text" class="form-control" placeholder="Correo" name="correo" formControlName="mail" [ngModel]="item.mail">
             </div><br>
             <div class="text-danger" *ngIf="Mail?.errors  && Mail?.touched">    
@@ -136,7 +136,7 @@
             </div>
             <p  class="text-danger">{{mensajeMail}}</p>
             <div class="input-group">
-              <span class="input-group-text"><i class="fa fa-mobile-phone"></i></span>
+              <span class="input-group-text"><i class="bi bi-phone-fill"></i></span>
               <input type="text" class="form-control" placeholder="Celular" name="celular" formControlName="celular" [ngModel]="item.celular">
             </div><br>
             <div class="text-danger" *ngIf="Celular?.errors  && Celular?.touched">    
@@ -146,7 +146,7 @@
             </div>
             <p  class="text-danger">{{mensajeNum}}</p>
             <div>
-                <button type="submit" class="btn btn-primary" >Editar <i class="fa fa-pencil-square-o"></i></button>
+                <button type="submit" class="btn btn-primary" >Editar <i class="bi bi-pencil-square"></i></button>
             </div>
           </form>
         </div>

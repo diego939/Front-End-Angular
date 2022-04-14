@@ -1,13 +1,13 @@
 <section class="panel-seccion" id="miExperiencia">
     <h1>
-      <span class="float-left"><i class="fa fa-suitcase"></i> Experiencia</span>
-      <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarExperiencia"><i class="fa fa-plus-square-o"></i></span>
+      <span class="float-left"><i class="bi bi-briefcase-fill"></i> Experiencia</span>
+      <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarExperiencia"><i class="bi bi-plus-square-fill"></i></span>
     </h1>
     <div class="card mt-2 border border-dark" *ngFor="let item of miPortfolio.Experiencias; let indice=index">
       <!-- Header Carta -->
-      <div class="card-header h4"><i class="fa fa-bookmark"></i> {{item.puesto}}
-        <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarExperiencia" (click)="mostrarExperiencia(indice)"><i class="fa fa-trash-o"></i></span>
-        <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarExperiencia" (click)="mostrarExperiencia(indice)" ><i class="fa fa-pencil"></i></span>
+      <div class="card-header h4"><i class="bi bi-bookmark-fill"></i> {{item.puesto}}
+        <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarExperiencia" (click)="mostrarExperiencia(indice)"><i class="bi bi-trash-fill"></i></span>
+        <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarExperiencia" (click)="mostrarExperiencia(indice)" ><i class="bi bi-pencil-fill"></i></span>
       </div>
 
       <!-- body Carta -->
@@ -38,7 +38,7 @@
             <div class="modal-body">
               <form [formGroup]="form2add" (ngSubmit)="enviarExperienciaAdd($event)">
                 <div class="input-group">
-                  <span class="input-group-text"><i class="fa fa-bookmark"></i></span>
+                  <span class="input-group-text"><i class="bi bi-bookmark-fill"></i></span>
                   <input type="text" class="form-control" placeholder="puesto" name="puesto" formControlName="puesto" [ngModel]="puestoExperiencia">
                 </div><br>
                 <!-- Gracias al getter que configuramos en el controlador -->
@@ -48,7 +48,7 @@
                   </p>
                 </div>
                 <div class="input-group">
-                  <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+                  <span class="input-group-text"><i class="bi bi-briefcase-fill"></i></span>
                   <input type="text" class="form-control" placeholder="empresa" name="empresa" formControlName="empresa" [ngModel]="empresaExperiencia">
                 </div><br>
                 <!-- Gracias al getter que configuramos en el controlador -->
@@ -82,7 +82,7 @@
                   <input type="date" class="form-control" placeholder="Mes y año egreso" name="anioEgreso" formControlName="anioEgreso" [ngModel]="anioEgresoExperiencia">
                 </div><br>
                 <div>
-                    <button type="submit" class="btn btn-primary">Agregar <i class="fa fa-plus-square-o"></i></button>
+                    <button type="submit" class="btn btn-primary">Agregar <i class="bi bi-plus-square"></i></button>
                 </div>
               </form>
             </div>
@@ -111,7 +111,7 @@
               <div class="modal-body">
                 <form [formGroup]="form2edit" (ngSubmit)="enviarExperienciaEdit($event,auxIndex)">
                   <div class="input-group">
-                    <span class="input-group-text"><i class="fa fa-bookmark"></i></span>
+                    <span class="input-group-text"><i class="bi bi-bookmark-fill"></i></span>
                     <input type="text" class="form-control" placeholder="puesto" name="puesto" formControlName="puesto" [ngModel]="puestoExperienciaSelect">
                   </div><br>
                   <!-- Gracias al getter que configuramos en el controlador -->
@@ -121,7 +121,7 @@
                     </p>
                   </div>
                   <div class="input-group">
-                    <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+                    <span class="input-group-text"><i class="bi bi-briefcase-fill"></i></span>
                     <input type="text" class="form-control" placeholder="empresa" name="empresa" formControlName="empresa" [ngModel]="empresaExperienciaSelect">
                   </div><br>
                   <!-- Gracias al getter que configuramos en el controlador -->
@@ -162,7 +162,7 @@
                   </div>
                   <div>
                       <!-- <button type="submit" class="btn btn-primary" (click)=" editarExperiencia(auxIndex)">Editar <i class="fa fa-pencil-square-o"></i></button> -->
-                      <button type="submit" class="btn btn-primary">Editar <i class="fa fa-pencil-square-o"></i></button>
+                      <button type="submit" class="btn btn-primary">Editar <i class="bi bi-pencil-square"></i></button>
                   </div>
                 </form>
               </div>
@@ -194,7 +194,7 @@
                     <p class="text-primary">{{empresaExperienciaSelect}}: </p>
                     <p>{{descripcionExperienciaSelect}}</p>
                   <div>
-                      <button type="submit" class="btn btn-primary" (click)=" eliminarExperiencia(auxIndex)">Eliminar <i class="fa fa-trash-o"></i></button>
+                      <button type="submit" class="btn btn-primary" (click)=" eliminarExperiencia(auxIndex)">Eliminar <i class="bi bi-trash"></i></button>
                   </div>
                 </form>
               </div>
@@ -210,7 +210,7 @@
 
       <!-- SECCIÓN EDUCACIÓN -->
       <h1>
-        <span class="float-left" id="miEducacion"><i class="fa fa-graduation-cap"></i> Educación</span>
+        <span class="float-left" id="miEducacion"><i class="bi bi-mortarboard-fill"></i> Educación</span>
       </h1><br>
 
       <!-- Nav tabs -->
@@ -226,8 +226,8 @@
       <!-- Tab panes -->
       <div class="tab-content card mt-2 border border-dark">
         <div class="tab-pane active" id="home">
-          <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarTitulo"><i class="fa fa-plus-square-o"></i></span>
-          <h4 class=" card-header"><i class="fa fa-institution"></i> Institutos</h4>
+          <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarTitulo"><i class="bi bi-plus-square-fill"></i></span>
+          <h4 class=" card-header"><i class="bi bi-bank2"></i> Institutos</h4>
           <div class="col-md-12 col-md-offset-1">
             <div class="table-responsive">
              <table  class="table table-bordred table-striped table-hover">
@@ -245,8 +245,8 @@
                             <td>{{item.titulo}}</td>
                             <td></td>
                             <td></td>
-                            <td *ngIf="logueado.logEstado==1"><button class="btn" data-bs-toggle="modal" data-bs-target="#myModalEditarTitulo" (click)="mostrarTitulo(indice)"><i class="fa fa-pencil"></i></button></td>
-                            <td *ngIf="logueado.logEstado==1"><button class="btn" data-bs-toggle="modal" data-bs-target="#myModalEliminarTitulo" (click)="mostrarTitulo(indice)"><i class="fa fa-trash-o"></i></button></td>
+                            <td *ngIf="logueado.logEstado==1"><button class="btn" data-bs-toggle="modal" data-bs-target="#myModalEditarTitulo" (click)="mostrarTitulo(indice)"><i class="bi bi-pencil-fill"></i></button></td>
+                            <td *ngIf="logueado.logEstado==1"><button class="btn" data-bs-toggle="modal" data-bs-target="#myModalEliminarTitulo" (click)="mostrarTitulo(indice)"><i class="bi bi-trash-fill"></i></button></td>
                         </tr>
                     </tbody>
             </table>
@@ -269,7 +269,7 @@
               <div class="modal-body">
                 <form [formGroup]="form1add" (ngSubmit)="enviarTituloAdd($event)">
                   <div class="input-group">
-                    <span class="input-group-text"><i class="fa fa-university"></i></span>
+                    <span class="input-group-text"><i class="bi bi-bank2"></i></span>
                     <input type="text" class="form-control" placeholder="institución" name="instituto" formControlName="instituto" [ngModel]="nombreInstituto">
                   </div><br>
                   <!-- Gracias al getter que configuramos en el controlador -->
@@ -279,7 +279,7 @@
                     </p>
                   </div>
                   <div class="input-group">
-                    <span class="input-group-text"><i class="fa fa-certificate"></i></span>
+                    <span class="input-group-text"><i class="bi bi-patch-check-fill"></i></span>
                     <input type="text" class="form-control" placeholder="titulo" name="titulo" formControlName="titulo" [ngModel]="tituloInstituto">
                   </div><br>
                   <!-- Gracias al getter que configuramos en el controlador -->
@@ -289,7 +289,7 @@
                     </p>
                   </div>
                   <div>
-                      <button type="submit" class="btn btn-primary">Agregar <i class="fa fa-plus-square-o"></i></button>
+                      <button type="submit" class="btn btn-primary">Agregar <i class="bi bi-plus-square"></i></button>
                   </div>
                 </form>
               </div>
@@ -318,7 +318,7 @@
                 <div class="modal-body">
                   <form [formGroup]="form1edit" (ngSubmit)="enviarTituloEdit($event, auxIndex)">
                     <div class="input-group">
-                      <span class="input-group-text"><i class="fa fa-university"></i></span>
+                      <span class="input-group-text"><i class="bi bi-bank2"></i></span>
                       <input type="text" class="form-control" placeholder="institución" name="instituto" formControlName="instituto" [ngModel]="nombreInstitutoSelect">
                     </div><br>
                       <!-- Gracias al getter que configuramos en el controlador -->
@@ -328,7 +328,7 @@
                       </p>
                     </div>
                     <div class="input-group">
-                      <span class="input-group-text"><i class="fa fa-certificate"></i></span>
+                      <span class="input-group-text"><i class="bi bi-patch-check-fill"></i></span>
                       <input type="text" class="form-control" placeholder="titulo" name="titulo" formControlName="titulo" [ngModel]="tituloInstitutoSelect">
                     </div><br>
                     <!-- Gracias al getter que configuramos en el controlador -->
@@ -338,7 +338,7 @@
                       </p>
                     </div>
                     <div>
-                        <button type="submit" class="btn btn-primary">Editar <i class="fa fa-pencil-square-o"></i></button>
+                        <button type="submit" class="btn btn-primary">Editar <i class="bi bi-pencil-square"></i></button>
                     </div>
                   </form>
                 </div>
@@ -369,7 +369,7 @@
                       <h6>{{nombreInstitutoSelect}}</h6>
                       <p>{{tituloInstitutoSelect}}</p>
                     <div>
-                        <button type="submit" class="btn btn-primary" (click)=" eliminarTitulo(auxIndex)">Eliminar <i class="fa fa-trash-o"></i></button>
+                        <button type="submit" class="btn btn-primary" (click)=" eliminarTitulo(auxIndex)">Eliminar <i class="bi bi-trash"></i></button>
                     </div>
                   </form>
                 </div>
@@ -385,7 +385,7 @@
 
         <div class="tab-pane fade card" id="menu1">
           <div>
-            <h4 class="m-2 card-header"><i class="fa fa-certificate"></i> Certificados</h4>
+            <h4 class="m-2 card-header"><i class="bi bi-award-fill"></i> Certificados</h4>
           </div>
           <div>
             <div class="card-body">

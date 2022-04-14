@@ -1,13 +1,13 @@
 <section class="panel-seccion" id="misProyectos">
     <h1>
-      <span class="float-left"><i class="fa fa-newspaper-o"></i> Proyectos</span>
-      <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarProyecto"><i class="fa fa-plus-square-o"></i></span>
+      <span class="float-left"><i class="bi bi-file-code-fill"></i> Proyectos</span>
+      <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarProyecto"><i class="bi bi-plus-square-fill"></i></span>
     </h1><br>
     <div *ngFor="let item of miPortfolio.MisProyectos; let indice=index" class="card m-2 border border-dark">
       <div class="card-header">
         <span class="h4 text-primary">{{item.nombreProyecto}}</span>
-        <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarProyecto" (click)="mostrarProyecto(indice)" ><i class="fa fa-trash-o"></i></span>
-        <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarProyecto" (click)="mostrarProyecto(indice)" ><i class="fa fa-pencil"></i></span>
+        <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarProyecto" (click)="mostrarProyecto(indice)" ><i class="bi bi-trash-fill"></i></span>
+        <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarProyecto" (click)="mostrarProyecto(indice)" ><i class="bi bi-pencil-fill"></i></span>
       </div>
       <div class="card-body">
         <span class="strong">{{item.descripcionProyecto}}</span>
@@ -31,7 +31,7 @@
             <div class="modal-body">
               <form [formGroup]="formProyectoAdd" (ngSubmit)="enviarProyectoAdd($event)">
                 <div class="input-group">
-                  <span class="input-group-text"><i class="fa fa-newspaper-o"></i></span>
+                  <span class="input-group-text"><i class="bi bi-file-code-fill"></i></span>
                   <input type="text" class="form-control" placeholder="Nombre del proyecto" name="nombreProyecto" formControlName="nombreProyecto" [ngModel]="nombreDeProyecto">
                 </div><br>
                 <div class="text-danger" *ngIf="NombreProyecto?.errors  && NombreProyecto?.touched">    
@@ -49,7 +49,7 @@
                   </p>
                 </div>
                 <div>
-                    <button type="submit" class="btn btn-primary">Agregar <i class="fa fa-plus-square-o"></i></button>
+                    <button type="submit" class="btn btn-primary">Agregar <i class="bi bi-plus-square"></i></button>
                 </div>
               </form>
             </div>
@@ -78,7 +78,7 @@
               <div class="modal-body">
                 <form [formGroup]="formProyectoEdit">
                   <div class="input-group">
-                    <span class="input-group-text"><i class="fa fa-newspaper-o"></i></span>
+                    <span class="input-group-text"><i class="bi bi-file-code-fill"></i></span>
                     <input type="text" class="form-control" placeholder="nombre Del proyecto" name="nombreProyecto" formControlName="nombreProyecto" [ngModel]="nombreProyectoSelect">
                   </div><br>
                   <div class="text-danger" *ngIf="NombreProyectoEdit?.errors  && NombreProyectoEdit?.touched">    
@@ -97,7 +97,7 @@
                   </div>
                   <div>
                       <button type="submit" class="btn btn-primary" 
-                      (click)=" editarProyecto(auxIndex)">Editar <i class="fa fa-pencil-square-o"></i></button>
+                      (click)=" editarProyecto(auxIndex)">Editar <i class="bi bi-pencil-square"></i></button>
                   </div>
                 </form>
               </div>
@@ -128,7 +128,7 @@
                     <h6>{{nombreProyectoSelect}}</h6>
                     <p>{{descripcionProyectoSelect}}</p>
                   <div>
-                      <button type="submit" class="btn btn-primary" (click)=" eliminarProyecto(auxIndex)">Eliminar <i class="fa fa-trash-o"></i></button>
+                      <button type="submit" class="btn btn-primary" (click)=" eliminarProyecto(auxIndex)">Eliminar <i class="bi bi-trash"></i></button>
                   </div>
                 </form>
               </div>
