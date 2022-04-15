@@ -35,7 +35,7 @@
                   <input type="text" class="form-control" placeholder="Nombre del proyecto" name="nombreProyecto" formControlName="nombreProyecto" [ngModel]="nombreDeProyecto">
                 </div><br>
                 <div class="text-danger" *ngIf="NombreProyecto?.errors  && NombreProyecto?.touched">    
-                  <p *ngIf="NombreProyecto?.hasError('required')" class="error">
+                  <p *ngIf="NombreProyecto?.hasError('required')" class="error bi bi-x-circle">
                     El nombre del proyecto es obligatorio
                   </p>
                 </div>
@@ -44,7 +44,7 @@
                   <textarea rows="7" type="text" class="form-control" placeholder="descripcion" name="descripcionProyecto" formControlName="descripcionProyecto" [ngModel]="descripcionDeProyecto"></textarea>
                 </div><br>
                 <div class="text-danger" *ngIf="DescripcionProyecto?.errors  && DescripcionProyecto?.touched">    
-                  <p *ngIf="DescripcionProyecto?.hasError('required')" class="error">
+                  <p *ngIf="DescripcionProyecto?.hasError('required')" class="error bi bi-x-circle">
                     La descripción del proyecto es obligatoria
                   </p>
                 </div>
@@ -82,7 +82,7 @@
                     <input type="text" class="form-control" placeholder="nombre Del proyecto" name="nombreProyecto" formControlName="nombreProyecto" [ngModel]="nombreProyectoSelect">
                   </div><br>
                   <div class="text-danger" *ngIf="NombreProyectoEdit?.errors  && NombreProyectoEdit?.touched">    
-                    <p *ngIf="NombreProyectoEdit?.hasError('required')" class="error">
+                    <p *ngIf="NombreProyectoEdit?.hasError('required')" class="error bi bi-x-circle">
                       El nombre del proyecto es obligatorio
                     </p>
                   </div>
@@ -91,7 +91,7 @@
                     <textarea rows="7" type="text" class="form-control" placeholder="descripcion del proyecto" name="descripcionProyecto" formControlName="descripcionProyecto" [ngModel]="descripcionProyectoSelect"></textarea>
                   </div><br>
                   <div class="text-danger" *ngIf="DescripcionProyectoEdit?.errors  && DescripcionProyectoEdit?.touched">    
-                    <p *ngIf="DescripcionProyectoEdit?.hasError('required')" class="error">
+                    <p *ngIf="DescripcionProyectoEdit?.hasError('required')" class="error bi bi-x-circle">
                       La descripción del proyecto es obligatoria
                     </p>
                   </div>

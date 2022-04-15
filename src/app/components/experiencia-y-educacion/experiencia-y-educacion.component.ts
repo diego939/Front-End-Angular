@@ -258,7 +258,8 @@ export class ExperienciaYEducacionComponent implements OnInit {
     })
     }else{
       Swal.fire({
-        icon: 'success',
+        icon: 'question',
+        iconHtml: '<i class="bi bi-pencil-fill"></i>',
         title: 'Se editó: "'+ this.miPortfolio.Titulos[item].instituto + '"',
         showConfirmButton: false,
         timer: 4000
@@ -282,7 +283,8 @@ export class ExperienciaYEducacionComponent implements OnInit {
   eliminarTitulo(indice: number){
     this.closebuttonEliminarInstituto.nativeElement.click();
     Swal.fire({
-      icon: 'success',
+      icon: 'error',
+      iconHtml: '<i class="bi bi-trash-fill"></i>',
       title: 'Se eliminó el Centro educativo: "'+ this.miPortfolio.Titulos[indice].instituto + '"',
       showConfirmButton: false,
       timer: 4000
@@ -342,6 +344,7 @@ export class ExperienciaYEducacionComponent implements OnInit {
           icon: 'error',
           title: 'Error',
           text: 'La fecha de ingreso no pueden superar a la fecha actual',
+          confirmButtonColor: '#0d6efd',
         })
       }else{
         if(this.form2add.value.anioEgreso > this.fechaActual.toISOString().split('T')[0]){
@@ -349,6 +352,7 @@ export class ExperienciaYEducacionComponent implements OnInit {
             icon: 'error',
             title: 'Error',
             text: 'La fecha de egreso no pueden superar a la fecha actual',
+            confirmButtonColor: '#0d6efd',
           })
         }else{
           //Si las fechas no superan a la fecha actual va agregar correctamente
@@ -362,6 +366,7 @@ export class ExperienciaYEducacionComponent implements OnInit {
         icon: 'error',
         title: 'Error',
         text: 'La fecha de ingreso no puede ser anterior a la fecha de egreso',
+        confirmButtonColor: '#0d6efd',
       })
     }
   }
@@ -443,6 +448,7 @@ export class ExperienciaYEducacionComponent implements OnInit {
           icon: 'error',
           title: 'Error',
           text: 'La fecha de ingreso no pueden superar a la fecha actual',
+          confirmButtonColor: '#0d6efd',
         })
       }else{
         if(this.form2edit.value.anioEgreso > this.fechaActual.toISOString().split('T')[0]){
@@ -450,6 +456,7 @@ export class ExperienciaYEducacionComponent implements OnInit {
             icon: 'error',
             title: 'Error',
             text: 'La fecha de egreso no pueden superar a la fecha actual',
+            confirmButtonColor: '#0d6efd',
           })
         }else{
           //Si las fechas no superan a la fecha actual va agregar correctamente
@@ -463,6 +470,7 @@ export class ExperienciaYEducacionComponent implements OnInit {
         icon: 'error',
         title: 'Error',
         text: 'La fecha de ingreso no puede ser anterior a la fecha de egreso',
+        confirmButtonColor: '#0d6efd',
       })
     }
   }
@@ -487,7 +495,8 @@ export class ExperienciaYEducacionComponent implements OnInit {
       this.miPortfolio.Experiencias[item].anioIngreso=this.form2edit.value.anioIngreso;
       this.miPortfolio.Experiencias[item].anioEgreso=this.form2edit.value.anioEgreso;
       Swal.fire({
-        icon: 'success',
+        icon: 'question',
+        iconHtml: '<i class="bi bi-pencil-fill"></i>',
         title: 'Cambios Guardados!!!',
         showConfirmButton: false,
         timer: 4000
@@ -500,7 +509,8 @@ export class ExperienciaYEducacionComponent implements OnInit {
   eliminarExperiencia(indice: number){
     this.closebuttonEliminarExperiencia.nativeElement.click();
     Swal.fire({
-      icon: 'success',
+      icon: 'error',
+      iconHtml: '<i class="bi bi-trash-fill"></i>',
       title: 'Se eliminó la experiencia: "'+ this.miPortfolio.Experiencias[indice].puesto + '"',
       showConfirmButton: false,
       timer: 4000

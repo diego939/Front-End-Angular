@@ -43,7 +43,7 @@
                 </div><br>
                 <!-- Gracias al getter que configuramos en el controlador -->
                 <div class="text-danger" *ngIf="Puesto?.errors  && Puesto?.touched">    
-                  <p *ngIf="Puesto?.hasError('required')" class="error">
+                  <p *ngIf="Puesto?.hasError('required')" class="error bi bi-x-circle">
                     El campo Puesto es obligatorio
                   </p>
                 </div>
@@ -53,7 +53,7 @@
                 </div><br>
                 <!-- Gracias al getter que configuramos en el controlador -->
                 <div class="text-danger" *ngIf="Empresa?.errors  && Empresa?.touched">    
-                  <p *ngIf="Empresa?.hasError('required')" class="error">
+                  <p *ngIf="Empresa?.hasError('required')" class="error bi bi-x-circle">
                     El campo Empresa es obligatorio
                   </p>
                 </div>
@@ -63,7 +63,7 @@
                 </div><br>
                 <!-- Gracias al getter que configuramos en el controlador -->
                 <div class="text-danger" *ngIf="Descripcion?.errors  && Descripcion?.touched">    
-                  <p *ngIf="Descripcion?.hasError('required')" class="error">
+                  <p *ngIf="Descripcion?.hasError('required')" class="error bi bi-x-circle">
                     Hacer una descripción del puesto que ocupa (tareas)
                   </p>
                 </div>
@@ -73,7 +73,7 @@
                 </div><br>
                 <!-- Gracias al getter que configuramos en el controlador -->
                 <div class="text-danger" *ngIf="AnioIngreso?.errors  && AnioIngreso?.touched">    
-                  <p *ngIf="AnioIngreso?.hasError('required')" class="error">
+                  <p *ngIf="AnioIngreso?.hasError('required')" class="error bi bi-x-circle">
                     Necesitamos una fecha aproximada de ingreso a la empresa
                   </p>
                 </div>
@@ -116,7 +116,7 @@
                   </div><br>
                   <!-- Gracias al getter que configuramos en el controlador -->
                   <div class="text-danger" *ngIf="PuestoEdit?.errors  && PuestoEdit?.touched">    
-                    <p *ngIf="PuestoEdit?.hasError('required')" class="error">
+                    <p *ngIf="PuestoEdit?.hasError('required')" class="error bi bi-x-circle">
                       El campo Puesto es obligatorio
                     </p>
                   </div>
@@ -126,7 +126,7 @@
                   </div><br>
                   <!-- Gracias al getter que configuramos en el controlador -->
                   <div class="text-danger" *ngIf="EmpresaEdit?.errors  && EmpresaEdit?.touched">    
-                    <p *ngIf="EmpresaEdit?.hasError('required')" class="error">
+                    <p *ngIf="EmpresaEdit?.hasError('required')" class="error bi bi-x-circle">
                       El campo Empresa es obligatorio
                     </p>
                   </div>
@@ -136,7 +136,7 @@
                   </div><br>
                   <!-- Gracias al getter que configuramos en el controlador -->
                   <div class="text-danger" *ngIf="DescripcionEdit?.errors  && DescripcionEdit?.touched">    
-                    <p *ngIf="DescripcionEdit?.hasError('required')" class="error">
+                    <p *ngIf="DescripcionEdit?.hasError('required')" class="error bi bi-x-circle">
                       Hacer una descripción del puesto que ocupa (tareas)
                     </p>
                   </div>
@@ -146,7 +146,7 @@
                   </div><br>
                   <!-- Gracias al getter que configuramos en el controlador -->
                   <div class="text-danger" *ngIf="AnioIngresoEdit?.errors  && AnioIngresoEdit?.touched">    
-                    <p *ngIf="AnioIngresoEdit?.hasError('required')" class="error">
+                    <p *ngIf="AnioIngresoEdit?.hasError('required')" class="error bi bi-x-circle">
                       Necesitamos una fecha aproximada de ingreso a la empresa
                     </p>
                   </div>
@@ -156,7 +156,7 @@
                   </div><br>
                   <!-- Gracias al getter que configuramos en el controlador -->
                   <div class="text-danger" *ngIf="AnioEgreso?.errors  && AnioEgreso?.touched">    
-                    <p *ngIf="AnioEgreso?.hasError('required')" class="error">
+                    <p *ngIf="AnioEgreso?.hasError('required')" class="error bi bi-x-circle">
                       Necesitamos una fecha aproximada de Egreso de la empresa
                     </p>
                   </div>
@@ -231,7 +231,7 @@
           <div class="col-md-12 col-md-offset-1">
             <div class="table-responsive">
              <table  class="table table-bordred table-striped table-hover">
-                    <tr class="bg-secondary text-white">
+                    <tr class="bg-primary text-white">
                         <th>Instituto</th>
                         <th>Titulo</th>
                         <th></th>
@@ -274,7 +274,7 @@
                   </div><br>
                   <!-- Gracias al getter que configuramos en el controlador -->
                   <div class="text-danger" *ngIf="Instituto?.errors  && Instituto?.touched">    
-                    <p *ngIf="Instituto?.hasError('required')" class="error">
+                    <p *ngIf="Instituto?.hasError('required')" class="error bi bi-x-circle">
                       El campo Institución es obligatorio
                     </p>
                   </div>
@@ -284,7 +284,7 @@
                   </div><br>
                   <!-- Gracias al getter que configuramos en el controlador -->
                   <div class="text-danger" *ngIf="Titulo?.errors  && Titulo?.touched">    
-                    <p *ngIf="Titulo?.hasError('required')" class="error">
+                    <p *ngIf="Titulo?.hasError('required')" class="error bi bi-x-circle">
                       El campo Titulo es obligatorio
                     </p>
                   </div>
@@ -323,7 +323,7 @@
                     </div><br>
                       <!-- Gracias al getter que configuramos en el controlador -->
                     <div class="text-danger" *ngIf="InstitutoEdit?.errors  && InstitutoEdit?.touched">    
-                      <p *ngIf="InstitutoEdit?.hasError('required')" class="error">
+                      <p *ngIf="InstitutoEdit?.hasError('required')" class="error bi bi-x-circle">
                         El campo Institución es obligatorio
                       </p>
                     </div>
@@ -333,7 +333,7 @@
                     </div><br>
                     <!-- Gracias al getter que configuramos en el controlador -->
                     <div class="text-danger" *ngIf="TituloEdit?.errors  && TituloEdit?.touched">    
-                      <p *ngIf="TituloEdit?.hasError('required')" class="error">
+                      <p *ngIf="TituloEdit?.hasError('required')" class="error bi bi-x-circle">
                         El campo Titulo es obligatorio
                       </p>
                     </div>
@@ -389,9 +389,12 @@
           </div>
           <div>
             <div class="card-body">
-              <span *ngFor="let item of miPortfolio.Certificados; let indice=index">
-                <button class="btn btn-dark m-2" data-bs-toggle="modal" data-bs-target="#myModalCertificados" (click)="mostrarCertificado(indice)">{{item.nombre}}</button>
-              </span>
+              <div class="row">
+                <!-- d-grid sirve para que los botones ocupen el ancho total de la grilla -->
+                <div class="col-sm-4 d-grid" *ngFor="let item of miPortfolio.Certificados; let indice=index">
+                  <button class="btn btn-dark btn-block m-2" data-bs-toggle="modal" data-bs-target="#myModalCertificados" (click)="mostrarCertificado(indice)" style="background-color: rgb(5, 29, 238);">{{item.nombre}}</button>
+                </div>
+              </div>
             </div>
           </div>
           </div>

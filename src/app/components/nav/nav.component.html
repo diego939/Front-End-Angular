@@ -1,13 +1,14 @@
 <span #closebuttonBienvenido (click)="simpleAlert()"></span>
 <nav class="navegador" style="background-color: rgb(34, 3, 70);"> 
   <a routerLink="/"><img src="../../../assets/ArgentinaProgramaLogo.png" alt="" style="height: 100%;"></a>
+  <!-- la clase login hace que la palabra #YoProgramo se oculte en resoluciones de pantalla muy bajas -->
   <span class="login">#YoProgramo</span>
     <div class="flotar-derecha">
       <a target="blank" href="https://github.com/DiegoDavid17" class="redsoc btn btn-outline-light btn-lg bi bi-github"></a>
       <a target="blank" href="https://www.linkedin.com/in/diego-david-almir%C3%B3n-575832211" class="redsoc btn btn-outline-light btn-lg bi bi-linkedin"></a>
       <a target="blank" href="https://wa.me/543795315483" class="redsoc btn btn-outline-light btn-lg bi bi-whatsapp"></a>
       <button *ngIf="logueado.logEstado==0" class="btn btn-outline-light btn-lg bi bi-person-circle" data-bs-toggle="modal" data-bs-target="#myModalLogin"> <span class="login"> Login</span></button>
-      <button (click)="logueado.logout()" *ngIf="logueado.logEstado==1" class="btn btn-outline-light btn-lg bi bi-box-arrow-in-right" > <span class="login"> Logout</span></button>
+      <button (click)="logueado.logout()" *ngIf="logueado.logEstado==1" class="btn btn-outline-light btn-lg bi bi-power" > <span class="login"> Logout</span></button>
     </div> 
   </nav>  
   <!-- The Modal -->
@@ -35,10 +36,10 @@
 
           <!-- Gracias al getter que configuramos en el controlador -->
           <div class="text-danger" *ngIf="Mail?.errors  && Mail?.touched">    
-            <p *ngIf="Mail?.hasError('required')" class="error">
+            <p *ngIf="Mail?.hasError('required')" class="error bi bi-x-circle">
                 Ingrese su correo
             </p>
-            <p *ngIf="Mail?.hasError('email')" class="error">
+            <p *ngIf="Mail?.hasError('email')" class="error bi bi-x-circle">
                 El formato mail user@gmail.com
               </p>
           </div>
@@ -52,13 +53,13 @@
 
           <!-- Gracias al getter que configuramos en el controlador -->
           <div class="text-danger" *ngIf="Password?.errors  && Password?.touched">
-            <p *ngIf="Password?.hasError('required')" class="error">
+            <p *ngIf="Password?.hasError('required')" class="error bi bi-x-circle">
               Ingrese su contraseña
             </p>
-            <p *ngIf="Password?.hasError('minlength')" class="error">
+            <p *ngIf="Password?.hasError('minlength')" class="error bi bi-x-circle">
               La contraseña debe tener al menos 8 caracteres.
             </p>
-            <p *ngIf="Password?.hasError('maxlength')" class="error">
+            <p *ngIf="Password?.hasError('maxlength')" class="error bi bi-x-circle">
               La contraseña debe tener un máximo de 15 caracteres.
             </p>
           </div>

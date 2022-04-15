@@ -110,6 +110,7 @@ export class NavComponent implements OnInit {
       icon: 'error',
       title: 'Error',
       text: 'Usuario o contraseña no validos',
+      confirmButtonColor: '#0d6efd',
     })
   }
 

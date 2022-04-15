@@ -90,7 +90,8 @@ export class SeccionACercaDeComponent implements OnInit {
   cambios(){
     
     Swal.fire({
-      icon: 'success',
+      icon: 'question',
+      iconHtml: '<i class="bi bi-pencil-fill"></i>',
       title: 'Cambios Guardados!!!',
       showConfirmButton: false,
       timer: 4000

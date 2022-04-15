@@ -1,6 +1,6 @@
 <section class="panel-seccion" id="misHabilidades">
     <h1>
-      <span class="float-left m-2"><i class="bi bi-graph-up-arrow"></i> Habilidades</span>
+      <span class="float-left m-2"><i class="bi bi-clipboard-data-fill"></i> Habilidades</span>
     </h1><br>
 
     <div class="card mb-2 border border-dark">
@@ -10,7 +10,7 @@
         </h5>
       </div>
       <div class="card-body">
-        <p>El porcentual de habilidad de otorga de acuerdo al nivel de conocimiento que tiene sobre la habilidad especificada en 5 niveles.
+        <p>El porcentual de habilidad se otorga de acuerdo al nivel de conocimiento que tiene sobre la habilidad especificada en 5 niveles.
            Dentro del cual adquiere 20% de dicha habilidad por cada nivel alcanzado, los niveles se especifican en la siguiente tabla con sus categorias ordenadas en forma ascendente</p>
         <div class="">
           <div class="table-responsive">
@@ -108,7 +108,7 @@
             <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarHabilidad" (click)="mostrarHabilidad(indice)"> <i class="bi bi-pencil-fill"></i></span>
           </h6><br>
           <div class="progress">
-            <div class="progress-bar bg-primary" role="progressbar" [style.width.%]="item.progreso" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">{{item.progreso}}%</div>
+            <div class="progress-bar progress-bar-striped" role="progressbar" [style.width.%]="item.progreso" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="background-color: rgb(1, 48, 38);">{{item.progreso}}%</div>
           </div>
           <br>
         </span>
@@ -124,7 +124,7 @@
             <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarTecnologia" (click)="mostrarTecnologia(indice)" > <i class="bi bi-pencil-fill"></i></span>
           </h6><br>
           <div class="progress">
-            <div class="progress-bar bg-primary" role="progressbar" [style.width.%]="item.nivel" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">{{item.nivel}}%</div>
+            <div class="progress-bar progress-bar-striped" role="progressbar" [style.width.%]="item.nivel" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="background-color: rgb(1, 48, 38);">{{item.nivel}}%</div>
           </div>
           <br>
         </span>
@@ -152,7 +152,7 @@
                   <input type="text" class="form-control" placeholder="Nombre de la habilidad" name="nombreHabilidad" formControlName="nombreHabilidad" [ngModel]="nombreDeHabilidad">
                 </div><br>
                 <div class="text-danger" *ngIf="NombreHabilidad?.errors  && NombreHabilidad?.touched">    
-                  <p *ngIf="NombreHabilidad?.hasError('required')" class="error">
+                  <p *ngIf="NombreHabilidad?.hasError('required')" class="error bi bi-x-circle">
                     El Nombre de la habilidad es obligatorio
                   </p>
                 </div>
@@ -165,7 +165,7 @@
                     <option value="100">Excelente 100%</option>
                   </select><br>
                   <div class="text-danger" *ngIf="Progreso?.errors  && Progreso?.touched">    
-                    <p *ngIf="Progreso?.hasError('required')" class="error">
+                    <p *ngIf="Progreso?.hasError('required')" class="error bi bi-x-circle">
                       Seleccione un nivel de habilidad
                     </p>
                   </div>
@@ -203,7 +203,7 @@
                     <input type="text" class="form-control" placeholder="nombre De Habilidad" name="nombreHabilidad" formControlName="nombreHabilidad" [ngModel]="nombreHabilidadSelect">
                   </div><br>
                   <div class="text-danger" *ngIf="NombreHabilidadEdit?.errors  && NombreHabilidadEdit?.touched">    
-                    <p *ngIf="NombreHabilidadEdit?.hasError('required')" class="error">
+                    <p *ngIf="NombreHabilidadEdit?.hasError('required')" class="error bi bi-x-circle">
                       El Nombre de la habilidad es obligatorio
                     </p>
                   </div>
@@ -216,7 +216,7 @@
                     <option value="100">Excelente 100%</option>
                   </select><br>
                   <div class="text-danger" *ngIf="ProgresoEdit?.errors  && ProgresoEdit?.touched">    
-                    <p *ngIf="ProgresoEdit?.hasError('required')" class="error">
+                    <p *ngIf="ProgresoEdit?.hasError('required')" class="error bi bi-x-circle">
                       Seleccione un nivel de habilidad
                     </p>
                   </div>
@@ -251,7 +251,7 @@
                 <form [formGroup]="formHabilidadDelete">
                     <h6>{{nombreHabilidadSelect}}</h6>
                     <div class="progress">
-                      <div class="progress-bar bg-primary" role="progressbar" [style.width.%]="progresoSelect" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">{{progresoSelect}}%</div>
+                      <div class="progress-bar progress-bar-striped" role="progressbar" [style.width.%]="progresoSelect" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="background-color: rgb(1, 48, 38);">{{progresoSelect}}%</div>
                     </div><br>
                   <div>
                       <button type="submit" class="btn btn-primary" (click)=" eliminarHabilidad(auxIndex)">Eliminar <i class="bi bi-trash"></i></button>
@@ -289,7 +289,7 @@
                   <input type="text" class="form-control" placeholder="Nombre de la tecnologia" name="nombreTecnologia" formControlName="nombreTecnologia" [ngModel]="nombreDeTecnologia">
                 </div><br>
                 <div class="text-danger" *ngIf="NombreTecnologiaAdd?.errors  && NombreTecnologiaAdd?.touched">    
-                  <p *ngIf="NombreTecnologiaAdd?.hasError('required')" class="error">
+                  <p *ngIf="NombreTecnologiaAdd?.hasError('required')" class="error bi bi-x-circle">
                     El Nombre de la Tecnología es obligatorio
                   </p>
                 </div>
@@ -302,7 +302,7 @@
                     <option value="100">Excelente 100%</option>
                   </select><br>
                   <div class="text-danger" *ngIf="NivelAdd?.errors  && NivelAdd?.touched">    
-                    <p *ngIf="NivelAdd?.hasError('required')" class="error">
+                    <p *ngIf="NivelAdd?.hasError('required')" class="error bi bi-x-circle">
                       Seleccione un nivel de conocimiento
                     </p>
                   </div>
@@ -340,7 +340,7 @@
                     <input type="text" class="form-control" placeholder="nombre De la tecnología" name="nombreTecnologia" formControlName="nombreTecnologia" [ngModel]="nombreTecnologiaSelect">
                   </div><br>
                   <div class="text-danger" *ngIf="NombreTecnologiaEdit?.errors  && NombreTecnologiaEdit?.touched">    
-                    <p *ngIf="NombreTecnologiaEdit?.hasError('required')" class="error">
+                    <p *ngIf="NombreTecnologiaEdit?.hasError('required')" class="error bi bi-x-circle">
                       El Nombre de la Tecnología es obligatorio
                     </p>
                   </div>
@@ -353,7 +353,7 @@
                     <option value="100">Excelente 100%</option>
                   </select><br>
                   <div class="text-danger" *ngIf="NivelEdit?.errors  && NivelEdit?.touched">    
-                    <p *ngIf="NivelEdit?.hasError('required')" class="error">
+                    <p *ngIf="NivelEdit?.hasError('required')" class="error bi bi-x-circle">
                       Seleccione un nivel de conocimiento
                     </p>
                   </div>
@@ -388,7 +388,7 @@
                 <form [formGroup]="formTecnologiaDelete">
                     <h6>{{nombreTecnologiaSelect}}</h6>
                     <div class="progress">
-                      <div class="progress-bar bg-primary" role="progressbar" [style.width.%]="nivelSelect" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">{{nivelSelect}}%</div>
+                      <div class="progress-bar progress-bar-striped" role="progressbar" [style.width.%]="nivelSelect" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="background-color: rgb(1, 48, 38);">{{nivelSelect}}%</div>
                     </div><br>
                   <div>
                       <button type="submit" class="btn btn-primary" (click)=" eliminarTecnologia(auxIndex)">Eliminar <i class="bi bi-trash"></i></button>

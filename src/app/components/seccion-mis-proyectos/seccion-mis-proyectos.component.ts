@@ -152,7 +152,8 @@ export class SeccionMisProyectosComponent implements OnInit {
     })
     }else{
       Swal.fire({
-        icon: 'success',
+        icon: 'question',
+        iconHtml: '<i class="bi bi-pencil-fill"></i>',
         title: 'Se editó el proyecto: "'+ this.miPortfolio.MisProyectos[item].nombreProyecto + '"',
         showConfirmButton: false,
         timer: 4000
@@ -167,7 +168,8 @@ export class SeccionMisProyectosComponent implements OnInit {
   eliminarProyecto(indice: number){
     this.closebuttonEliminarProyecto.nativeElement.click();
     Swal.fire({
-      icon: 'success',
+      icon: 'error',
+      iconHtml: '<i class="bi bi-trash-fill"></i>',
       title: 'Se eliminó el proyecto: "'+ this.miPortfolio.MisProyectos[indice].nombreProyecto + '"',
       showConfirmButton: false,
       timer: 4000

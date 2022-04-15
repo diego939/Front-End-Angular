@@ -75,7 +75,7 @@
             </div><br>
             <!-- Gracias al getter que configuramos en el controlador -->
             <div class="text-danger" *ngIf="Nombres?.errors  && Nombres?.touched">    
-              <p *ngIf="Nombres?.hasError('required')" class="error">
+              <p *ngIf="Nombres?.hasError('required')" class="error bi bi-x-circle">
                 El campo Nombres es obligatorio
               </p>
             </div>
@@ -84,7 +84,7 @@
               <input type="text" class="form-control" placeholder="Apellido" name="apellido" formControlName="apellido" [ngModel]="item.apellido">
             </div><br>
             <div class="text-danger" *ngIf="Apellido?.errors  && Apellido?.touched">    
-              <p *ngIf="Apellido?.hasError('required')" class="error">
+              <p *ngIf="Apellido?.hasError('required')" class="error bi bi-x-circle">
                 El campo Apellido es obligatorio
               </p>
             </div>
@@ -94,7 +94,7 @@
               <input type="text" class="form-control" placeholder="Ocupacion" name="ocupacion" formControlName="ocupacion" [ngModel]="item.ocupacion">
             </div><br>
             <div class="text-danger" *ngIf="Ocupacion?.errors  && Ocupacion?.touched">    
-              <p *ngIf="Ocupacion?.hasError('required')" class="error">
+              <p *ngIf="Ocupacion?.hasError('required')" class="error bi bi-x-circle">
                 El campo Ocupacion es obligatorio
               </p>
             </div>
@@ -103,7 +103,7 @@
               <input type="text" class="form-control" placeholder="Localidad" name="localidad" formControlName="localidad" [ngModel]="item.localidad">
             </div><br>
             <div class="text-danger" *ngIf="Localidad?.errors  && Localidad?.touched">    
-              <p *ngIf="Localidad?.hasError('required')" class="error">
+              <p *ngIf="Localidad?.hasError('required')" class="error bi bi-x-circle">
                 El campo Localidad es obligatorio
               </p>
             </div>
@@ -112,7 +112,7 @@
               <input type="text" class="form-control" placeholder="Provincia" name="provincia" formControlName="provincia" [ngModel]="item.provincia">
             </div><br>
             <div class="text-danger" *ngIf="Provincia?.errors  && Provincia?.touched">    
-              <p *ngIf="Provincia?.hasError('required')" class="error">
+              <p *ngIf="Provincia?.hasError('required')" class="error bi bi-x-circle">
                 El campo Provincia es obligatorio
               </p>
             </div>
@@ -121,7 +121,7 @@
               <input type="text" class="form-control" placeholder="País" name="pais" formControlName="pais" [ngModel]="item.pais">
             </div><br>
             <div class="text-danger" *ngIf="Pais?.errors  && Pais?.touched">    
-              <p *ngIf="Pais?.hasError('required')" class="error">
+              <p *ngIf="Pais?.hasError('required')" class="error bi bi-x-circle">
                 El campo Pais es obligatorio
               </p>
             </div>
@@ -130,21 +130,25 @@
               <input type="text" class="form-control" placeholder="Correo" name="correo" formControlName="mail" [ngModel]="item.mail">
             </div><br>
             <div class="text-danger" *ngIf="Mail?.errors  && Mail?.touched">    
-              <p *ngIf="Mail?.hasError('required')" class="error">
+              <p *ngIf="Mail?.hasError('required')" class="error bi bi-x-circle">
                 El campo Correo es obligatorio
               </p>
             </div>
-            <p  class="text-danger">{{mensajeMail}}</p>
+            <span *ngIf="mensajeMail!=''">
+              <p  class="text-danger bi bi-x-circle"> {{mensajeMail}}</p>
+            </span>
             <div class="input-group">
               <span class="input-group-text"><i class="bi bi-phone-fill"></i></span>
               <input type="text" class="form-control" placeholder="Celular" name="celular" formControlName="celular" [ngModel]="item.celular">
             </div><br>
             <div class="text-danger" *ngIf="Celular?.errors  && Celular?.touched">    
-              <p *ngIf="Celular?.hasError('required')" class="error">
+              <p *ngIf="Celular?.hasError('required')" class="error bi bi-x-circle">
                 El campo Celular es obligatorio
               </p>
             </div>
-            <p  class="text-danger">{{mensajeNum}}</p>
+            <span *ngIf="mensajeNum!=''">
+              <p  class="text-danger bi bi-x-circle"> {{mensajeNum}}</p>
+            </span>
             <div>
                 <button type="submit" class="btn btn-primary" >Editar <i class="bi bi-pencil-square"></i></button>
             </div>

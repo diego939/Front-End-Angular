@@ -1,6 +1,6 @@
 <section class="panel-seccion" id="aCercaDe">
     <h1>
-      <span class="float-left"><i class="bi bi-chat-right-text"></i> A cerca de mi</span>
+      <span class="float-left"><i class="bi bi-chat-right-text-fill"></i> A cerca de mi</span>
       <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalACercaDe" #llamarModalacercaDe><i class="bi bi-pencil-fill"></i></span>
     </h1>
       <span class="fst-italic text-justify card shadow-sm border border-dark">
@@ -16,7 +16,7 @@
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title"><i class="bi bi-chat-right-text"></i> A Cerca De Mi</h4>
+        <h4 class="modal-title"><i class="bi bi-chat-right-text-fill"></i> A Cerca De Mi</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
@@ -26,10 +26,10 @@
           <label for="comment" class="mb-3">Editar mi Información:</label>
             <textarea type="text" class="form-control" rows="7" id="comment" name="sobre_mi" formControlName="sobre_mi" [ngModel]="item.sobre_mi"></textarea>
             <div class="text-danger" *ngIf="SobreMi?.errors  && SobreMi?.touched">    
-              <p *ngIf="SobreMi?.hasError('required')" class="error">
+              <p *ngIf="SobreMi?.hasError('required')" class="error bi bi-x-circle">
                 Tu info personal no puede quedar en blanco
               </p>
-              <p *ngIf="SobreMi?.hasError('minlength')" class="error">
+              <p *ngIf="SobreMi?.hasError('minlength')" class="error bi bi-x-circle">
                 Tu información debe tener al menos 40 caracteres
               </p>
             </div>

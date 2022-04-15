@@ -211,24 +211,26 @@ export class SeccionHabilidadesComponent implements OnInit {
   editarHabilidad(item:number){
     this.closebuttonEditarHabilidad.nativeElement.click();
 
-    if(this.miPortfolio.HabilidadesBlandas[item].nombreDeHabilidad!=this.formHabilidadEdit.value.nombreHabilidad
-      && this.miPortfolio.HabilidadesBlandas[item].progreso!=this.formHabilidadEdit.value.progreso){
+    if(this.miPortfolio.HabilidadesBlandas[item].nombreHabilidad==this.formHabilidadEdit.value.nombreHabilidad
+      && this.miPortfolio.HabilidadesBlandas[item].progreso==this.formHabilidadEdit.value.progreso){
 
-      this.miPortfolio.HabilidadesBlandas[item].nombreDeHabilidad=this.formHabilidadEdit.value.nombreHabilidad;
-        this.miPortfolio.HabilidadesBlandas[item].progreso=this.formHabilidadEdit.value.progreso;
-        Swal.fire({
-          icon: 'success',
-          title: 'Se editó la habilidad: "'+ this.miPortfolio.HabilidadesBlandas[item].nombreHabilidad + '"',
-          showConfirmButton: false,
-          timer: 4000
-      })
-      }else{
         Swal.fire({
           icon: 'info',
           title: 'Sin cambios!!!',
           showConfirmButton: false,
           timer: 4000
-      })
+        })
+
+      }else{
+        this.miPortfolio.HabilidadesBlandas[item].nombreHabilidad=this.formHabilidadEdit.value.nombreHabilidad;
+        this.miPortfolio.HabilidadesBlandas[item].progreso=this.formHabilidadEdit.value.progreso;
+        Swal.fire({
+          icon: 'question',
+          iconHtml: '<i class="bi bi-pencil-fill"></i>',
+          title: 'Se editó la habilidad: "'+ this.miPortfolio.HabilidadesBlandas[item].nombreHabilidad + '"',
+          showConfirmButton: false,
+          timer: 4000
+        })
       }
   }
 
@@ -246,7 +248,8 @@ export class SeccionHabilidadesComponent implements OnInit {
   eliminarHabilidad(indice: number){
     this.closebuttonEliminarHabilidad.nativeElement.click();
     Swal.fire({
-          icon: 'success',
+          icon: 'error',
+          iconHtml: '<i class="bi bi-trash-fill"></i>',
           title: 'Se eliminó la habilidad: "'+ this.miPortfolio.HabilidadesBlandas[indice].nombreHabilidad + '"',
           showConfirmButton: false,
           timer: 4000
@@ -344,7 +347,8 @@ export class SeccionHabilidadesComponent implements OnInit {
           this.miPortfolio.MisTecnologias[item].nombreTecnologia=this.formTecnologiaEdit.value.nombreTecnologia;
             this.miPortfolio.MisTecnologias[item].nivel=this.formTecnologiaEdit.value.nivel;
             Swal.fire({
-              icon: 'success',
+              icon: 'question',
+              iconHtml: '<i class="bi bi-pencil-fill"></i>',
               title: 'Se editó la tecnología: "'+ this.miPortfolio.MisTecnologias[item].nombreTecnologia + '"',
               showConfirmButton: false,
               timer: 4000
@@ -355,7 +359,8 @@ export class SeccionHabilidadesComponent implements OnInit {
   eliminarTecnologia(indice: number){
     this.closebuttonEliminarTecnologia.nativeElement.click();
       Swal.fire({
-        icon: 'success',
+        icon: 'error',
+        iconHtml: '<i class="bi bi-trash-fill"></i>',
         title: 'Se eliminó la tecnología: "'+ this.miPortfolio.MisTecnologias[indice].nombreTecnologia + '"',
         showConfirmButton: false,
         timer: 4000
