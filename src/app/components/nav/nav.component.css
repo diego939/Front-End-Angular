@@ -47,7 +47,7 @@ button{
         font-family: sans-serif;
     }
 }
-@media handheld, screen and (min-width: 320px) and (max-width: 599px) {
+@media handheld, screen and (min-width: 340px) and (max-width: 599px) {
     .navegador{
         height: 65px;
         line-height: 60px;
@@ -67,7 +67,7 @@ button{
 
 }
 
-@media handheld, screen and (max-width: 319px) {
+@media handheld, screen and (max-width: 339px) {
     .navegador{
         height: 65px;
         line-height: 60px;
