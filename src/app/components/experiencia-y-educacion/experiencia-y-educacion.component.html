@@ -5,9 +5,14 @@
     </h1>
     <div class="card mt-2 border border-dark" *ngFor="let item of miPortfolio.Experiencias; let indice=index">
       <!-- Header Carta -->
-      <div class="card-header h4"><i class="bi bi-bookmark-fill"></i> {{item.puesto}}
-        <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarExperiencia" (click)="mostrarExperiencia(indice)"><i class="bi bi-trash-fill"></i></span>
-        <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarExperiencia" (click)="mostrarExperiencia(indice)" ><i class="bi bi-pencil-fill"></i></span>
+      <div class="card-header h4">
+        <div class="row">
+          <span class="col-sm-8"> <i class="bi bi-bookmark-fill"></i> {{item.puesto}}</span>
+          <div class="col-sm-4">
+            <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarExperiencia" (click)="mostrarExperiencia(indice)"><i class="bi bi-trash-fill"></i></span>
+            <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarExperiencia" (click)="mostrarExperiencia(indice)" ><i class="bi bi-pencil-fill"></i></span>
+          </div>
+        </div>
       </div>
 
       <!-- body Carta -->

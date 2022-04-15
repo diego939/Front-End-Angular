@@ -4,10 +4,14 @@
       <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarProyecto"><i class="bi bi-plus-square-fill"></i></span>
     </h1><br>
     <div *ngFor="let item of miPortfolio.MisProyectos; let indice=index" class="card m-2 border border-dark">
-      <div class="card-header">
-        <span class="h4 text-primary">{{item.nombreProyecto}}</span>
-        <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarProyecto" (click)="mostrarProyecto(indice)" ><i class="bi bi-trash-fill"></i></span>
-        <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarProyecto" (click)="mostrarProyecto(indice)" ><i class="bi bi-pencil-fill"></i></span>
+      <div class="card-header h4">
+        <div class="row">
+          <span class="text-primary col-sm-8">{{item.nombreProyecto}}</span>
+          <div class="col-sm-4">
+            <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarProyecto" (click)="mostrarProyecto(indice)" ><i class="bi bi-trash-fill"></i></span>
+            <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarProyecto" (click)="mostrarProyecto(indice)" ><i class="bi bi-pencil-fill"></i></span>
+          </div>       
+      </div>
       </div>
       <div class="card-body">
         <span class="strong">{{item.descripcionProyecto}}</span>
