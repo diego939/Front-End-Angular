@@ -1,9 +1,9 @@
 <section class="panel-seccion" id="miExperiencia">
     <h1>
-      <span class="float-left"><i class="bi bi-briefcase-fill"></i> Experiencia</span>
+      <span><i class="bi bi-briefcase-fill"></i> Experiencia</span>
       <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarExperiencia"><i class="bi bi-plus-square-fill"></i></span>
-    </h1>
-    <div class="card mt-2 border border-dark" *ngFor="let item of miPortfolio.Experiencias; let indice=index">
+    </h1><br>
+    <div class="card mt-2 border border-dark" *ngFor="let item of miPortfolio.Experiencias; let indice=index" style="text-align: justify;">
       <!-- Header Carta -->
       <div class="card-header h4">
         <div class="row">
@@ -24,7 +24,7 @@
       <!-- Footer Carta -->
       <div class="card-footer"> {{item.anioIngreso | date:'LLL yyyy'}} - {{item.anioEgreso | date:'LLL yyyy'}}</div>
     </div><br>
-      <hr class="border border-2 border-dark">
+      <hr class="border border-2 border-dark" style="margin-bottom: 60px; margin-top: 60px;">
 
       <!-- MODALES PARA LA EXPERIENCIA -->
 
