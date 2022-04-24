@@ -37,11 +37,6 @@ export class HeaderComponent implements OnInit {
   fileName = '';
 
   constructor(private datosPortfolio: PortfolioService, private formBuilder: FormBuilder,private authService: AuthService, private http: HttpClient) { 
-    this.datosPortfolio.obtenerDatos().subscribe(data => {
-      console.log(data);
-      this.miPortfolio = data.Persona;
-
-    });
 
     this.form= this.formBuilder.group({
       nombres: ['', [Validators.required]],
@@ -54,11 +49,17 @@ export class HeaderComponent implements OnInit {
       celular:['', [Validators.required]],
       image_portada:'',
    })
-
-   this.logueado = this.authService;
+   
   }
 
   ngOnInit(): void {
+    this.datosPortfolio.obtenerDatos().subscribe(data => {
+      console.log(data.Persona);
+      this.miPortfolio = data.Persona;
+
+    });
+
+    this.logueado = this.authService;
   }
 
   get Nombres(){

@@ -7,8 +7,8 @@
       <a target="blank" href="https://github.com/DiegoDavid17" class="redsoc btn btn-outline-light btn-lg bi bi-github"></a>
       <a target="blank" href="https://www.linkedin.com/in/diego-david-almir%C3%B3n-575832211" class="redsoc btn btn-outline-light btn-lg bi bi-linkedin"></a>
       <a target="blank" href="https://wa.me/543795315483" class="redsoc btn btn-outline-light btn-lg bi bi-whatsapp"></a>
-      <button *ngIf="logueado.logEstado==0" class="btn btn-outline-light btn-lg bi bi-person-circle" data-bs-toggle="modal" data-bs-target="#myModalLogin"> <span class="login"> Login</span></button>
-      <button (click)="logueado.logout()" *ngIf="logueado.logEstado==1" class="btn btn-outline-light btn-lg bi bi-power" > <span class="login"> Logout</span></button>
+      <button *ngIf="logueado.logueadoEstado()==0" class="btn btn-outline-light btn-lg bi bi-person-circle" data-bs-toggle="modal" data-bs-target="#myModalLogin"> <span class="login"> Login</span></button>
+      <button (click)="logueado.logout()" *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-light btn-lg bi bi-power" > <span class="login"> Logout</span></button>
     </div> 
   </nav>  
   <!-- The Modal -->

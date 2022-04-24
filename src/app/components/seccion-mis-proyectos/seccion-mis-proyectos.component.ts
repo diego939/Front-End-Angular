@@ -24,16 +24,12 @@ export class SeccionMisProyectosComponent implements OnInit {
   formProyectoDelete: FormGroup;
 
 
-  miPortfolio: any;
+  misProyectos: any;
 
   logueado: any;
 
 
   constructor(private datosPortfolio: PortfolioService, private formBuilder: FormBuilder,private authService: AuthService) { 
-    this.datosPortfolio.obtenerDatos().subscribe(data => {
-      console.log(data);
-      this.miPortfolio = data;
-    });
 
     this.formProyectoEdit= this.formBuilder.group({
       nombreProyecto: ['', [Validators.required]],
@@ -50,10 +46,16 @@ export class SeccionMisProyectosComponent implements OnInit {
     descripcionProyecto: ''
   })
 
-  this.logueado = this.authService;
   }
 
   ngOnInit(): void {
+
+    this.datosPortfolio.obtenerDatos().subscribe(data => {
+      console.log(data.MisProyectos);
+      this.misProyectos = data.MisProyectos;
+    });
+
+    this.logueado = this.authService;
   }
 
   // CRUD DE PROYECTOS
@@ -65,8 +67,8 @@ export class SeccionMisProyectosComponent implements OnInit {
   auxIndex: number = 0;
   mostrarProyecto(item: number){
     this.auxIndex = item;
-    this.nombreProyectoSelect= this.miPortfolio.MisProyectos[this.auxIndex].nombreProyecto;
-    this.descripcionProyectoSelect=this.miPortfolio.MisProyectos[this.auxIndex].descripcionProyecto;
+    this.nombreProyectoSelect= this.misProyectos[this.auxIndex].nombreProyecto;
+    this.descripcionProyectoSelect=this.misProyectos[this.auxIndex].descripcionProyecto;
   } 
 
   //Getters de agregar proyecto
@@ -104,7 +106,7 @@ export class SeccionMisProyectosComponent implements OnInit {
     this.nombreDeProyecto = this.formProyectoAdd.value.nombreProyecto;
     this.descripcionDeProyecto= this.formProyectoAdd.value.descripcionProyecto;
 
-    this.miPortfolio.MisProyectos.push({nombreProyecto: this.nombreDeProyecto, descripcionProyecto: this.descripcionDeProyecto});
+    this.misProyectos.push({nombreProyecto: this.nombreDeProyecto, descripcionProyecto: this.descripcionDeProyecto});
     Swal.fire({
       icon: 'success',
       title: 'Se agregó el proyecto: "'+ this.nombreDeProyecto + '"',
@@ -142,8 +144,8 @@ export class SeccionMisProyectosComponent implements OnInit {
   editarProyecto(item:number){
     this.closebuttonEditarProyecto.nativeElement.click();
 
-    if(this.miPortfolio.MisProyectos[item].nombreProyecto==this.formProyectoEdit.value.nombreProyecto
-      && this.miPortfolio.MisProyectos[item].descripcionProyecto==this.formProyectoEdit.value.descripcionProyecto){
+    if(this.misProyectos[item].nombreProyecto==this.formProyectoEdit.value.nombreProyecto
+      && this.misProyectos[item].descripcionProyecto==this.formProyectoEdit.value.descripcionProyecto){
         Swal.fire({
           icon: 'info',
           title: 'Sin cambios!!!',
@@ -154,12 +156,12 @@ export class SeccionMisProyectosComponent implements OnInit {
       Swal.fire({
         icon: 'question',
         iconHtml: '<i class="bi bi-pencil-fill"></i>',
-        title: 'Se editó el proyecto: "'+ this.miPortfolio.MisProyectos[item].nombreProyecto + '"',
+        title: 'Se editó el proyecto: "'+ this.misProyectos[item].nombreProyecto + '"',
         showConfirmButton: false,
         timer: 4000
     })
-    this.miPortfolio.MisProyectos[item].nombreProyecto=this.formProyectoEdit.value.nombreProyecto;
-    this.miPortfolio.MisProyectos[item].descripcionProyecto=this.formProyectoEdit.value.descripcionProyecto;
+    this.misProyectos[item].nombreProyecto=this.formProyectoEdit.value.nombreProyecto;
+    this.misProyectos[item].descripcionProyecto=this.formProyectoEdit.value.descripcionProyecto;
     }
   }
 
@@ -170,11 +172,11 @@ export class SeccionMisProyectosComponent implements OnInit {
     Swal.fire({
       icon: 'error',
       iconHtml: '<i class="bi bi-trash-fill"></i>',
-      title: 'Se eliminó el proyecto: "'+ this.miPortfolio.MisProyectos[indice].nombreProyecto + '"',
+      title: 'Se eliminó el proyecto: "'+ this.misProyectos[indice].nombreProyecto + '"',
       showConfirmButton: false,
       timer: 4000
     })
-    this.miPortfolio.MisProyectos.splice(indice, 1);
+    this.misProyectos.splice(indice, 1);
   }
 
 }

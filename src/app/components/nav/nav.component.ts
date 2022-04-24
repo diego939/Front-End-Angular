@@ -29,24 +29,13 @@ export class NavComponent implements OnInit {
 
   // Inyectar en el constructor el formBuilder
   // SESIONES private authService: AuthService EN EL CONSTRUCTOR ERA PRIVADO Y NO ME TOMABA
-  constructor(private formBuilder: FormBuilder, private datosPortfolio: PortfolioService, private authService: AuthService ){ 
+  constructor(private formBuilder: FormBuilder, private datosPortfolio: PortfolioService,private authService: AuthService ){ 
     ///Creamos el grupo de controles para el formulario de login
     this.form= this.formBuilder.group({
       password:['',[Validators.required, Validators.minLength(8), Validators.maxLength(15)]],
       email:['', [Validators.required, Validators.email]],
    })
 
-   this.datosPortfolio.obtenerDatos().subscribe(data => {
-    console.log(data);
-    this.miPortfolio = data;
-    for (let item of this.miPortfolio.Usuarios) {
-      this.correo = item.usuario;
-      this.contra = item.pass;
-    }
-
-    this.logueado = this.authService;
-
-  });
 
   }
 
@@ -55,7 +44,20 @@ export class NavComponent implements OnInit {
    // this.authService.login(this.correo,atob(this.contra));
   }
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    this.datosPortfolio.obtenerDatos().subscribe(data => {
+      this.miPortfolio = data.Usuarios;
+      for (let item of this.miPortfolio) {
+        this.correo = item.usuario;
+        this.contra = item.pass;
+      }
+  
+      
+  
+    });
+
+    this.logueado = this.authService;
+  }
 
   get Password(){
     return this.form.get("password");
@@ -98,7 +100,7 @@ export class NavComponent implements OnInit {
       //this.authService.login(this.correo,atob(this.contra));
       this.closebutton.nativeElement.click();
       this.closebuttonBienvenido.nativeElement.click();
-      return this.logueado.login();
+      return this.authService.login();
     }else{
       this.dispararMensaje();
     }

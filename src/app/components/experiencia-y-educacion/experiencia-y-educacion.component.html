@@ -1,16 +1,16 @@
 <section class="panel-seccion" id="miExperiencia">
     <h1>
       <span><i class="bi bi-briefcase-fill"></i> Experiencia</span>
-      <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarExperiencia"><i class="bi bi-plus-square-fill"></i></span>
+      <span *ngIf="logueado.logueadoEstado()==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarExperiencia"><i class="bi bi-plus-square-fill"></i></span>
     </h1><br>
-    <div class="card mt-2 border border-dark" *ngFor="let item of miPortfolio.Experiencias; let indice=index" style="text-align: justify;">
+    <div class="card mt-2 border border-dark" *ngFor="let item of misExperiencias; let indice=index" style="text-align: justify;">
       <!-- Header Carta -->
       <div class="card-header h4">
         <div class="row">
           <span class="col-sm-8"> <i class="bi bi-bookmark-fill"></i> {{item.puesto}}</span>
           <div class="col-sm-4">
-            <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarExperiencia" (click)="mostrarExperiencia(indice)"><i class="bi bi-trash-fill"></i></span>
-            <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarExperiencia" (click)="mostrarExperiencia(indice)" ><i class="bi bi-pencil-fill"></i></span>
+            <span *ngIf="logueado.logueadoEstado()==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarExperiencia" (click)="mostrarExperiencia(indice)"><i class="bi bi-trash-fill"></i></span>
+            <span *ngIf="logueado.logueadoEstado()==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarExperiencia" (click)="mostrarExperiencia(indice)" ><i class="bi bi-pencil-fill"></i></span>
           </div>
         </div>
       </div>
@@ -102,7 +102,7 @@
       </div>
 
         <!-- MODAL DE EDICION EXPERIENCIA -->
-        <div class="modal" id="myModalEditarExperiencia" *ngFor="let item of miPortfolio.Titulos, let indice=index">
+        <div class="modal" id="myModalEditarExperiencia" *ngFor="let item of misExperiencias, let indice=index">
           <div class="modal-dialog">
             <div class="modal-content">
         
@@ -182,7 +182,7 @@
         </div>
 
         <!-- MODAL DE ELIMINACION DE EXPERIENCIA -->
-        <div class="modal" id="myModalEliminarExperiencia" *ngFor="let item of miPortfolio.Titulos, let indice=index">
+        <div class="modal" id="myModalEliminarExperiencia" *ngFor="let item of misExperiencias, let indice=index">
           <div class="modal-dialog">
             <div class="modal-content">
         
@@ -231,7 +231,7 @@
       <!-- Tab panes -->
       <div class="tab-content card mt-2 border border-dark">
         <div class="tab-pane active" id="home">
-          <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarTitulo"><i class="bi bi-plus-square-fill"></i></span>
+          <span *ngIf="logueado.logueadoEstado()==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarTitulo"><i class="bi bi-plus-square-fill"></i></span>
           <h4 class=" card-header"><i class="bi bi-bank2"></i> Institutos</h4>
           <div class="col-md-12 col-md-offset-1">
             <div class="table-responsive">
@@ -241,17 +241,17 @@
                         <th>Titulo</th>
                         <th></th>
                         <th></th>
-                        <th *ngIf="logueado.logEstado==1"></th>
-                        <th *ngIf="logueado.logEstado==1"></th>
+                        <th *ngIf="logueado.logueadoEstado()==1"></th>
+                        <th *ngIf="logueado.logueadoEstado()==1"></th>
                     </tr>
                     <tbody>
-                        <tr *ngFor="let item of miPortfolio.Titulos; let indice=index">
+                        <tr *ngFor="let item of misTitulos; let indice=index">
                             <td>{{item.instituto}}</td>
                             <td>{{item.titulo}}</td>
                             <td></td>
                             <td></td>
-                            <td *ngIf="logueado.logEstado==1"><button class="btn" data-bs-toggle="modal" data-bs-target="#myModalEditarTitulo" (click)="mostrarTitulo(indice)"><i class="bi bi-pencil-fill"></i></button></td>
-                            <td *ngIf="logueado.logEstado==1"><button class="btn" data-bs-toggle="modal" data-bs-target="#myModalEliminarTitulo" (click)="mostrarTitulo(indice)"><i class="bi bi-trash-fill"></i></button></td>
+                            <td *ngIf="logueado.logueadoEstado()==1"><button class="btn" data-bs-toggle="modal" data-bs-target="#myModalEditarTitulo" (click)="mostrarTitulo(indice)"><i class="bi bi-pencil-fill"></i></button></td>
+                            <td *ngIf="logueado.logueadoEstado()==1"><button class="btn" data-bs-toggle="modal" data-bs-target="#myModalEliminarTitulo" (click)="mostrarTitulo(indice)"><i class="bi bi-trash-fill"></i></button></td>
                         </tr>
                     </tbody>
             </table>
@@ -309,7 +309,7 @@
         </div>
 
           <!-- MODAL DE EDICION EDUCACIÓN -->
-          <div class="modal" id="myModalEditarTitulo" *ngFor="let item of miPortfolio.Titulos, let indice=index">
+          <div class="modal" id="myModalEditarTitulo" *ngFor="let item of misTitulos, let indice=index">
             <div class="modal-dialog">
               <div class="modal-content">
           
@@ -358,7 +358,7 @@
           </div>
 
           <!-- MODAL DE ELIMINACION DE CENTRO EDUCATIVO -->
-          <div class="modal" id="myModalEliminarTitulo" *ngFor="let item of miPortfolio.Titulos, let indice=index">
+          <div class="modal" id="myModalEliminarTitulo" *ngFor="let item of misTitulos, let indice=index">
             <div class="modal-dialog">
               <div class="modal-content">
           
@@ -396,7 +396,7 @@
             <div class="card-body">
               <div class="row">
                 <!-- d-grid sirve para que los botones ocupen el ancho total de la grilla -->
-                <div class="col-sm-4 d-grid" *ngFor="let item of miPortfolio.Certificados; let indice=index">
+                <div class="col-sm-4 d-grid" *ngFor="let item of misCertificados; let indice=index">
                   <button class="btn btn-dark btn-block m-2" data-bs-toggle="modal" data-bs-target="#myModalCertificados" (click)="mostrarCertificado(indice)" style="background-color: rgb(5, 29, 238);">{{item.nombre}}</button>
                 </div>
               </div>

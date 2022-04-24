@@ -26,19 +26,20 @@ export class SeccionACercaDeComponent implements OnInit {
 
 
   constructor(private datosPortfolio: PortfolioService, private formBuilder: FormBuilder,private authService: AuthService) { 
-    this.datosPortfolio.obtenerDatos().subscribe(data => {
-      console.log(data);
-      this.miPortfolio = data;
-    });
 
     this.form= this.formBuilder.group({
       sobre_mi: ['', [Validators.required, Validators.minLength(40)]],
    })
 
-   this.logueado = this.authService;
   }
 
   ngOnInit(): void {
+    this.datosPortfolio.obtenerDatos().subscribe(data => {
+      console.log(data.Persona);
+      this.miPortfolio = data.Persona;
+    });
+
+    this.logueado = this.authService;
   }
 
   get SobreMi(){
@@ -69,11 +70,11 @@ export class SeccionACercaDeComponent implements OnInit {
   
   editarInformacion(item:number){
 
-    if( this.miPortfolio.Persona[item].sobre_mi==this.form.value.sobre_mi){
+    if( this.miPortfolio[item].sobre_mi==this.form.value.sobre_mi){
       this.sincambios()
     }else{
       this.cambios()
-    this.miPortfolio.Persona[item].sobre_mi=this.form.value.sobre_mi;
+    this.miPortfolio[item].sobre_mi=this.form.value.sobre_mi;
     }
   }
 

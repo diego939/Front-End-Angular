@@ -32,15 +32,23 @@ export class ExperienciaYEducacionComponent implements OnInit {
 
   form2delete: FormGroup;
 
-  miPortfolio: any;
+  misExperiencias: any;
+
+  misTitulos: any;
+
+  misCertificados: any;
 
   logueado: any;
   
 
   constructor(private datosPortfolio: PortfolioService, private formBuilder: FormBuilder,private authService: AuthService) { 
     this.datosPortfolio.obtenerDatos().subscribe(data => {
-      console.log(data);
-      this.miPortfolio = data;
+      console.log(data.Experiencias);
+      console.log(data.Titulos);
+      console.log(data.Certificados);
+      this.misExperiencias = data.Experiencias;
+      this.misTitulos = data.Titulos;
+      this.misCertificados = data.Certificados;
     });
 
     this.form1edit= this.formBuilder.group({
@@ -166,8 +174,8 @@ export class ExperienciaYEducacionComponent implements OnInit {
   fotoSelect: string = '';
   nombreSelect: string = '';
   mostrarCertificado(indice: number){
-    this.fotoSelect =  this.miPortfolio.Certificados[indice].foto;
-    this.nombreSelect = this.miPortfolio.Certificados[indice].nombre;
+    this.fotoSelect =  this.misCertificados[indice].foto;
+    this.nombreSelect = this.misCertificados[indice].nombre;
   }
 
   // Funciones para agregar Titulos
@@ -208,7 +216,7 @@ export class ExperienciaYEducacionComponent implements OnInit {
     this.nombreInstituto = this.form1add.value.instituto;
     this.tituloInstituto = this.form1add.value.titulo;
 
-    this.miPortfolio.Titulos.push({instituto: this.nombreInstituto, titulo: this.tituloInstituto});
+    this.misTitulos.push({instituto: this.nombreInstituto, titulo: this.tituloInstituto});
     Swal.fire({
       icon: 'success',
       title: 'Se agregó la institución: "'+ this.nombreInstituto + '"',
@@ -248,8 +256,8 @@ export class ExperienciaYEducacionComponent implements OnInit {
   
   editarTitulo(item:number){
     this.closebuttonEditarInstituto.nativeElement.click();
-    if(this.miPortfolio.Titulos[item].instituto==this.form1edit.value.instituto
-      && this.miPortfolio.Titulos[item].titulo==this.form1edit.value.titulo){
+    if(this.misTitulos[item].instituto==this.form1edit.value.instituto
+      && this.misTitulos[item].titulo==this.form1edit.value.titulo){
         Swal.fire({
           icon: 'info',
           title: 'Sin cambios!!!',
@@ -260,12 +268,12 @@ export class ExperienciaYEducacionComponent implements OnInit {
       Swal.fire({
         icon: 'question',
         iconHtml: '<i class="bi bi-pencil-fill"></i>',
-        title: 'Se editó: "'+ this.miPortfolio.Titulos[item].instituto + '"',
+        title: 'Se editó: "'+ this.misTitulos[item].instituto + '"',
         showConfirmButton: false,
         timer: 4000
     })
-    this.miPortfolio.Titulos[item].instituto=this.form1edit.value.instituto;
-    this.miPortfolio.Titulos[item].titulo=this.form1edit.value.titulo;
+    this.misTitulos[item].instituto=this.form1edit.value.instituto;
+    this.misTitulos[item].titulo=this.form1edit.value.titulo;
     }
   }
 
@@ -274,8 +282,8 @@ export class ExperienciaYEducacionComponent implements OnInit {
   auxIndex: number = 0;
   mostrarTitulo(item: number){
     this.auxIndex = item;
-    this.nombreInstitutoSelect= this.miPortfolio.Titulos[this.auxIndex].instituto;
-    this.tituloInstitutoSelect=this.miPortfolio.Titulos[this.auxIndex].titulo;
+    this.nombreInstitutoSelect= this.misTitulos[this.auxIndex].instituto;
+    this.tituloInstitutoSelect=this.misTitulos[this.auxIndex].titulo;
   } 
 
 
@@ -285,11 +293,11 @@ export class ExperienciaYEducacionComponent implements OnInit {
     Swal.fire({
       icon: 'error',
       iconHtml: '<i class="bi bi-trash-fill"></i>',
-      title: 'Se eliminó el Centro educativo: "'+ this.miPortfolio.Titulos[indice].instituto + '"',
+      title: 'Se eliminó el Centro educativo: "'+ this.misTitulos[indice].instituto + '"',
       showConfirmButton: false,
       timer: 4000
   })
-    this.miPortfolio.Titulos.splice(indice, 1);
+    this.misTitulos.splice(indice, 1);
   }
 
   // FUNCIONES DEL AREA EXPERIENCIA
@@ -387,7 +395,7 @@ export class ExperienciaYEducacionComponent implements OnInit {
     this.anioIngresoExperiencia = this.form2add.value.anioIngreso;
     this.anioEgresoExperiencia = this.form2add.value.anioEgreso;
 
-    this.miPortfolio.Experiencias.push({puesto: this.puestoExperiencia, empresa: this.empresaExperiencia, descripcion: this.descripcionExperiencia, anioIngreso: this.anioIngresoExperiencia , anioEgreso: this.anioEgresoExperiencia});
+    this.misExperiencias.push({puesto: this.puestoExperiencia, empresa: this.empresaExperiencia, descripcion: this.descripcionExperiencia, anioIngreso: this.anioIngresoExperiencia , anioEgreso: this.anioEgresoExperiencia});
     Swal.fire({
       icon: 'success',
       title: 'Se agregó nueva Experiencia: "'+ this.puestoExperiencia + '"',
@@ -477,11 +485,11 @@ export class ExperienciaYEducacionComponent implements OnInit {
 
   editarExperiencia(item:number){
     this.closebuttonEditarExperiencia.nativeElement.click();
-    if(this.miPortfolio.Experiencias[item].puesto==this.form2edit.value.puesto
-      && this.miPortfolio.Experiencias[item].empresa==this.form2edit.value.empresa
-      && this.miPortfolio.Experiencias[item].descripcion==this.form2edit.value.descripcion
-      && this.miPortfolio.Experiencias[item].anioIngreso==this.form2edit.value.anioIngreso
-      &&this.miPortfolio.Experiencias[item].anioEgreso==this.form2edit.value.anioEgreso){
+    if(this.misExperiencias[item].puesto==this.form2edit.value.puesto
+      && this.misExperiencias[item].empresa==this.form2edit.value.empresa
+      && this.misExperiencias[item].descripcion==this.form2edit.value.descripcion
+      && this.misExperiencias[item].anioIngreso==this.form2edit.value.anioIngreso
+      && this.misExperiencias[item].anioEgreso==this.form2edit.value.anioEgreso){
         Swal.fire({
           icon: 'info',
           title: 'Sin cambios!!!',
@@ -489,11 +497,11 @@ export class ExperienciaYEducacionComponent implements OnInit {
           timer: 4000
     })
     }else{
-      this.miPortfolio.Experiencias[item].puesto=this.form2edit.value.puesto;
-      this.miPortfolio.Experiencias[item].empresa=this.form2edit.value.empresa;
-      this.miPortfolio.Experiencias[item].descripcion=this.form2edit.value.descripcion;
-      this.miPortfolio.Experiencias[item].anioIngreso=this.form2edit.value.anioIngreso;
-      this.miPortfolio.Experiencias[item].anioEgreso=this.form2edit.value.anioEgreso;
+      this.misExperiencias[item].puesto=this.form2edit.value.puesto;
+      this.misExperiencias[item].empresa=this.form2edit.value.empresa;
+      this.misExperiencias[item].descripcion=this.form2edit.value.descripcion;
+      this.misExperiencias[item].anioIngreso=this.form2edit.value.anioIngreso;
+      this.misExperiencias[item].anioEgreso=this.form2edit.value.anioEgreso;
       Swal.fire({
         icon: 'question',
         iconHtml: '<i class="bi bi-pencil-fill"></i>',
@@ -511,11 +519,11 @@ export class ExperienciaYEducacionComponent implements OnInit {
     Swal.fire({
       icon: 'error',
       iconHtml: '<i class="bi bi-trash-fill"></i>',
-      title: 'Se eliminó la experiencia: "'+ this.miPortfolio.Experiencias[indice].puesto + '"',
+      title: 'Se eliminó la experiencia: "'+ this.misExperiencias[indice].puesto + '"',
       showConfirmButton: false,
       timer: 4000
     })
-    this.miPortfolio.Experiencias.splice(indice, 1);
+    this.misExperiencias.splice(indice, 1);
   }
 
   // Funciones para Mostrar Experiencia
@@ -528,11 +536,11 @@ export class ExperienciaYEducacionComponent implements OnInit {
   //auxIndex: number = 0; //ya se definió un auxiliar arriba
   mostrarExperiencia(item: number){
     this.auxIndex = item;
-    this.puestoExperienciaSelect= this.miPortfolio.Experiencias[this.auxIndex].puesto;
-    this.empresaExperienciaSelect= this.miPortfolio.Experiencias[this.auxIndex].empresa;
-    this.descripcionExperienciaSelect= this.miPortfolio.Experiencias[this.auxIndex].descripcion;
-    this.anioIngresoExperienciaSelect= this.miPortfolio.Experiencias[this.auxIndex].anioIngreso;
-    this.anioEgresoExperienciaSelect= this.miPortfolio.Experiencias[this.auxIndex].anioEgreso;
+    this.puestoExperienciaSelect= this.misExperiencias[this.auxIndex].puesto;
+    this.empresaExperienciaSelect= this.misExperiencias[this.auxIndex].empresa;
+    this.descripcionExperienciaSelect= this.misExperiencias[this.auxIndex].descripcion;
+    this.anioIngresoExperienciaSelect= this.misExperiencias[this.auxIndex].anioIngreso;
+    this.anioEgresoExperienciaSelect= this.misExperiencias[this.auxIndex].anioEgreso;
   }
 
 }

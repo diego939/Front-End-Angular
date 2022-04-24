@@ -1,15 +1,15 @@
 <section class="panel-seccion" id="misProyectos" style="text-align: justify;">
     <h1>
       <span class="float-left"><i class="bi bi-file-code-fill"></i> Proyectos</span>
-      <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarProyecto"><i class="bi bi-plus-square-fill"></i></span>
+      <span *ngIf="logueado.logueadoEstado()==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarProyecto"><i class="bi bi-plus-square-fill"></i></span>
     </h1><br>
-    <div *ngFor="let item of miPortfolio.MisProyectos; let indice=index" class="card m-2 border border-dark" style="text-align: justify;">
+    <div *ngFor="let item of misProyectos; let indice=index" class="card m-2 border border-dark" style="text-align: justify;">
       <div class="card-header h4">
         <div class="row">
           <span class="text-primary col-sm-8">{{item.nombreProyecto}}</span>
           <div class="col-sm-4">
-            <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarProyecto" (click)="mostrarProyecto(indice)" ><i class="bi bi-trash-fill"></i></span>
-            <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarProyecto" (click)="mostrarProyecto(indice)" ><i class="bi bi-pencil-fill"></i></span>
+            <span *ngIf="logueado.logueadoEstado()==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarProyecto" (click)="mostrarProyecto(indice)" ><i class="bi bi-trash-fill"></i></span>
+            <span *ngIf="logueado.logueadoEstado()==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarProyecto" (click)="mostrarProyecto(indice)" ><i class="bi bi-pencil-fill"></i></span>
           </div>       
       </div>
       </div>
@@ -68,7 +68,7 @@
       </div>
 
         <!-- MODAL DE EDICION DE PROYECTO -->
-        <div class="modal" id="myModalEditarProyecto" *ngFor="let item of miPortfolio.MisProyectos, let indice=index">
+        <div class="modal" id="myModalEditarProyecto" *ngFor="let item of misProyectos, let indice=index">
           <div class="modal-dialog">
             <div class="modal-content">
         
@@ -116,7 +116,7 @@
         </div>
 
         <!-- MODAL DE ELIMINACION DE PROYECTO -->
-        <div class="modal" id="myModalEliminarProyecto" *ngFor="let item of miPortfolio.MisProyectos, let indice=index">
+        <div class="modal" id="myModalEliminarProyecto" *ngFor="let item of misProyectos, let indice=index">
           <div class="modal-dialog">
             <div class="modal-content">
         

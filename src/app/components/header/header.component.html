@@ -1,15 +1,15 @@
 <header *ngFor="let item of miPortfolio, let indice=index">
-    <div class="edit1" *ngIf="logueado.logEstado==1"> 
+    <div class="edit1" *ngIf="logueado.logueadoEstado()==1"> 
       <h6 class="btn btn-outline-light rounded-circle border-2" (click)="cambiarFotoPortada(indice)"><i class="bi bi-camera-fill"></i></h6>
     </div>
     <img class="imgFondo shadow-lg" src="../../../assets/{{item.image_portada}}" alt="">
-    <div class="edit2" *ngIf="logueado.logEstado==1"> 
+    <div class="edit2" *ngIf="logueado.logueadoEstado()==1"> 
       <h6 class="btn btn-outline-dark rounded-circle border-2" (click)="cambiarFotoPerfil(indice)"><i class="bi bi-camera-fill"></i></h6>
     </div>
     <img class="imgPerfil shadow-lg" src="../../../assets/{{item.image_perfil}}" alt="">
   <div class="panel-seccion mt-4">
     <h1 class="nombre-usuario" id="nombreUsuario">{{item.nombres + ' ' + item.apellido}}
-      <a href="#"  class="btn" data-bs-toggle="modal" data-bs-target="#myModalInfoPersonal" *ngIf="logueado.logEstado==1"><i class="bi bi-pencil-fill"></i></a>
+      <a href="#"  class="btn" data-bs-toggle="modal" data-bs-target="#myModalInfoPersonal" *ngIf="logueado.logueadoEstado()==1"><i class="bi bi-pencil-fill"></i></a>
     </h1><br>
   <div class="card border border-dark bg-white">
     <div>

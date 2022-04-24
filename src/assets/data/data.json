@@ -157,15 +157,35 @@
 
 	  "HabilidadesBlandas": [
 
-		{"nombreHabilidad": "Trabajo en equipo",
-		"progreso": 60
+		{
+			"nombreHabilidad": "Trabajo en equipo",
+			"progreso": 60,
+			"decripcionProgreso": "Bueno"
+		},
+
+		{
+			"nombreHabilidad": "Liderazgo",
+			"progreso": 80,
+			"decripcionProgreso": "Muy bueno"
+		},
+
+		{
+			"nombreHabilidad": "Gestión del tiempo",
+			"progreso": 40,
+			"decripcionProgreso": "Básico"
 		},
 	
-		{"nombreHabilidad": "Resolución de Problemas",
-		"progreso": 80},
+		{
+			"nombreHabilidad": "Resolución de Problemas",
+			"progreso": 80,
+			"decripcionProgreso": "Muy bueno"
+		},
 	
-		{"nombreHabilidad": "Diseño de sistemas",
-		"progreso": 80}
+		{
+			"nombreHabilidad": "Diseño de sistemas",
+			"progreso": 80,
+			"decripcionProgreso": "Muy bueno"
+		}
 	
 	  ],
 	
@@ -173,37 +193,44 @@
 	
 		{
 			"nombreTecnologia": "HTML",
-			"nivel": 80
+			"nivel": 80,
+			"decripcionNivel": "Muy bueno"
 		},
 	
 		{
 			"nombreTecnologia": "CSS",
-			"nivel": 80
+			"nivel": 80,
+			"decripcionNivel": "Muy bueno"
 		},
 	
 		{
 			"nombreTecnologia": "JavaScript",
-			"nivel": 80
+			"nivel": 80,
+			"decripcionNivel": "Muy bueno"
 		},
 	
 		{
 			"nombreTecnologia": "PHP",
-			"nivel": 60
+			"nivel": 60,
+			"decripcionNivel": "Bueno"
 		},
 	
 		{
 			"nombreTecnologia": "MySQL",
-			"nivel": 100
+			"nivel": 100,
+			"decripcionNivel": "Excelente"
 		},
 	
 		{
 			"nombreTecnologia": "Bootstrap",
-			"nivel": 80
+			"nivel": 80,
+			"decripcionNivel": "Muy bueno"
 		},
 	
 		{
 			"nombreTecnologia": "Java",
-			"nivel": 60
+			"nivel": 60,
+			"decripcionNivel": "Bueno"
 		}
 	
 	  ],
