@@ -99,39 +99,197 @@
     <!-- Tab panes -->
     <div class="tab-content mt-4">
       <div class="tab-pane container active" id="habBlandas">
-        <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarHabilidad"><i class="bi bi-plus-square-fill"></i></span>
+        <span *ngIf="logueado.logueadoEstado()==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarHabilidad"><i class="bi bi-plus-square-fill"></i></span>
         <h5 class="text-center m-2"><i class="bi bi-lightbulb"></i> Habilidades Blandas</h5><hr>
-        <span *ngFor="let item of miPortfolio.HabilidadesBlandas; let indice=index">
-          <h6 class="row">
-            <span class="col-sm-8">{{item.nombreHabilidad}}</span>
-            <div class="col-sm-4">
-              <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha"><i class="bi bi-trash-fill" data-bs-toggle="modal" data-bs-target="#myModalEliminarHabilidad" (click)="mostrarHabilidad(indice)"></i></span>
-              <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarHabilidad" (click)="mostrarHabilidad(indice)"> <i class="bi bi-pencil-fill"></i></span>
-            </div>
-          </h6><br>
-          <div class="progress">
-            <div class="progress-bar progress-bar-striped" role="progressbar" [style.width.%]="item.progreso" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="background-color: rgb(1, 48, 38);">{{item.progreso}}%</div>
+        <!-- Diseño nuevo -->
+          <div class="row text-center">
+            <span class="col-sm-4 d-grid" *ngFor="let item of misHabilidades; let indice=index"><br>
+              <span [ngSwitch]="item.progreso">
+                <span *ngSwitchCase="20" class="card border border-dark">
+                    <span class="h5 card-header">{{item.nombreHabilidad +': '}}</span>
+                    <div class="circle per-20 card-body p-4">
+                      <div class="inner">{{item.progreso+'%'}}</div>
+                    </div>
+                    <button *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-dark bi bi-pencil-fill m-2" data-bs-toggle="modal" data-bs-target="#myModalEditarHabilidad" (click)="mostrarHabilidad(indice)"></button>
+                    <button *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-dark bi bi-trash-fill m-2" data-bs-toggle="modal" data-bs-target="#myModalEliminarHabilidad" (click)="mostrarHabilidad(indice)"></button>
+                    <span class="h6 text-primary card-footer">{{item.decripcionProgreso}}
+                      <div class="text-warning">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star"></i>
+                        <i class="bi bi-star"></i>
+                        <i class="bi bi-star"></i>
+                        <i class="bi bi-star"></i>
+                      </div>
+                    </span>
+                </span>
+                <span *ngSwitchCase="40" class="card border border-dark">
+                  <span class="h5 card-header">{{item.nombreHabilidad +': '}}</span>
+                  <div class="circle per-40 card-body p-4">
+                    <div class="inner">{{item.progreso+'%'}}</div>
+                  </div>
+                  <button *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-dark bi bi-pencil-fill m-2" data-bs-toggle="modal" data-bs-target="#myModalEditarHabilidad" (click)="mostrarHabilidad(indice)"></button>
+                  <button *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-dark bi bi-trash-fill m-2" data-bs-toggle="modal" data-bs-target="#myModalEliminarHabilidad" (click)="mostrarHabilidad(indice)"></button>
+                  <span class="h6 text-primary card-footer">{{item.decripcionProgreso}}
+                    <div class="text-warning">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star"></i>
+                      <i class="bi bi-star"></i>
+                      <i class="bi bi-star"></i>
+                    </div>
+                  </span>
+                </span>
+                <span *ngSwitchCase="60" class="card border border-dark">
+                  <span class="h5 card-header">{{item.nombreHabilidad +': '}}</span>
+                  <div class="circle per-60 card-body p-4">
+                    <div class="inner">{{item.progreso+'%'}}</div>
+                  </div>
+                  <button *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-dark bi bi-pencil-fill m-2" data-bs-toggle="modal" data-bs-target="#myModalEditarHabilidad" (click)="mostrarHabilidad(indice)"></button>
+                  <button *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-dark bi bi-trash-fill m-2" data-bs-toggle="modal" data-bs-target="#myModalEliminarHabilidad" (click)="mostrarHabilidad(indice)"></button>
+                  <span class="h6 text-primary card-footer">{{item.decripcionProgreso}}
+                    <div class="text-warning">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star"></i>
+                      <i class="bi bi-star"></i>
+                    </div>
+                  </span>
+                </span>
+                <span *ngSwitchCase="80" class="card border border-dark">
+                  <span class="h5 card-header">{{item.nombreHabilidad +': '}}</span>
+                  <div class="circle per-80 card-body">
+                    <div class="inner">{{item.progreso+'%'}}</div>
+                  </div>
+                  <button *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-dark bi bi-pencil-fill m-2" data-bs-toggle="modal" data-bs-target="#myModalEditarHabilidad" (click)="mostrarHabilidad(indice)"></button>
+                  <button *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-dark bi bi-trash-fill m-2" data-bs-toggle="modal" data-bs-target="#myModalEliminarHabilidad" (click)="mostrarHabilidad(indice)"></button>
+                  <span class="h6 text-primary card-footer">{{item.decripcionProgreso}}
+                    <div class="text-warning">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star"></i>
+                    </div>
+                  </span>
+                </span>
+                <span *ngSwitchCase="100" class="card border border-dark">
+                  <span class="h5 card-header">{{item.nombreHabilidad +': '}}</span>
+                  <div class="circle per-100 card-body p-4">
+                    <div class="inner">{{item.progreso+'%'}}</div>
+                  </div>
+                  <button *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-dark bi bi-pencil-fill m-2" data-bs-toggle="modal" data-bs-target="#myModalEditarHabilidad" (click)="mostrarHabilidad(indice)"></button>
+                  <button *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-dark bi bi-trash-fill m-2" data-bs-toggle="modal" data-bs-target="#myModalEliminarHabilidad" (click)="mostrarHabilidad(indice)"></button>
+                  <span class="h6 text-primary card-footer">{{item.decripcionProgreso}}
+                    <div class="text-warning">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                    </div>
+                  </span>
+                </span>
+              </span>
+            </span>
           </div>
-          <br>
-        </span>
       </div>
 
       <div class="tab-pane container fade" id="habTecno">
-        <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarTecnologia"><i class="bi bi-plus-square-fill"></i></span>
+        <span *ngIf="logueado.logueadoEstado()==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarTecnologia"><i class="bi bi-plus-square-fill"></i></span>
         <h5 class="text-center m-2"><i class="bi bi-wrench"></i> Herramientas y Lenguajes de Programación</h5><hr>
-        <span *ngFor="let item of miPortfolio.MisTecnologias; let indice=index">
-          <h6 class="row">
-            <span class="col-sm-8">{{item.nombreTecnologia}}</span>
-            <div class="col-sm-4">
-              <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarTecnologia" (click)="mostrarTecnologia(indice)" ><i class="bi bi-trash-fill"></i></span>
-              <span *ngIf="logueado.logEstado==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarTecnologia" (click)="mostrarTecnologia(indice)" > <i class="bi bi-pencil-fill"></i></span>
-            </div>
-            </h6><br>
-          <div class="progress">
-            <div class="progress-bar progress-bar-striped" role="progressbar" [style.width.%]="item.nivel" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="background-color: rgb(1, 48, 38);">{{item.nivel}}%</div>
+          <!-- Nuevo diseño -->
+          <div class="row text-center">
+            <span class="col-sm-4 d-grid" *ngFor="let item of misTecnologias; let indice=index"><br>
+              <span [ngSwitch]="item.nivel">
+                <span *ngSwitchCase="20" class="card border border-dark">
+                    <span class="h5 card-header">{{item.nombreTecnologia +': '}}</span>
+                    <div class="circle per-20 card-body p-4">
+                      <div class="inner">{{item.nivel+'%'}}</div>
+                    </div>
+                    <button *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-dark bi bi-pencil-fill m-2" data-bs-toggle="modal" data-bs-target="#myModalEditarTecnologia" (click)="mostrarTecnologia(indice)"></button>
+                    <button *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-dark bi bi-trash-fill m-2" data-bs-toggle="modal" data-bs-target="#myModalEliminarTecnologia" (click)="mostrarTecnologia(indice)"></button>
+                    <span class="h6 text-primary card-footer">{{item.decripcionNivel}}
+                      <div class="text-warning">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star"></i>
+                        <i class="bi bi-star"></i>
+                        <i class="bi bi-star"></i>
+                        <i class="bi bi-star"></i>
+                      </div>
+                    </span>
+                </span>
+                <span *ngSwitchCase="40" class="card border border-dark">
+                  <span class="h5 card-header">{{item.nombreTecnologia +': '}}</span>
+                  <div class="circle per-40 card-body p-4">
+                    <div class="inner">{{item.nivel+'%'}}</div>
+                  </div>
+                  <button *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-dark bi bi-pencil-fill m-2" data-bs-toggle="modal" data-bs-target="#myModalEditarTecnologia" (click)="mostrarTecnologia(indice)"></button>
+                  <button *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-dark bi bi-trash-fill m-2" data-bs-toggle="modal" data-bs-target="#myModalEliminarTecnologia" (click)="mostrarTecnologia(indice)"></button>
+                  <span class="h6 text-primary card-footer">{{item.decripcionNivel}}
+                    <div class="text-warning">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star"></i>
+                      <i class="bi bi-star"></i>
+                      <i class="bi bi-star"></i>
+                    </div>
+                  </span>
+                </span>
+                <span *ngSwitchCase="60" class="card border border-dark">
+                  <span class="h5 card-header">{{item.nombreTecnologia +': '}}</span>
+                  <div class="circle per-60 card-body p-4">
+                    <div class="inner">{{item.nivel+'%'}}</div>
+                  </div>
+                  <button *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-dark bi bi-pencil-fill m-2" data-bs-toggle="modal" data-bs-target="#myModalEditarTecnologia" (click)="mostrarTecnologia(indice)"></button>
+                  <button *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-dark bi bi-trash-fill m-2" data-bs-toggle="modal" data-bs-target="#myModalEliminarTecnologia" (click)="mostrarTecnologia(indice)"></button>
+                  <span class="h6 text-primary card-footer">{{item.decripcionNivel}}
+                    <div class="text-warning">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star"></i>
+                      <i class="bi bi-star"></i>
+                    </div>
+                  </span>
+                </span>
+                <span *ngSwitchCase="80" class="card border border-dark">
+                  <span class="h5 card-header">{{item.nombreTecnologia +': '}}</span>
+                  <div class="circle per-80 card-body">
+                    <div class="inner">{{item.nivel+'%'}}</div>
+                  </div>
+                  <button *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-dark bi bi-pencil-fill m-2" data-bs-toggle="modal" data-bs-target="#myModalEditarTecnologia" (click)="mostrarTecnologia(indice)"></button>
+                  <button *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-dark bi bi-trash-fill m-2" data-bs-toggle="modal" data-bs-target="#myModalEliminarTecnologia" (click)="mostrarTecnologia(indice)"></button>
+                  <span class="h6 text-primary card-footer">{{item.decripcionNivel}}
+                    <div class="text-warning">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star"></i>
+                    </div>
+                  </span>
+                </span>
+                <span *ngSwitchCase="100" class="card border border-dark">
+                  <span class="h5 card-header">{{item.nombreTecnologia +': '}}</span>
+                  <div class="circle per-100 card-body p-4">
+                    <div class="inner">{{item.nivel+'%'}}</div>
+                  </div>
+                  <button *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-dark bi bi-pencil-fill m-2" data-bs-toggle="modal" data-bs-target="#myModalEditarTecnologia" (click)="mostrarTecnologia(indice)"></button>
+                  <button *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-dark bi bi-trash-fill m-2" data-bs-toggle="modal" data-bs-target="#myModalEliminarTecnologia" (click)="mostrarTecnologia(indice)"></button>
+                  <span class="h6 text-primary card-footer">{{item.decripcionNivel}}
+                    <div class="text-warning">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                    </div>
+                  </span>
+                </span>
+              </span>
+            </span>
           </div>
-          <br>
-        </span>
       </div>
     </div>
 
@@ -189,7 +347,7 @@
       </div>
 
         <!-- MODAL DE EDICION HABILIDAD -->
-        <div class="modal" id="myModalEditarHabilidad" *ngFor="let item of miPortfolio.HabilidadesBlandas, let indice=index">
+        <div class="modal" id="myModalEditarHabilidad" *ngFor="let item of misHabilidades, let indice=index">
           <div class="modal-dialog">
             <div class="modal-content">
         
@@ -240,7 +398,7 @@
         </div>
 
         <!-- MODAL DE ELIMINACION DE HABILIDAD -->
-        <div class="modal" id="myModalEliminarHabilidad" *ngFor="let item of miPortfolio.HabilidadesBlandas, let indice=index">
+        <div class="modal" id="myModalEliminarHabilidad" *ngFor="let item of misHabilidades, let indice=index">
           <div class="modal-dialog">
             <div class="modal-content">
         
@@ -326,7 +484,7 @@
       </div>
 
         <!-- MODAL DE EDICION TECNOLOGÍA -->
-        <div class="modal" id="myModalEditarTecnologia" *ngFor="let item of miPortfolio.MisTecnologias, let indice=index">
+        <div class="modal" id="myModalEditarTecnologia" *ngFor="let item of misTecnologias, let indice=index">
           <div class="modal-dialog">
             <div class="modal-content">
         
@@ -377,7 +535,7 @@
         </div>
 
         <!-- MODAL DE ELIMINACION DE TECNOLOGÍA -->
-        <div class="modal" id="myModalEliminarTecnologia" *ngFor="let item of miPortfolio.MisTecnologias, let indice=index">
+        <div class="modal" id="myModalEliminarTecnologia" *ngFor="let item of misTecnologias, let indice=index">
           <div class="modal-dialog">
             <div class="modal-content">
         

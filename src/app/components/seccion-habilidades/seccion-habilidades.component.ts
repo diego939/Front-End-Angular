@@ -32,7 +32,11 @@ export class SeccionHabilidadesComponent implements OnInit {
 
   formTecnologiaDelete: FormGroup;
 
-  miPortfolio: any;
+  //miPortfolio: any;
+
+  misHabilidades: any;
+
+  misTecnologias: any;
 
   logueado: any;
 
@@ -41,10 +45,6 @@ export class SeccionHabilidadesComponent implements OnInit {
 
 
   constructor(private datosPortfolio: PortfolioService, private formBuilder: FormBuilder,private authService: AuthService) { 
-    this.datosPortfolio.obtenerDatos().subscribe(data => {
-      console.log(data);
-      this.miPortfolio = data;
-    });
 
     this.formHabilidadEdit= this.formBuilder.group({
       nombreHabilidad: ['', [Validators.required]],
@@ -76,10 +76,17 @@ export class SeccionHabilidadesComponent implements OnInit {
     nivel: ''
   })
 
-   this.logueado = this.authService;
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.datosPortfolio.obtenerDatos().subscribe(data => {
+      console.log(data.HabilidadesBlandas);
+      console.log(data.MisTecnologias);
+      this.misHabilidades = data.HabilidadesBlandas;
+      this.misTecnologias = data.MisTecnologias;
+    });
+
+    this.logueado = this.authService;
   }
 
 
@@ -89,48 +96,6 @@ export class SeccionHabilidadesComponent implements OnInit {
       this.mostrarNombre =nombre;
       this.auxIndice = indice;
 
-  }
-
-  nivelHabilidad(opcion: string, item: number){
-    switch (opcion) {
-      case 'regular': this.miPortfolio.HabilidadesBlandas[item].progreso = 20;
-
-        break;
-
-      case 'básico': this.miPortfolio.HabilidadesBlandas[item].progreso = 40;
-
-        break;
-      case 'bueno': this.miPortfolio.HabilidadesBlandas[item].progreso = 60;
-        
-          break;
-      case 'muy bueno': this.miPortfolio.HabilidadesBlandas[item].progreso = 80;
-        
-        break;
-
-      case 'excelente': this.miPortfolio.HabilidadesBlandas[item].progreso = 100;
-        break;
-    }
-  }
-
-  nivelTecnologia(opcion: string, item: number){
-    switch (opcion) {
-      case 'regular': this.miPortfolio.MisTecnologias[item].nivel = 20;
-
-        break;
-
-      case 'básico': this.miPortfolio.MisTecnologias[item].nivel = 40;
-
-        break;
-      case 'bueno': this.miPortfolio.MisTecnologias[item].nivel = 60;
-        
-          break;
-      case 'muy bueno': this.miPortfolio.MisTecnologias[item].nivel = 80;
-        
-        break;
-
-      case 'excelente': this.miPortfolio.MisTecnologias[item].nivel = 100;
-        break;
-    }
   }
 
 
@@ -164,6 +129,7 @@ export class SeccionHabilidadesComponent implements OnInit {
   // Funcion para agregar habilidad
   nombreDeHabilidad: string = "";
   progresoDeHabilidad: string = "";
+  decripcionDeProgreso: string ="";
   agregarHabilidad(){
 
     this.closebuttonAddHabilidad.nativeElement.click();
@@ -171,7 +137,29 @@ export class SeccionHabilidadesComponent implements OnInit {
     this.nombreDeHabilidad = this.formHabilidadAdd.value.nombreHabilidad;
     this.progresoDeHabilidad= this.formHabilidadAdd.value.progreso;
 
-    this.miPortfolio.HabilidadesBlandas.push({nombreHabilidad: this.nombreDeHabilidad, progreso: this.progresoDeHabilidad});
+    switch (this.formHabilidadAdd.value.progreso) {
+      case '20': this.decripcionDeProgreso = "Regular ";
+
+      break;
+
+      case '40': this.decripcionDeProgreso = "Básico";
+
+      break;
+
+      case '60': this.decripcionDeProgreso = "Bueno";
+
+      break;
+
+      case '80': this.decripcionDeProgreso = "Muy bueno";
+
+      break;
+
+      case '100': this.decripcionDeProgreso = "Excelente";
+
+      break;
+    }
+
+    this.misHabilidades.push({nombreHabilidad: this.nombreDeHabilidad, progreso: this.progresoDeHabilidad, decripcionProgreso: this.decripcionDeProgreso});
     Swal.fire({
       icon: 'success',
       title: 'Se agregó la habilidad: "'+ this.nombreDeHabilidad + '"',
@@ -211,8 +199,8 @@ export class SeccionHabilidadesComponent implements OnInit {
   editarHabilidad(item:number){
     this.closebuttonEditarHabilidad.nativeElement.click();
 
-    if(this.miPortfolio.HabilidadesBlandas[item].nombreHabilidad==this.formHabilidadEdit.value.nombreHabilidad
-      && this.miPortfolio.HabilidadesBlandas[item].progreso==this.formHabilidadEdit.value.progreso){
+    if(this.misHabilidades[item].nombreHabilidad==this.formHabilidadEdit.value.nombreHabilidad
+      && this.misHabilidades[item].progreso==this.formHabilidadEdit.value.progreso){
 
         Swal.fire({
           icon: 'info',
@@ -222,12 +210,34 @@ export class SeccionHabilidadesComponent implements OnInit {
         })
 
       }else{
-        this.miPortfolio.HabilidadesBlandas[item].nombreHabilidad=this.formHabilidadEdit.value.nombreHabilidad;
-        this.miPortfolio.HabilidadesBlandas[item].progreso=this.formHabilidadEdit.value.progreso;
+        this.misHabilidades[item].nombreHabilidad=this.formHabilidadEdit.value.nombreHabilidad;
+        this.misHabilidades[item].progreso=this.formHabilidadEdit.value.progreso;
+
+        switch (this.formHabilidadEdit.value.progreso) {
+          case '20': this.misHabilidades[item].decripcionProgreso = "Regular ";
+    
+          break;
+    
+          case '40': this.misHabilidades[item].decripcionProgreso  = "Básico";
+    
+          break;
+    
+          case '60': this.misHabilidades[item].decripcionProgreso  = "Bueno";
+    
+          break;
+    
+          case '80': this.misHabilidades[item].decripcionProgreso  = "Muy bueno";
+    
+          break;
+    
+          case '100': this.misHabilidades[item].decripcionProgreso  = "Excelente";
+    
+          break;
+        }
         Swal.fire({
           icon: 'question',
           iconHtml: '<i class="bi bi-pencil-fill"></i>',
-          title: 'Se editó la habilidad: "'+ this.miPortfolio.HabilidadesBlandas[item].nombreHabilidad + '"',
+          title: 'Se editó la habilidad: "'+ this.misHabilidades[item].nombreHabilidad + '"',
           showConfirmButton: false,
           timer: 4000
         })
@@ -239,8 +249,8 @@ export class SeccionHabilidadesComponent implements OnInit {
   auxIndex: number = 0;
   mostrarHabilidad(item: number){
     this.auxIndex = item;
-    this.nombreHabilidadSelect= this.miPortfolio.HabilidadesBlandas[this.auxIndex].nombreHabilidad;
-    this.progresoSelect=this.miPortfolio.HabilidadesBlandas[this.auxIndex].progreso;
+    this.nombreHabilidadSelect= this.misHabilidades[this.auxIndex].nombreHabilidad;
+    this.progresoSelect=this.misHabilidades[this.auxIndex].progreso;
   } 
 
 
@@ -250,11 +260,11 @@ export class SeccionHabilidadesComponent implements OnInit {
     Swal.fire({
           icon: 'error',
           iconHtml: '<i class="bi bi-trash-fill"></i>',
-          title: 'Se eliminó la habilidad: "'+ this.miPortfolio.HabilidadesBlandas[indice].nombreHabilidad + '"',
+          title: 'Se eliminó la habilidad: "'+ this.misHabilidades[indice].nombreHabilidad + '"',
           showConfirmButton: false,
           timer: 4000
       })
-    this.miPortfolio.HabilidadesBlandas.splice(indice, 1);
+    this.misHabilidades.splice(indice, 1);
   }
 
   // CRUD DE TECNOLOGÍAS
@@ -288,6 +298,7 @@ export class SeccionHabilidadesComponent implements OnInit {
 
   nombreDeTecnologia: string = "";
   nivelDeTecnologia: string = "";
+  decripcionDeNivel: string = "";
   agregarTecnologia(){
 
     this.closebuttonAddTecnologia.nativeElement.click();
@@ -295,7 +306,29 @@ export class SeccionHabilidadesComponent implements OnInit {
     this.nombreDeTecnologia = this.formTecnologiaAadd.value.nombreTecnologia;
     this.nivelDeTecnologia = this.formTecnologiaAadd.value.nivel;
 
-    this.miPortfolio.MisTecnologias.push({nombreTecnologia: this.nombreDeTecnologia, nivel: this.nivelDeTecnologia});
+    switch (this.formTecnologiaAadd.value.nivel) {
+      case '20': this.decripcionDeNivel = "Regular ";
+
+      break;
+
+      case '40': this.decripcionDeNivel = "Básico";
+
+      break;
+
+      case '60': this.decripcionDeNivel = "Bueno";
+
+      break;
+
+      case '80': this.decripcionDeNivel = "Muy bueno";
+
+      break;
+
+      case '100': this.decripcionDeNivel = "Excelente";
+
+      break;
+    }
+
+    this.misTecnologias.push({nombreTecnologia: this.nombreDeTecnologia, nivel: this.nivelDeTecnologia, decripcionNivel: this.decripcionDeNivel});
     Swal.fire({
       icon: 'success',
       title: 'Se agregó una tecnología: "'+ this.nombreDeTecnologia + '"',
@@ -334,8 +367,8 @@ export class SeccionHabilidadesComponent implements OnInit {
   editarTecnologia(item:number){
     this.closebuttonEditarTecnologia.nativeElement.click();
 
-    if(this.miPortfolio.MisTecnologias[item].nombreTecnologia==this.formTecnologiaEdit.value.nombreTecnologia
-      && this.miPortfolio.MisTecnologias[item].nivel==this.formTecnologiaEdit.value.nivel){
+    if(this.misTecnologias[item].nombreTecnologia==this.formTecnologiaEdit.value.nombreTecnologia
+      && this.misTecnologias[item].nivel==this.formTecnologiaEdit.value.nivel){
 
             Swal.fire({
               icon: 'info',
@@ -344,12 +377,35 @@ export class SeccionHabilidadesComponent implements OnInit {
               timer: 4000
           })
       }else{
-          this.miPortfolio.MisTecnologias[item].nombreTecnologia=this.formTecnologiaEdit.value.nombreTecnologia;
-            this.miPortfolio.MisTecnologias[item].nivel=this.formTecnologiaEdit.value.nivel;
+          this.misTecnologias[item].nombreTecnologia=this.formTecnologiaEdit.value.nombreTecnologia;
+            this.misTecnologias[item].nivel=this.formTecnologiaEdit.value.nivel;
+
+            switch (this.formTecnologiaEdit.value.nivel) {
+              case '20': this.misTecnologias[item].decripcionNivel = "Regular ";
+        
+              break;
+        
+              case '40': this.misTecnologias[item].decripcionNivel = "Básico";
+        
+              break;
+        
+              case '60': this.misTecnologias[item].decripcionNivel = "Bueno";
+        
+              break;
+        
+              case '80': this.misTecnologias[item].decripcionNivel = "Muy bueno";
+        
+              break;
+        
+              case '100': this.misTecnologias[item].decripcionNivel = "Excelente";
+        
+              break;
+            }
+
             Swal.fire({
               icon: 'question',
               iconHtml: '<i class="bi bi-pencil-fill"></i>',
-              title: 'Se editó la tecnología: "'+ this.miPortfolio.MisTecnologias[item].nombreTecnologia + '"',
+              title: 'Se editó la tecnología: "'+ this.misTecnologias[item].nombreTecnologia + '"',
               showConfirmButton: false,
               timer: 4000
           })
@@ -361,11 +417,11 @@ export class SeccionHabilidadesComponent implements OnInit {
       Swal.fire({
         icon: 'error',
         iconHtml: '<i class="bi bi-trash-fill"></i>',
-        title: 'Se eliminó la tecnología: "'+ this.miPortfolio.MisTecnologias[indice].nombreTecnologia + '"',
+        title: 'Se eliminó la tecnología: "'+ this.misTecnologias[indice].nombreTecnologia + '"',
         showConfirmButton: false,
         timer: 4000
       })
-    this.miPortfolio.MisTecnologias.splice(indice, 1);
+    this.misTecnologias.splice(indice, 1);
   }
 
   nombreTecnologiaSelect: string = '';
@@ -373,8 +429,8 @@ export class SeccionHabilidadesComponent implements OnInit {
   //auxIndex: number = 0; //ya se definió para habilidades un auxiliar
   mostrarTecnologia(item: number){
     this.auxIndex = item;
-    this.nombreTecnologiaSelect= this.miPortfolio.MisTecnologias[this.auxIndex].nombreTecnologia;
-    this.nivelSelect=this.miPortfolio.MisTecnologias[this.auxIndex].nivel;
+    this.nombreTecnologiaSelect= this.misTecnologias[this.auxIndex].nombreTecnologia;
+    this.nivelSelect=this.misTecnologias[this.auxIndex].nivel;
   } 
 
 }
