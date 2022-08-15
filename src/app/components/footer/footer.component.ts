@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { PortfolioService } from 'src/app/servicios/portfolio.service';
+import { Persona } from '../../model/persona';
+import { DireccionService } from "src/app/servicios/direccion.service";
+import { Direccion } from "src/app/model/direccion";
 
 @Component({
   selector: 'app-footer',
@@ -7,9 +11,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  miDireccion: any;
+
+  miContacto: any;
+
+  constructor(private datosDeContacto: PortfolioService, private datosDireccion: DireccionService) { }
 
   ngOnInit(): void {
+    this.datosDeContacto.mostrarPersona().subscribe(data => {
+      this.miContacto = data;
+    });
+
+    this.datosDireccion.mostrarDireccion().subscribe(data => {
+      this.miDireccion = data;
+    });
+    
   }
 
 }

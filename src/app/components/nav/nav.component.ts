@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { PortfolioService } from 'src/app/servicios/portfolio.service';
 // importamos las librerias de formulario que vamos a necesitar
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // SESIONES 
-import { AuthService } from "../../servicios/auth.service";
+import { AuthService } from "src/app/servicios/auth.service";
+//El sitema de rutas no lo consideré necesario de ocupar ya que voy a ponerle seguridad a los botones que alta baja y modificación en el back end y se trabaja todo sobre la misma página
 import {  Router, ActivatedRoute } from '@angular/router';
 import { ViewChild } from '@angular/core';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+
+import { TokenService } from 'src/app/servicios/token.service';
+import { LoginUsuario } from 'src/app/model/login-usuario';
+import { PortfolioService } from 'src/app/servicios/portfolio.service';
+
 
 
 
@@ -16,65 +21,63 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
+  //Se agregó hoy: 01-08-2022
+  isLogged = false;
+  isLoginFail = false;
+  loginUsuario!: LoginUsuario;
+  nombreUsuario!: string;
+  password!: string;
+  roles: string[] = [];
+  errMsj!: string;
+
   @ViewChild('closebutton') closebutton: any;
-  @ViewChild('closebuttonBienvenido') closebuttonBienvenido: any;
-  logueado: any;
   
-  miPortfolio: any;
+  misDatos: any;
 
   form: FormGroup;
 
-  correo: string = "";
-  contra: string = "";
-
-  // Inyectar en el constructor el formBuilder
-  // SESIONES private authService: AuthService EN EL CONSTRUCTOR ERA PRIVADO Y NO ME TOMABA
-  constructor(private formBuilder: FormBuilder, private datosPortfolio: PortfolioService,private authService: AuthService ){ 
+  constructor(
+    private datosPersonales: PortfolioService, 
+    private formBuilder: FormBuilder, 
+    private authService: AuthService, 
+    private tokenService: TokenService,
+    ){ 
     ///Creamos el grupo de controles para el formulario de login
     this.form= this.formBuilder.group({
-      password:['',[Validators.required, Validators.minLength(8), Validators.maxLength(15)]],
-      email:['', [Validators.required, Validators.email]],
+      password:['',[Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
+      nombreUsuario:['', [Validators.required]],
    })
 
 
   }
 
-  // SESION: ESTE MÉTODO PASARÁ EL USUARIO Y LA CONTRASEÑA AL MÉTODO login DEL SERVICIO
-  Login (){
-   // this.authService.login(this.correo,atob(this.contra));
-  }
 
   ngOnInit(): void {
-    this.datosPortfolio.obtenerDatos().subscribe(data => {
-      this.miPortfolio = data.Usuarios;
-      for (let item of this.miPortfolio) {
-        this.correo = item.usuario;
-        this.contra = item.pass;
-      }
-  
-      
-  
+
+    this.datosPersonales.mostrarPersona().subscribe(data => {
+      this.misDatos = data;
     });
 
-    this.logueado = this.authService;
+    if (this.tokenService.getToken()) {
+      this.isLogged = true;
+      this.isLoginFail = false;
+      this.roles = this.tokenService.getAuthorities();
+    }
+
   }
 
   get Password(){
     return this.form.get("password");
   }
- 
-  get Mail(){
-   return this.form.get("email");
+
+  get NombreUsuario(){
+    return this.form.get("nombreUsuario");
   }
+ 
 
   get PasswordValid(){
     return this.Password?.touched && !this.Password?.valid;
   }
-
-  get MailValid() {
-    return false
-  }
- 
 
 
   onEnviar(event: Event){
@@ -83,8 +86,8 @@ export class NavComponent implements OnInit {
  
     if (this.form.valid){
       // Llamamos a nuestro servicio para enviar los datos al servidor
-      // También podríamos ejecutar alguna lógica extra
-      this.validarUsuario();
+      // Si supera la validaciónn pasará al método onLogin() para verificar si las credenciales pertenecen a un usuario
+      this.onLogin();
     }else{
       // Corremos todas las validaciones para que se ejecuten los mensajes de error en el template     
       this.form.markAllAsTouched(); 
@@ -92,22 +95,9 @@ export class NavComponent implements OnInit {
  
   }
 
-  validarUsuario(){
-    if (this.form.value.email == this.correo &&  this.form.value.password == atob(this.contra)) {
-
-      //location.href ='perfil';
-      //SESIONES 
-      //this.authService.login(this.correo,atob(this.contra));
-      this.closebutton.nativeElement.click();
-      this.closebuttonBienvenido.nativeElement.click();
-      return this.authService.login();
-    }else{
-      this.dispararMensaje();
-    }
-  }
   mensaje: string ='';
   dispararMensaje(){
-    //this.mensaje = "Usuario o contraseña no valido";
+    // "Usuario o contraseña no validos";
     Swal.fire({
       icon: 'error',
       title: 'Error',
@@ -121,8 +111,46 @@ export class NavComponent implements OnInit {
       icon: 'success',
       title: 'Bienvenido!!!',
       showConfirmButton: false,
-      timer: 4000
-})
+      timer: 4000  
+      })
+  }
+
+  onLogin(): void {
+    this.loginUsuario = new LoginUsuario(this.form.value.nombreUsuario, this.form.value.password);
+    this.authService.login(this.loginUsuario).subscribe(
+      data => {
+        this.isLogged = true;
+        this.isLoginFail = false;
+        this.tokenService.setToken(data.token);
+        this.tokenService.setUserName(data.nombreUsuario);
+        this.tokenService.setAuthorities(data.authorities);
+        this.roles = data.authorities;
+        //cerramos el formulario de login
+        this.closebutton.nativeElement.click();
+        //Mostramos un mensaje de bienvenida
+        this.simpleAlert();
+        //Refrescamos la página luego de 4 segundos
+        setTimeout(function(){
+          location.href ='/';
+       }, 4000);
+      },
+      err => {
+        this.isLogged = false;
+        this.isLoginFail = true;
+        this.errMsj = err.error.message;
+        console.log(this.errMsj);
+        //Mostramos un mensaje de error si las credenciales no son las correctas
+        this.dispararMensaje();
+      }
+    );
+  }
+
+  logoUt(){
+    //Se elimina la sesion del Session Storage
+    this.tokenService.logOut();
+    //Refrescamos la página
+    this.isLogged = false;
+    location.href ='/';
   }
 
 }

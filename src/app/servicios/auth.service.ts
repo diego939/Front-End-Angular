@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {  NavigationStart, Router } from '@angular/router';
 import { ThisReceiver } from '@angular/compiler';
+import { Observable } from 'rxjs';
+import { NuevoUsuario } from '../model/nuevo-usuario';
+import { LoginUsuario } from '../model/login-usuario';
+import { JwtDto } from '../model/jwt-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +13,9 @@ import { ThisReceiver } from '@angular/compiler';
 export class AuthService {
   
   logEstado: number = 0;
+
+  //Se agregó hoy: 01-08-2022
+  authURL = 'http://localhost:8080/auth/';
 
   uri = 'http://localhost3000/api';
   token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
@@ -38,12 +45,13 @@ export class AuthService {
     this.logEstado = 0;
    }
 
-   login(){
+   //Se comentó hoy: 01-08-2022 este método login
+   /*login(){
 
     this.router.navigate(['bienvenido']);
     this.logueadoActivo();
     this.logueadoEstado();
-   }
+   }*/
 
    logout(){
     //this.router.navigate(['inicio']);
@@ -67,6 +75,15 @@ export class AuthService {
 
     return parsedPayload.exp > Date.now() / 1000; // check if token is expired
 
+  }
+
+  //Se agregó hoy: 01-08-2022
+  public nuevo(nuevoUsuario: NuevoUsuario): Observable<any> {
+    return this.http.post<any>(this.authURL + 'nuevo', nuevoUsuario);
+  }
+
+  public login(loginUsuario: LoginUsuario): Observable<JwtDto> {
+    return this.http.post<JwtDto>(this.authURL + 'login', loginUsuario);
   }
   
 }

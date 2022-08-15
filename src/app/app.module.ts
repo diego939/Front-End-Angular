@@ -21,6 +21,7 @@ import { BienvenidoComponent } from './components/bienvenido/bienvenido.componen
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './angular-material.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { interceptorProvider } from './servicios/interceptor-service';
 
 
 @NgModule({
@@ -45,7 +46,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     BrowserAnimationsModule,
     AngularMaterialModule
   ],
-  providers: [],
+  providers: [interceptorProvider],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

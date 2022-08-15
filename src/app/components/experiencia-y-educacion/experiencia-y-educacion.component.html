@@ -1,7 +1,7 @@
 <section class="panel-seccion" id="miExperiencia">
     <h1>
       <span><i class="bi bi-briefcase-fill"></i> Experiencia</span>
-      <span *ngIf="logueado.logueadoEstado()==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarExperiencia"><i class="bi bi-plus-square-fill"></i></span>
+      <span *ngIf="isLogged" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarExperiencia"><i class="bi bi-plus-square-fill"></i></span>
     </h1><br>
     <div class="card mt-2 border border-dark" *ngFor="let item of misExperiencias; let indice=index" style="text-align: justify;">
       <!-- Header Carta -->
@@ -9,16 +9,23 @@
         <div class="row">
           <span class="col-sm-8"> <i class="bi bi-bookmark-fill"></i> {{item.puesto}}</span>
           <div class="col-sm-4">
-            <span *ngIf="logueado.logueadoEstado()==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarExperiencia" (click)="mostrarExperiencia(indice)"><i class="bi bi-trash-fill"></i></span>
-            <span *ngIf="logueado.logueadoEstado()==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarExperiencia" (click)="mostrarExperiencia(indice)" ><i class="bi bi-pencil-fill"></i></span>
+            <span *ngIf="isLogged" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarExperiencia" (click)="mostrarExperiencia(indice)"><i class="bi bi-trash-fill"></i></span>
+            <span *ngIf="isLogged" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarExperiencia" (click)="mostrarExperiencia(indice)" ><i class="bi bi-pencil-fill"></i></span>
           </div>
         </div>
       </div>
 
       <!-- body Carta -->
       <div class="card-body">
-        <h6>{{item.empresa}}</h6>
-        <p>{{item.descripcion}}</p>
+        <div class="row">
+          <div class="col-sm-4 d-grid mb-2">
+            <img class="bg-secondary rounded border border-dark" src="{{item.imageExperiencia}}" alt="" style="width: 90%; height: 150px; margin-left: auto; margin-right: auto;">
+          </div>
+          <div class="col-sm-8 d-grid">
+            <h6>{{item.empresa}}</h6>
+            <p>{{item.descripcion}}</p>
+          </div>
+        </div>
       </div>
 
       <!-- Footer Carta -->
@@ -86,6 +93,20 @@
                 <div class="input-group">
                   <input type="date" class="form-control" placeholder="Mes y año egreso" name="anioEgreso" formControlName="anioEgreso" [ngModel]="anioEgresoExperiencia">
                 </div><br>
+                <p>URL de la imagen:</p>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-image-fill"></i></span>
+                  <input type="text" class="form-control" placeholder="URL de la imagen" name="imageExperiencia" formControlName="imageExperiencia" [ngModel]="imagenExperiencia">
+                </div><br>
+                <!-- Gracias al getter que configuramos en el controlador -->
+                <div class="text-danger" *ngIf="ImageExperiencia?.errors  && ImageExperiencia?.touched">    
+                  <p *ngIf="ImageExperiencia?.hasError('required')" class="error bi bi-x-circle">
+                    La URL de la imagen es obligatoria
+                  </p>
+                </div>
+                <span *ngIf="mensajeImagenExperienciaURL!=''">
+                  <p  class="text-danger bi bi-x-circle"> {{mensajeImagenExperienciaURL}}</p>
+                </span>
                 <div>
                     <button type="submit" class="btn btn-primary">Agregar <i class="bi bi-plus-square"></i></button>
                 </div>
@@ -165,6 +186,20 @@
                       Necesitamos una fecha aproximada de Egreso de la empresa
                     </p>
                   </div>
+                  <p>URL de la imagen:</p>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-image-fill"></i></span>
+                    <input type="text" class="form-control" placeholder="URL de la imagen" name="imageExperiencia" formControlName="imageExperiencia" [ngModel]="imageExperienciaSelect">
+                  </div><br>
+                  <!-- Gracias al getter que configuramos en el controlador -->
+                  <div class="text-danger" *ngIf="ImageExperienciaEdit?.errors  && ImageExperienciaEdit?.touched">    
+                    <p *ngIf="ImageExperienciaEdit?.hasError('required')" class="error bi bi-x-circle">
+                      La URL de la imagen es obligatoria
+                    </p>
+                  </div>
+                  <span *ngIf="mensajeEditImagenExperienciaURL!=''">
+                    <p  class="text-danger bi bi-x-circle"> {{mensajeEditImagenExperienciaURL}}</p>
+                  </span>
                   <div>
                       <!-- <button type="submit" class="btn btn-primary" (click)=" editarExperiencia(auxIndex)">Editar <i class="fa fa-pencil-square-o"></i></button> -->
                       <button type="submit" class="btn btn-primary">Editar <i class="bi bi-pencil-square"></i></button>
@@ -231,7 +266,7 @@
       <!-- Tab panes -->
       <div class="tab-content card mt-2 border border-dark">
         <div class="tab-pane active" id="home">
-          <span *ngIf="logueado.logueadoEstado()==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarTitulo"><i class="bi bi-plus-square-fill"></i></span>
+          <span *ngIf="isLogged" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarTitulo"><i class="bi bi-plus-square-fill"></i></span>
           <h4 class=" card-header"><i class="bi bi-bank2"></i> Institutos</h4>
           <div class="col-md-12 col-md-offset-1">
             <div class="table-responsive">
@@ -240,18 +275,16 @@
                         <th>Instituto</th>
                         <th>Titulo</th>
                         <th></th>
-                        <th></th>
-                        <th *ngIf="logueado.logueadoEstado()==1"></th>
-                        <th *ngIf="logueado.logueadoEstado()==1"></th>
+                        <th *ngIf="isLogged"></th>
+                        <th *ngIf="isLogged"></th>
                     </tr>
                     <tbody>
                         <tr *ngFor="let item of misTitulos; let indice=index">
                             <td>{{item.instituto}}</td>
                             <td>{{item.titulo}}</td>
-                            <td></td>
-                            <td></td>
-                            <td *ngIf="logueado.logueadoEstado()==1"><button class="btn" data-bs-toggle="modal" data-bs-target="#myModalEditarTitulo" (click)="mostrarTitulo(indice)"><i class="bi bi-pencil-fill"></i></button></td>
-                            <td *ngIf="logueado.logueadoEstado()==1"><button class="btn" data-bs-toggle="modal" data-bs-target="#myModalEliminarTitulo" (click)="mostrarTitulo(indice)"><i class="bi bi-trash-fill"></i></button></td>
+                            <td><button class="btn" (click)="visualizarInstituto(indice)"><i class="bi bi-eye-fill"></i></button></td>
+                            <td *ngIf="isLogged"><button class="btn" data-bs-toggle="modal" data-bs-target="#myModalEditarTitulo" (click)="mostrarTitulo(indice)"><i class="bi bi-pencil-fill"></i></button></td>
+                            <td *ngIf="isLogged"><button class="btn" data-bs-toggle="modal" data-bs-target="#myModalEliminarTitulo" (click)="mostrarTitulo(indice)"><i class="bi bi-trash-fill"></i></button></td>
                         </tr>
                     </tbody>
             </table>
@@ -293,6 +326,34 @@
                       El campo Titulo es obligatorio
                     </p>
                   </div>
+                  <p>Fecha de ingreso:</p>
+                  <div class="input-group">
+                    <input type="date" class="form-control" placeholder="Mes y Año de ingreso" name="anioIngreso" formControlName="anioIngreso" [ngModel]="anioIngresoInstituto">
+                  </div><br>
+                  <!-- Gracias al getter que configuramos en el controlador -->
+                  <div class="text-danger" *ngIf="AnioIngresoI?.errors  && AnioIngresoI?.touched">    
+                    <p *ngIf="AnioIngresoI?.hasError('required')" class="error bi bi-x-circle">
+                      Necesitamos una fecha aproximada de ingreso a la institución
+                    </p>
+                  </div>
+                  <p>Fecha de Egreso:</p>
+                  <div class="input-group">
+                    <input type="date" class="form-control" placeholder="Mes y año egreso" name="anioEgreso" formControlName="anioEgreso" [ngModel]="anioEgresoInstituto">
+                  </div><br>
+                  <p>URL de la imagen:</p>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-image-fill"></i></span>
+                    <input type="text" class="form-control" placeholder="URL de la imagen" name="imageInstituto" formControlName="imageInstituto" [ngModel]="imagenInstituto">
+                  </div><br>
+                  <!-- Gracias al getter que configuramos en el controlador -->
+                  <div class="text-danger" *ngIf="ImageInstituto?.errors  && ImageInstituto?.touched">    
+                    <p *ngIf="ImageInstituto?.hasError('required')" class="error bi bi-x-circle">
+                      La URL de la imagen es obligatoria
+                    </p>
+                  </div>
+                  <span *ngIf="mensajeImagenInstitutoURL!=''">
+                    <p  class="text-danger bi bi-x-circle"> {{mensajeImagenInstitutoURL}}</p>
+                  </span>
                   <div>
                       <button type="submit" class="btn btn-primary">Agregar <i class="bi bi-plus-square"></i></button>
                   </div>
@@ -342,6 +403,34 @@
                         El campo Titulo es obligatorio
                       </p>
                     </div>
+                    <p>Fecha de ingreso:</p>
+                    <div class="input-group">
+                      <input type="date" class="form-control" placeholder="Mes y Año de ingreso" name="anioIngreso" formControlName="anioIngreso" [ngModel]="anioIngresoInstitutoSelect">
+                    </div><br>
+                    <!-- Gracias al getter que configuramos en el controlador -->
+                    <div class="text-danger" *ngIf="AnioIngresoIEdit?.errors  && AnioIngresoIEdit?.touched">    
+                      <p *ngIf="AnioIngresoIEdit?.hasError('required')" class="error bi bi-x-circle">
+                        Necesitamos una fecha aproximada de ingreso a la institución
+                      </p>
+                    </div>
+                    <p>Fecha de Egreso:</p>
+                    <div class="input-group">
+                      <input type="date" class="form-control" placeholder="Mes y año egreso" name="anioEgreso" formControlName="anioEgreso" [ngModel]="anioEgresoInstitutoSelect">
+                    </div><br>
+                    <p>URL de la imagen:</p>
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="bi bi-image-fill"></i></span>
+                      <input type="text" class="form-control" placeholder="URL de la imagen" name="imageInstituto" formControlName="imageInstituto" [ngModel]="imagenInstitutoSelect">
+                    </div><br>
+                    <!-- Gracias al getter que configuramos en el controlador -->
+                    <div class="text-danger" *ngIf="ImageInstitutoEdit?.errors  && ImageInstitutoEdit?.touched">    
+                      <p *ngIf="ImageInstitutoEdit?.hasError('required')" class="error bi bi-x-circle">
+                        La URL de la imagen es obligatoria
+                      </p>
+                    </div>
+                    <span *ngIf="mensajeImagenInstitutoEditURL!=''">
+                      <p  class="text-danger bi bi-x-circle"> {{mensajeImagenInstitutoEditURL}}</p>
+                    </span>
                     <div>
                         <button type="submit" class="btn btn-primary">Editar <i class="bi bi-pencil-square"></i></button>
                     </div>
@@ -388,8 +477,11 @@
             </div>
           </div>
 
+        
+
         <div class="tab-pane fade card" id="menu1">
           <div>
+            <span *ngIf="isLogged" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarCertificado"><i class="bi bi-plus-square-fill"></i></span>
             <h4 class="m-2 card-header"><i class="bi bi-award-fill"></i> Certificados</h4>
           </div>
           <div>
@@ -397,7 +489,13 @@
               <div class="row">
                 <!-- d-grid sirve para que los botones ocupen el ancho total de la grilla -->
                 <div class="col-sm-4 d-grid" *ngFor="let item of misCertificados; let indice=index">
-                  <button class="btn btn-dark btn-block m-2" data-bs-toggle="modal" data-bs-target="#myModalCertificados" (click)="mostrarCertificado(indice)" style="background-color: rgb(5, 29, 238);">{{item.nombre}}</button>
+                  <div class="card m-2">
+                    <button class="btn btn-dark btn-block m-2"  (click)="verCertificado(indice)" style="background-color: rgb(5, 29, 238);;">{{item.nombre}} <i class="bi bi-image"></i></button>
+                    <div class="card-body text-center" *ngIf="isLogged">
+                          <button class="btn btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#myModalEditarCertificado"  (click)="mostrarCertificado(indice)"><i class="bi bi-pencil-fill"></i></button>
+                          <button class="btn btn-outline-dark m-2" data-bs-toggle="modal" data-bs-target="#myModalEliminarCertificado" (click)="mostrarCertificado(indice)"><i class="bi bi-trash-fill"></i></button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -407,27 +505,141 @@
 
 
 
-      <!-- MODAL PARA VER LOS CERTIFICADOS -->
-      <div class="modal" id="myModalCertificados">
+      <!-- MODAL PARA AGREGAR UN CERTIFICADO-->
+      <div class="modal" id="myModalAgregarCertificado">
+        <div class="modal-dialog">
+          <div class="modal-content">
+      
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Agregar un Certificado</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+      
+            <!-- Modal body -->
+            <div class="modal-body">
+              <form [formGroup]="form3add" (ngSubmit)="enviarCertificadoAdd($event)">
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-award-fill"></i></span>
+                  <input type="text" class="form-control" placeholder="Nombre del certificado" name="nombre" formControlName="nombre" [ngModel]="nombreCertificado">
+                </div><br>
+                <!-- Gracias al getter que configuramos en el controlador -->
+                <div class="text-danger" *ngIf="Nombre?.errors  && Nombre?.touched">    
+                  <p *ngIf="Nombre?.hasError('required')" class="error bi bi-x-circle">
+                    El nombre del certificado es obligatorio
+                  </p>
+                </div>
+                <p>URL de la imagen:</p>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-image-fill"></i></span>
+                    <input type="text" class="form-control" placeholder="URL de la imagen" name="imagen" formControlName="imagen" [ngModel]="imagenCertificado">
+                </div><br>
+                <!-- Gracias al getter que configuramos en el controlador -->
+                <div class="text-danger" *ngIf="Imagen?.errors  && Imagen?.touched">    
+                  <p *ngIf="Imagen?.hasError('required')" class="error bi bi-x-circle">
+                    La URL de la imagen es obligatoria
+                  </p>
+                </div>
+                <span *ngIf="mensajeCertificadoURL!=''">
+                  <p  class="text-danger bi bi-x-circle"> {{mensajeCertificadoURL}}</p>
+                </span>
+                <div>
+                    <button type="submit" class="btn btn-primary">Agregar <i class="bi bi-plus-square"></i></button>
+                </div>
+              </form>
+            </div>
+      
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebuttonAddCertificado>Cancelar</button>
+            </div>
+      
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL PARA EDITAR UN CERTIFICADO -->
+      <div class="modal" id="myModalEditarCertificado">
         <div class="modal-dialog">
           <div class="modal-content">
 
             <!-- Modal Header -->
             <div class="modal-header">
-              <h4 class="modal-title">{{nombreSelect}}</h4>
+              <h4 class="modal-title">Editar Certificado</h4>
               <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
             <!-- Modal body -->
             <div class="modal-body">
-              
-                <img src="../../../assets/certificdos/{{fotoSelect}}" alt="" height="100%" width="100%">
-              
+              <form [formGroup]="form3edit" (ngSubmit)="enviarCertificadoEdit($event, auxIndex)">
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-award-fill"></i></span>
+                  <input type="text" class="form-control" placeholder="Nombre del certificado" name="nombre" formControlName="nombre" [ngModel]="nombreSelect">
+                </div><br>
+                <!-- Gracias al getter que configuramos en el controlador -->
+                <div class="text-danger" *ngIf="NombreEdit?.errors  && NombreEdit?.touched">    
+                  <p *ngIf="NombreEdit?.hasError('required')" class="error bi bi-x-circle">
+                    El nombre del certificado es obligatorio..
+                  </p>
+                </div>
+                <p>URL de la imagen:</p>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-image-fill"></i></span>
+                    <input type="text" class="form-control" placeholder="URL de la imagen" name="imagen" formControlName="imagen" [ngModel]="fotoSelect">
+                </div><br>
+                <!-- Gracias al getter que configuramos en el controlador -->
+                <div class="text-danger" *ngIf="ImagenEdit?.errors  && ImagenEdit?.touched">    
+                  <p *ngIf="ImagenEdit?.hasError('required')" class="error bi bi-x-circle">
+                    La URL de la imagen es obligatoria
+                  </p>
+                </div>
+                <span *ngIf="mensajeCertificadoEditURL!=''">
+                  <p  class="text-danger bi bi-x-circle"> {{mensajeCertificadoEditURL}}</p>
+                </span>
+                <div>
+                    <button type="submit" class="btn btn-primary"> Editar<i class="bi bi-pencil-square"></i></button>
+                </div>
+              </form>
             </div>
 
             <!-- Modal footer -->
             <div class="modal-footer">
-              <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebuttonEditarCertificado>Close</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL PARA ELIMINAR UN CERTIFICADO -->
+      <div class="modal" id="myModalEliminarCertificado">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Eliminar Certificado?</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              <form [formGroup]="form3delete">
+                <div class="card mt-2 mb-2" style="width:95%; margin-left: auto; margin-right: auto;">
+                  <img class="card-img-top" src="{{fotoSelect}}" alt="Card image">
+                  <div class="card-body">
+                    <h4 class="card-title">{{nombreSelect}}</h4>
+                  </div>
+                </div>
+              <div>
+                  <button type="submit" class="btn btn-primary" (click)=" eliminarCertificado(auxIndex)">Eliminar <i class="bi bi-trash"></i></button>
+              </div>
+            </form>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebuttonEliminarCertificado>Close</button>
             </div>
 
           </div>

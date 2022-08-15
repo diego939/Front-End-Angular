@@ -1,27 +1,58 @@
+
 <header *ngFor="let item of miPortfolio, let indice=index">
-    <div class="edit1" *ngIf="logueado.logueadoEstado()==1"> 
-      <h6 class="btn btn-outline-light rounded-circle border-2" (click)="cambiarFotoPortada(indice)"><i class="bi bi-camera-fill"></i></h6>
+  <span *ngIf="indice==0">
+    <div class="edit1" *ngIf="isLogged"> 
+      <div class="dropdownt">
+        <button type="button" class="btn btn-outline-light rounded-circle border-2" data-bs-toggle="dropdown">
+          <i class="bi bi-camera-fill"></i>
+        </button>
+        <ul class="dropdown-menu text-center">
+          <li (click)="visualizarPortada(indice)"><a class="dropdown-item btn btn-lg"><i class="bi bi-card-image"></i> <i class="bi bi-eye-fill"></i></a></li>
+          <li data-bs-toggle="modal" data-bs-target="#myModalPortada"><a class="dropdown-item btn btn-lg"><i class="bi bi-card-image"></i> <i class="bi bi-pencil-fill"></i></a></li>
+        </ul>
+      </div>
     </div>
-    <img class="imgFondo shadow-lg" src="../../../assets/{{item.image_portada}}" alt="">
-    <div class="edit2" *ngIf="logueado.logueadoEstado()==1"> 
-      <h6 class="btn btn-outline-dark rounded-circle border-2" (click)="cambiarFotoPerfil(indice)"><i class="bi bi-camera-fill"></i></h6>
+    <img class="imgFondo shadow-lg" src="{{item.imagePortada}}" alt="">
+    <div class="edit2" *ngIf="isLogged"> 
+      <div class="dropdownt">
+        <button type="button" class="btn btn-outline-dark rounded-circle border-2" data-bs-toggle="dropdown">
+          <i class="bi bi-camera-fill"></i>
+        </button>
+        <ul class="dropdown-menu text-center">
+          <li (click)="visualizarPerfil(indice)"><a class="dropdown-item btn btn-lg"><i class="bi bi-card-image"></i> <i class="bi bi-eye-fill"></i></a></li>
+          <li data-bs-toggle="modal" data-bs-target="#myModalPerfil"><a class="dropdown-item btn btn-lg"><i class="bi bi-card-image"></i> <i class="bi bi-pencil-fill"></i></a></li>
+        </ul>
+      </div>
     </div>
-    <img class="imgPerfil shadow-lg" src="../../../assets/{{item.image_perfil}}" alt="">
+    <img class="imgPerfil shadow-lg" src="{{item.imagePerfil}}" alt="">
   <div class="panel-seccion mt-4">
+    <div *ngIf="isLogged" class="flotar-derecha dropdown">
+      <button type="button" class="btn btn-lg btn-outline-dark" data-bs-toggle="dropdown">
+        <i class="bi bi-three-dots-vertical"></i>
+      </button>
+      <ul class="dropdown-menu text-center">
+        <li data-bs-toggle="modal" data-bs-target="#myModalInfoPersonal"><a class="dropdown-item btn btn-lg"><i class="bi bi-person-fill"></i><i class="bi bi-pencil-fill"></i>MIS DATOS</a></li>
+        <li data-bs-toggle="modal" data-bs-target="#myModalLocation"><a class="dropdown-item btn btn-lg"><i class="bi bi-geo-alt-fill"></i><i class="bi bi-pencil-fill"></i>DIRECCIÓN</a></li>
+      </ul>
+    </div>
     <h1 class="nombre-usuario" id="nombreUsuario">{{item.nombres + ' ' + item.apellido}}
-      <a href="#"  class="btn" data-bs-toggle="modal" data-bs-target="#myModalInfoPersonal" *ngIf="logueado.logueadoEstado()==1"><i class="bi bi-pencil-fill"></i></a>
     </h1><br>
   <div class="card border border-dark bg-white">
     <div>
       <h5 class="descripcion text-dark mt-2">{{item.ocupacion}}</h5>
-      <h6 class="descripcion text-dark"><i class="bi bi-geo-alt-fill"></i> {{' ' + item.localidad + ', ' + item.provincia + ' (' + item.pais + ')'}} </h6>
-      <h6 class="descripcion text-dark"><i class="bi bi-envelope-fill"></i> {{' ' + item.mail}}</h6>
+      <span *ngFor="let i of miDireccion, let ind=index">
+        <h6 *ngIf="ind==0" class="descripcion text-dark">
+          <i class="bi bi-geo-alt-fill" ></i> 
+          {{' ' + i.localidad + ', ' + i.provincia + ' (' + i.pais + ')'}}
+        </h6>
+      </span>
+      <h6 class="descripcion text-dark"><i class="bi bi-envelope-fill"></i> {{' ' + item.email}}</h6>
       <h6 class="descripcion text-dark"><i class="bi bi-phone-fill"></i> {{' ' +item.celular}}</h6>
       <br>
     </div>
-     <!-- <button type="button" class="descripcion btn btn-outline-secondary m-2" data-bs-toggle="modal" data-bs-target="#myModalInfoPersonal" *ngIf="logueado.logEstado==1"> Editar información Personal <i class="fa fa-pencil-square-o"></i></button> -->
   </div>
 </div>
+</span>
 </header>
   
   <nav class="navegador navbar navbar-expand-lg navbar-dark ms-2 me-2 rounded">
@@ -53,9 +84,10 @@
       </div>
     </div>
   </nav>
+
   
   
-  <!-- The Modal -->
+  <!-- MODAL PARA EDITAR LOS DATOS PERSONALES -->
   <div class="modal" id="myModalInfoPersonal" *ngFor="let item of miPortfolio, let indice=index">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -67,7 +99,7 @@
         </div>
   
         <!-- Modal body -->
-        <div class="modal-body">
+        <div class="modal-body" *ngIf="indice==0">
           <form [formGroup]="form" (ngSubmit)="onEnviar($event, indice)">
             <div class="input-group">
               <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
@@ -99,38 +131,11 @@
               </p>
             </div>
             <div class="input-group">
-              <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
-              <input type="text" class="form-control" placeholder="Localidad" name="localidad" formControlName="localidad" [ngModel]="item.localidad">
-            </div><br>
-            <div class="text-danger" *ngIf="Localidad?.errors  && Localidad?.touched">    
-              <p *ngIf="Localidad?.hasError('required')" class="error bi bi-x-circle">
-                El campo Localidad es obligatorio
-              </p>
-            </div>
-            <div class="input-group">
-              <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
-              <input type="text" class="form-control" placeholder="Provincia" name="provincia" formControlName="provincia" [ngModel]="item.provincia">
-            </div><br>
-            <div class="text-danger" *ngIf="Provincia?.errors  && Provincia?.touched">    
-              <p *ngIf="Provincia?.hasError('required')" class="error bi bi-x-circle">
-                El campo Provincia es obligatorio
-              </p>
-            </div>
-            <div class="input-group">
-              <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
-              <input type="text" class="form-control" placeholder="País" name="pais" formControlName="pais" [ngModel]="item.pais">
-            </div><br>
-            <div class="text-danger" *ngIf="Pais?.errors  && Pais?.touched">    
-              <p *ngIf="Pais?.hasError('required')" class="error bi bi-x-circle">
-                El campo Pais es obligatorio
-              </p>
-            </div>
-            <div class="input-group">
               <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
-              <input type="text" class="form-control" placeholder="Correo" name="correo" formControlName="mail" [ngModel]="item.mail">
+              <input type="text" class="form-control" placeholder="Correo" name="email" formControlName="email" [ngModel]="item.email">
             </div><br>
-            <div class="text-danger" *ngIf="Mail?.errors  && Mail?.touched">    
-              <p *ngIf="Mail?.hasError('required')" class="error bi bi-x-circle">
+            <div class="text-danger" *ngIf="Email?.errors  && Email?.touched">    
+              <p *ngIf="Email?.hasError('required')" class="error bi bi-x-circle">
                 El campo Correo es obligatorio
               </p>
             </div>
@@ -163,3 +168,155 @@
       </div>
     </div>
   </div>
+
+
+
+<!-- MODAL PARA LA PORTADA "BANNER" -->
+<div class="modal" id="myModalPortada" *ngFor="let item of miPortfolio, let indice=index">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Portada o Banner</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body" *ngIf="indice==0">
+          <form [formGroup]="form" (ngSubmit)="onEnviarPortada($event,indice)" >
+            <h6>Introduzca la nueva URL de la imagen</h6>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-image-fill"></i></span>
+              <input type="text" class="form-control" placeholder="Imagen del Banner" name="imagePortada" formControlName="imagePortada" [ngModel]="item.imagePortada">
+            </div><br>
+            <div class="text-danger" *ngIf="ImagePortada?.errors  && ImagePortada?.touched">    
+              <p *ngIf="ImagePortada?.hasError('required')" class="error bi bi-x-circle">
+                El campo de URL es obligatorio
+              </p>
+            </div>
+            <span *ngIf="mensajePortadaURL!=''">
+              <p  class="text-danger bi bi-x-circle"> {{mensajePortadaURL}}</p>
+            </span>
+            <div>
+                <button type="submit" class="btn btn-primary" >Editar <i class="bi bi-pencil-square"></i></button>
+            </div>
+            </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #cerrarPortada>Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA LA FOTO DE PERFIL -->
+<div class="modal" id="myModalPerfil" *ngFor="let item of miPortfolio, let indice=index">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Nueva Foto de Perfil</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body" *ngIf="indice==0">
+          <form [formGroup]="form" (ngSubmit)="onEnviarPerfil($event,indice)" >
+            <h6>Introduzca la nueva URL de la imagen</h6>
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-image-fill"></i></span>
+              <input type="text" class="form-control" placeholder="Imagen del Banner" name="imagePerfil" formControlName="imagePerfil" [ngModel]="item.imagePerfil">
+            </div><br>
+            <div class="text-danger" *ngIf="ImagePerfil?.errors  && ImagePerfil?.touched">    
+              <p *ngIf="ImagePerfil?.hasError('required')" class="error bi bi-x-circle">
+                Debe Introducir una URL
+              </p>
+            </div>
+            <span *ngIf="mensajePerfilURL!=''">
+              <p  class="text-danger bi bi-x-circle"> {{mensajePerfilURL}}</p>
+            </span>
+            <div>
+                <button type="submit" class="btn btn-primary" >Editar <i class="bi bi-pencil-square"></i></button>
+            </div>
+            </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #cerrarPerfil>Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PARA EDITAR  LA DIRECCIÓN -->
+<!-- The Modal -->
+<div class="modal" id="myModalLocation" *ngFor="let item of miDireccion, let indice=index">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Mi dirección</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body" *ngIf="indice==0">
+        <form [formGroup]="formLocation" (ngSubmit)="onEnviarLocation($event, indice)">
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
+            <input type="text" class="form-control" placeholder="Localidad" name="localidad" formControlName="localidad" [ngModel]="item.localidad">
+          </div><br>
+          <div class="text-danger" *ngIf="Localidad?.errors  && Localidad?.touched">    
+            <p *ngIf="Localidad?.hasError('required')" class="error bi bi-x-circle">
+              El campo Localidad es obligatorio
+            </p>
+          </div>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
+            <input type="text" class="form-control" placeholder="Provincia" name="provincia" formControlName="provincia" [ngModel]="item.provincia">
+          </div><br>
+          <div class="text-danger" *ngIf="Provincia?.errors  && Provincia?.touched">    
+            <p *ngIf="Provincia?.hasError('required')" class="error bi bi-x-circle">
+              El campo Provincia es obligatorio
+            </p>
+          </div>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
+            <input type="text" class="form-control" placeholder="País" name="pais" formControlName="pais" [ngModel]="item.pais">
+          </div><br>
+          <div class="text-danger" *ngIf="Pais?.errors  && Pais?.touched">    
+            <p *ngIf="Pais?.hasError('required')" class="error bi bi-x-circle">
+              El campo Pais es obligatorio
+            </p>
+          </div>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-house-fill"></i></span>
+            <input type="text" class="form-control" placeholder="Domicilio" name="domicilio" formControlName="domicilio" [ngModel]="item.domicilio">
+          </div><br>
+          <div class="text-danger" *ngIf="Domicilio?.errors  && Domicilio?.touched">    
+            <p *ngIf="Domicilio?.hasError('required')" class="error bi bi-x-circle">
+              El campo Domicilio es obligatorio
+            </p>
+          </div>
+          <div>
+            <button type="submit" class="btn btn-primary" >Editar <i class="bi bi-pencil-square"></i></button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #cerrarLocation>Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>

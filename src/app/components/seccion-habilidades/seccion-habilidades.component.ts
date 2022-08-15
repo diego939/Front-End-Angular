@@ -1,10 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { PortfolioService } from 'src/app/servicios/portfolio.service';
 
 import { ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from "../../servicios/auth.service";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+
+import { TokenService } from 'src/app/servicios/token.service';
+import { HabilidadService } from 'src/app/servicios/habilidad.service';
+import { Habilidad } from "src/app/model/habilidad";
+import { TecnologiaService } from 'src/app/servicios/tecnologia.service';
+import { Tecnologia } from "src/app/model/tecnologia";
+import { NivelService } from 'src/app/servicios/nivel.service';
+import { Nivel } from 'src/app/model/nivel';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-seccion-habilidades',
@@ -12,6 +19,10 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
   styleUrls: ['./seccion-habilidades.component.css']
 })
 export class SeccionHabilidadesComponent implements OnInit {
+
+  isLogged = false;
+  isLoginFail = false;
+  roles: string[] = [];
 
   @ViewChild('closebuttonEditarHabilidad') closebuttonEditarHabilidad: any;
   @ViewChild('closebuttonAddHabilidad') closebuttonAddHabilidad: any;
@@ -32,19 +43,21 @@ export class SeccionHabilidadesComponent implements OnInit {
 
   formTecnologiaDelete: FormGroup;
 
-  //miPortfolio: any;
-
   misHabilidades: any;
 
   misTecnologias: any;
 
-  logueado: any;
+  misNiveles: any;
 
 
-  opciones = ['regular','básico','bueno','muy bueno','excelente'];
-
-
-  constructor(private datosPortfolio: PortfolioService, private formBuilder: FormBuilder,private authService: AuthService) { 
+  constructor(
+              private formBuilder: FormBuilder,
+              private tokenService: TokenService,
+              private habilidadService: HabilidadService,
+              private tecnologiaService: TecnologiaService,
+              private nivelService: NivelService,
+              private router: Router
+              ) { 
 
     this.formHabilidadEdit= this.formBuilder.group({
       nombreHabilidad: ['', [Validators.required]],
@@ -57,8 +70,8 @@ export class SeccionHabilidadesComponent implements OnInit {
     })
 
   this.formHabilidadDelete= this.formBuilder.group({
-    nombreHabilidad: '',
-    progreso: ''
+    nombre: '',
+    nivelId: ''
   })
 
   this.formTecnologiaEdit= this.formBuilder.group({
@@ -79,14 +92,25 @@ export class SeccionHabilidadesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.datosPortfolio.obtenerDatos().subscribe(data => {
-      console.log(data.HabilidadesBlandas);
-      console.log(data.MisTecnologias);
-      this.misHabilidades = data.HabilidadesBlandas;
-      this.misTecnologias = data.MisTecnologias;
+
+
+    if (this.tokenService.getToken()) {
+      this.isLogged = true;
+      this.isLoginFail = false;
+      this.roles = this.tokenService.getAuthorities();
+    }
+
+    this.habilidadService.mostrarHabilidad().subscribe(data => {
+      this.misHabilidades = data;
     });
 
-    this.logueado = this.authService;
+    this.tecnologiaService.mostrarTecnologia().subscribe(data => {
+      this.misTecnologias = data;
+    });
+
+    this.nivelService.mostrarNivel().subscribe(data => {
+      this.misNiveles = data;
+    });
   }
 
 
@@ -117,7 +141,7 @@ export class SeccionHabilidadesComponent implements OnInit {
  
     if (this.formHabilidadAdd.valid){
       // Llamamos a nuestro servicio para enviar los datos al servidor
-      // También podríamos ejecutar alguna lógica extra
+      // Si la validación fué superada se pasará a agregar el nuevo registro
       this.agregarHabilidad();
     }else{
       // Corremos todas las validaciones para que se ejecuten los mensajes de error en el template     
@@ -128,8 +152,7 @@ export class SeccionHabilidadesComponent implements OnInit {
 
   // Funcion para agregar habilidad
   nombreDeHabilidad: string = "";
-  progresoDeHabilidad: string = "";
-  decripcionDeProgreso: string ="";
+  progresoDeHabilidad: number = 1;
   agregarHabilidad(){
 
     this.closebuttonAddHabilidad.nativeElement.click();
@@ -137,32 +160,27 @@ export class SeccionHabilidadesComponent implements OnInit {
     this.nombreDeHabilidad = this.formHabilidadAdd.value.nombreHabilidad;
     this.progresoDeHabilidad= this.formHabilidadAdd.value.progreso;
 
-    switch (this.formHabilidadAdd.value.progreso) {
-      case '20': this.decripcionDeProgreso = "Regular ";
 
-      break;
+    let habilidad: Habilidad =  {
+      "nombre": this.nombreDeHabilidad, 
+      "nivelId": this.progresoDeHabilidad
+      
+    };
 
-      case '40': this.decripcionDeProgreso = "Básico";
+    this.habilidadService.crearHabilidad(habilidad).subscribe(
+      data => {
+        //this.router.navigate(['/']);
+      }
+    );
 
-      break;
+    setTimeout(function(){
+      location.href ='/';
+    }, 1000);
 
-      case '60': this.decripcionDeProgreso = "Bueno";
 
-      break;
-
-      case '80': this.decripcionDeProgreso = "Muy bueno";
-
-      break;
-
-      case '100': this.decripcionDeProgreso = "Excelente";
-
-      break;
-    }
-
-    this.misHabilidades.push({nombreHabilidad: this.nombreDeHabilidad, progreso: this.progresoDeHabilidad, decripcionProgreso: this.decripcionDeProgreso});
     Swal.fire({
       icon: 'success',
-      title: 'Se agregó la habilidad: "'+ this.nombreDeHabilidad + '"',
+      title: 'Se agregó la habilidad: "'+ this.nombreDeHabilidad +'"',
       showConfirmButton: false,
       timer: 4000
     })
@@ -186,7 +204,7 @@ export class SeccionHabilidadesComponent implements OnInit {
  
     if (this.formHabilidadEdit.valid){
       // Llamamos a nuestro servicio para enviar los datos al servidor
-      // También podríamos ejecutar alguna lógica extra
+      // Si la validación fué superada se pasará a editar el registro
       this.editarHabilidad(item);
     }else{
       // Corremos todas las validaciones para que se ejecuten los mensajes de error en el template     
@@ -199,8 +217,8 @@ export class SeccionHabilidadesComponent implements OnInit {
   editarHabilidad(item:number){
     this.closebuttonEditarHabilidad.nativeElement.click();
 
-    if(this.misHabilidades[item].nombreHabilidad==this.formHabilidadEdit.value.nombreHabilidad
-      && this.misHabilidades[item].progreso==this.formHabilidadEdit.value.progreso){
+    if(this.misHabilidades[item].nombre==this.formHabilidadEdit.value.nombreHabilidad
+      && this.misHabilidades[item].nivelId==this.formHabilidadEdit.value.progreso){
 
         Swal.fire({
           icon: 'info',
@@ -210,34 +228,30 @@ export class SeccionHabilidadesComponent implements OnInit {
         })
 
       }else{
-        this.misHabilidades[item].nombreHabilidad=this.formHabilidadEdit.value.nombreHabilidad;
-        this.misHabilidades[item].progreso=this.formHabilidadEdit.value.progreso;
+       
+        this.misHabilidades[item].nombre=this.formHabilidadEdit.value.nombreHabilidad;
+        this.misHabilidades[item].nivelId=this.formHabilidadEdit.value.progreso;
 
-        switch (this.formHabilidadEdit.value.progreso) {
-          case '20': this.misHabilidades[item].decripcionProgreso = "Regular ";
-    
-          break;
-    
-          case '40': this.misHabilidades[item].decripcionProgreso  = "Básico";
-    
-          break;
-    
-          case '60': this.misHabilidades[item].decripcionProgreso  = "Bueno";
-    
-          break;
-    
-          case '80': this.misHabilidades[item].decripcionProgreso  = "Muy bueno";
-    
-          break;
-    
-          case '100': this.misHabilidades[item].decripcionProgreso  = "Excelente";
-    
-          break;
-        }
+        let habilidad: Habilidad =  {
+          "id": this.misHabilidades[item].id,
+          "nombre": this.misHabilidades[item].nombre, 
+          "nivelId": this.misHabilidades[item].nivelId
+        };
+
+        this.habilidadService.editarHabilidad(habilidad).subscribe(
+          data => {
+            //this.router.navigate(['/']);
+          }
+        );
+
+        setTimeout(function(){
+          location.href ='/';
+          }, 1000);
+
         Swal.fire({
           icon: 'question',
           iconHtml: '<i class="bi bi-pencil-fill"></i>',
-          title: 'Se editó la habilidad: "'+ this.misHabilidades[item].nombreHabilidad + '"',
+          title: 'Se editó la habilidad: "'+ this.misHabilidades[item].nombre + '"',
           showConfirmButton: false,
           timer: 4000
         })
@@ -245,12 +259,12 @@ export class SeccionHabilidadesComponent implements OnInit {
   }
 
   nombreHabilidadSelect: string = '';
-  progresoSelect: string = '';
+  progresoSelect: number = 1;
   auxIndex: number = 0;
   mostrarHabilidad(item: number){
     this.auxIndex = item;
-    this.nombreHabilidadSelect= this.misHabilidades[this.auxIndex].nombreHabilidad;
-    this.progresoSelect=this.misHabilidades[this.auxIndex].progreso;
+    this.nombreHabilidadSelect= this.misHabilidades[this.auxIndex].nombre;
+    this.progresoSelect=this.misHabilidades[this.auxIndex].nivelId;
   } 
 
 
@@ -260,11 +274,20 @@ export class SeccionHabilidadesComponent implements OnInit {
     Swal.fire({
           icon: 'error',
           iconHtml: '<i class="bi bi-trash-fill"></i>',
-          title: 'Se eliminó la habilidad: "'+ this.misHabilidades[indice].nombreHabilidad + '"',
+          title: 'Se eliminó la habilidad: "'+ this.misHabilidades[indice].nombre + '"',
           showConfirmButton: false,
           timer: 4000
       })
-    this.misHabilidades.splice(indice, 1);
+    //this.misHabilidades.splice(indice, 1);
+    this.habilidadService.borrarHabilidad(this.misHabilidades[indice].id).subscribe(
+      data => {
+        //this.router.navigate(['/']);
+      }
+    );
+
+    setTimeout(function(){
+      location.href ='/';
+      }, 1000);
   }
 
   // CRUD DE TECNOLOGÍAS
@@ -287,7 +310,7 @@ export class SeccionHabilidadesComponent implements OnInit {
  
     if (this.formTecnologiaAadd.valid){
       // Llamamos a nuestro servicio para enviar los datos al servidor
-      // También podríamos ejecutar alguna lógica extra
+      // Si la validación fué superada se pasará a agregar el nuevo registro
       this.agregarTecnologia();
     }else{
       // Corremos todas las validaciones para que se ejecuten los mensajes de error en el template     
@@ -297,7 +320,7 @@ export class SeccionHabilidadesComponent implements OnInit {
 
 
   nombreDeTecnologia: string = "";
-  nivelDeTecnologia: string = "";
+  nivelDeTecnologia: number = 1;
   decripcionDeNivel: string = "";
   agregarTecnologia(){
 
@@ -306,29 +329,22 @@ export class SeccionHabilidadesComponent implements OnInit {
     this.nombreDeTecnologia = this.formTecnologiaAadd.value.nombreTecnologia;
     this.nivelDeTecnologia = this.formTecnologiaAadd.value.nivel;
 
-    switch (this.formTecnologiaAadd.value.nivel) {
-      case '20': this.decripcionDeNivel = "Regular ";
+    let tecnologia: Tecnologia =  {
+      "nombre": this.nombreDeTecnologia, 
+      "nivelId": this.nivelDeTecnologia
+      
+    };
 
-      break;
+    this.tecnologiaService.crearTecnologia(tecnologia).subscribe(
+      data => {
+        //this.router.navigate(['/']);
+      }
+    );
 
-      case '40': this.decripcionDeNivel = "Básico";
+    setTimeout(function(){
+      location.href ='/';
+    }, 1000);
 
-      break;
-
-      case '60': this.decripcionDeNivel = "Bueno";
-
-      break;
-
-      case '80': this.decripcionDeNivel = "Muy bueno";
-
-      break;
-
-      case '100': this.decripcionDeNivel = "Excelente";
-
-      break;
-    }
-
-    this.misTecnologias.push({nombreTecnologia: this.nombreDeTecnologia, nivel: this.nivelDeTecnologia, decripcionNivel: this.decripcionDeNivel});
     Swal.fire({
       icon: 'success',
       title: 'Se agregó una tecnología: "'+ this.nombreDeTecnologia + '"',
@@ -355,7 +371,7 @@ export class SeccionHabilidadesComponent implements OnInit {
  
     if (this.formTecnologiaEdit.valid){
       // Llamamos a nuestro servicio para enviar los datos al servidor
-      // También podríamos ejecutar alguna lógica extra
+      // Si la validación fué superada se pasará a editar el registro
       this.editarTecnologia(item);
     }else{
       // Corremos todas las validaciones para que se ejecuten los mensajes de error en el template     
@@ -367,8 +383,8 @@ export class SeccionHabilidadesComponent implements OnInit {
   editarTecnologia(item:number){
     this.closebuttonEditarTecnologia.nativeElement.click();
 
-    if(this.misTecnologias[item].nombreTecnologia==this.formTecnologiaEdit.value.nombreTecnologia
-      && this.misTecnologias[item].nivel==this.formTecnologiaEdit.value.nivel){
+    if(this.misTecnologias[item].nombre==this.formTecnologiaEdit.value.nombreTecnologia
+      && this.misTecnologias[item].nivelId==this.formTecnologiaEdit.value.nivel){
 
             Swal.fire({
               icon: 'info',
@@ -377,35 +393,30 @@ export class SeccionHabilidadesComponent implements OnInit {
               timer: 4000
           })
       }else{
-          this.misTecnologias[item].nombreTecnologia=this.formTecnologiaEdit.value.nombreTecnologia;
-            this.misTecnologias[item].nivel=this.formTecnologiaEdit.value.nivel;
 
-            switch (this.formTecnologiaEdit.value.nivel) {
-              case '20': this.misTecnologias[item].decripcionNivel = "Regular ";
-        
-              break;
-        
-              case '40': this.misTecnologias[item].decripcionNivel = "Básico";
-        
-              break;
-        
-              case '60': this.misTecnologias[item].decripcionNivel = "Bueno";
-        
-              break;
-        
-              case '80': this.misTecnologias[item].decripcionNivel = "Muy bueno";
-        
-              break;
-        
-              case '100': this.misTecnologias[item].decripcionNivel = "Excelente";
-        
-              break;
-            }
+            this.misTecnologias[item].nombre=this.formTecnologiaEdit.value.nombreTecnologia;
+            this.misTecnologias[item].nivelId=this.formTecnologiaEdit.value.nivel;
+
+        let tecnologia: Tecnologia =  {
+          "id": this.misTecnologias[item].id,
+          "nombre": this.misTecnologias[item].nombre, 
+          "nivelId": this.misTecnologias[item].nivelId
+        };
+
+        this.tecnologiaService.editarTecnologia(tecnologia).subscribe(
+          data => {
+            //this.router.navigate(['/']);
+          }
+        );
+
+        setTimeout(function(){
+          location.href ='/';
+          }, 1000);
 
             Swal.fire({
               icon: 'question',
               iconHtml: '<i class="bi bi-pencil-fill"></i>',
-              title: 'Se editó la tecnología: "'+ this.misTecnologias[item].nombreTecnologia + '"',
+              title: 'Se editó la tecnología: "'+ this.misTecnologias[item].nombre + '"',
               showConfirmButton: false,
               timer: 4000
           })
@@ -417,20 +428,31 @@ export class SeccionHabilidadesComponent implements OnInit {
       Swal.fire({
         icon: 'error',
         iconHtml: '<i class="bi bi-trash-fill"></i>',
-        title: 'Se eliminó la tecnología: "'+ this.misTecnologias[indice].nombreTecnologia + '"',
+        title: 'Se eliminó la tecnología: "'+ this.misTecnologias[indice].nombre + '"',
         showConfirmButton: false,
         timer: 4000
       })
-    this.misTecnologias.splice(indice, 1);
+
+    this.tecnologiaService.borrarTecnologia(this.misTecnologias[indice].id).subscribe(
+      data => {
+        //this.router.navigate(['/']);
+      }
+    );
+
+    setTimeout(function(){
+      location.href ='/';
+      }, 1000);
+    
   }
 
   nombreTecnologiaSelect: string = '';
-  nivelSelect: string = '';
+  nivelSelect: number = 1;
   //auxIndex: number = 0; //ya se definió para habilidades un auxiliar
   mostrarTecnologia(item: number){
     this.auxIndex = item;
-    this.nombreTecnologiaSelect= this.misTecnologias[this.auxIndex].nombreTecnologia;
-    this.nivelSelect=this.misTecnologias[this.auxIndex].nivel;
+    this.nombreTecnologiaSelect= this.misTecnologias[this.auxIndex].nombre;
+    this.nivelSelect= this.misTecnologias[this.auxIndex].nivelId;
+   
   } 
 
 }

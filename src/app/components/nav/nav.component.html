@@ -1,4 +1,3 @@
-<span #closebuttonBienvenido (click)="simpleAlert()"></span>
 <nav class="navegador" style="background-color: rgb(34, 3, 70);"> 
   <a routerLink="/"><img src="../../../assets/ArgentinaProgramaLogo.png" alt="" style="height: 100%;"></a>
   <!-- la clase login hace que la palabra #YoProgramo se oculte en resoluciones de pantalla muy bajas -->
@@ -6,12 +5,13 @@
     <div class="flotar-derecha">
       <a target="blank" href="https://github.com/DiegoDavid17" class="redsoc btn btn-outline-light btn-lg bi bi-github"></a>
       <a target="blank" href="https://www.linkedin.com/in/diego-david-almir%C3%B3n-575832211" class="redsoc btn btn-outline-light btn-lg bi bi-linkedin"></a>
-      <a target="blank" href="https://wa.me/543795315483" class="redsoc btn btn-outline-light btn-lg bi bi-whatsapp"></a>
-      <button *ngIf="logueado.logueadoEstado()==0" class="btn btn-outline-light btn-lg bi bi-person-circle" data-bs-toggle="modal" data-bs-target="#myModalLogin"> <span class="login"> Login</span></button>
-      <button (click)="logueado.logout()" *ngIf="logueado.logueadoEstado()==1" class="btn btn-outline-light btn-lg bi bi-power" > <span class="login"> Logout</span></button>
+      <span *ngFor="let item of misDatos, let indice=index" ><a *ngIf="indice == 0" target="blank" href="https://wa.me/+54{{item.celular}}" class="redsoc btn btn-outline-light btn-lg bi bi-whatsapp"></a></span>
+      <button *ngIf="!isLogged" class="btn btn-outline-light btn-lg bi bi-person-circle" data-bs-toggle="modal" data-bs-target="#myModalLogin"> <span class="login"> Login</span></button>
+      <button (click)="logoUt()" *ngIf="isLogged" class="btn btn-outline-light btn-lg bi bi-power" > <span class="login"> Logout</span></button>
     </div> 
   </nav>  
-  <!-- The Modal -->
+
+  <!-- MODAL PARA LOGIN -->
   <div class="modal" id="myModalLogin">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -30,18 +30,15 @@
           <div class="mb-3 mt-3">
             <div class="input-group">
               <span class="input-group-text"><i class="bi bi-person"></i></span>
-              <input class="form-control" formControlName="email" placeholder="Correo">
+              <input class="form-control" formControlName="nombreUsuario" placeholder="Usuario">
             </div>
           </div>
 
           <!-- Gracias al getter que configuramos en el controlador -->
-          <div class="text-danger" *ngIf="Mail?.errors  && Mail?.touched">    
-            <p *ngIf="Mail?.hasError('required')" class="error bi bi-x-circle">
-                Ingrese su correo
+          <div class="text-danger" *ngIf="NombreUsuario?.errors  && NombreUsuario?.touched">    
+            <p *ngIf="NombreUsuario?.hasError('required')" class="error bi bi-x-circle">
+                Ingrese su usuario
             </p>
-            <p *ngIf="Mail?.hasError('email')" class="error bi bi-x-circle">
-                El formato mail user@gmail.com
-              </p>
           </div>
 
           <div class="mb-3">
@@ -57,7 +54,7 @@
               Ingrese su contraseña
             </p>
             <p *ngIf="Password?.hasError('minlength')" class="error bi bi-x-circle">
-              La contraseña debe tener al menos 8 caracteres.
+              La contraseña debe tener al menos 6 caracteres.
             </p>
             <p *ngIf="Password?.hasError('maxlength')" class="error bi bi-x-circle">
               La contraseña debe tener un máximo de 15 caracteres.

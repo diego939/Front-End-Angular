@@ -1,20 +1,27 @@
 <section class="panel-seccion" id="misProyectos" style="text-align: justify;">
     <h1>
       <span class="float-left"><i class="bi bi-file-code-fill"></i> Proyectos</span>
-      <span *ngIf="logueado.logueadoEstado()==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarProyecto"><i class="bi bi-plus-square-fill"></i></span>
+      <span *ngIf="isLogged" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalAgregarProyecto"><i class="bi bi-plus-square-fill"></i></span>
     </h1><br>
     <div *ngFor="let item of misProyectos; let indice=index" class="card m-2 border border-dark" style="text-align: justify;">
       <div class="card-header h4">
         <div class="row">
-          <span class="text-primary col-sm-8">{{item.nombreProyecto}}</span>
+          <span class="text-primary col-sm-8">{{item.nombre}}</span>
           <div class="col-sm-4">
-            <span *ngIf="logueado.logueadoEstado()==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarProyecto" (click)="mostrarProyecto(indice)" ><i class="bi bi-trash-fill"></i></span>
-            <span *ngIf="logueado.logueadoEstado()==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarProyecto" (click)="mostrarProyecto(indice)" ><i class="bi bi-pencil-fill"></i></span>
+            <span *ngIf="isLogged" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEliminarProyecto" (click)="mostrarProyecto(indice)" ><i class="bi bi-trash-fill"></i></span>
+            <span *ngIf="isLogged" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalEditarProyecto" (click)="mostrarProyecto(indice)" ><i class="bi bi-pencil-fill"></i></span>
           </div>       
       </div>
       </div>
       <div class="card-body">
-        <span class="strong">{{item.descripcionProyecto}}</span>
+        <div class="row">
+          <div class="col-sm-8 mt-2 mb-2">
+            <span class="strong">{{item.descripcion}}</span>
+          </div>
+          <div class="col-sm-4 text-center">
+            <img class="bg-secondary rounded border border-dark" src="{{item.imageProyecto}}" alt="" style="width: 90%; height: 150px;">
+          </div>
+        </div>
       </div>
     </div>
 
@@ -52,6 +59,20 @@
                     La descripción del proyecto es obligatoria
                   </p>
                 </div>
+                <p>URL de la imagen:</p>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-image-fill"></i></span>
+                    <input type="text" class="form-control" placeholder="URL de la imagen" name="imagenProyecto" formControlName="imagenProyecto" [ngModel]="imagenDeProyecto">
+                </div><br>
+                <!-- Gracias al getter que configuramos en el controlador -->
+                <div class="text-danger" *ngIf="ImagenProyecto?.errors  && ImagenProyecto?.touched">    
+                  <p *ngIf="ImagenProyecto?.hasError('required')" class="error bi bi-x-circle">
+                    La URL de la imagen es obligatoria
+                  </p>
+                </div>
+                <span *ngIf="mensajeAddProyectoURL!=''">
+                  <p  class="text-danger bi bi-x-circle"> {{mensajeAddProyectoURL}}</p>
+                </span>
                 <div>
                     <button type="submit" class="btn btn-primary">Agregar <i class="bi bi-plus-square"></i></button>
                 </div>
@@ -99,6 +120,20 @@
                       La descripción del proyecto es obligatoria
                     </p>
                   </div>
+                  <p>URL de la imagen:</p>
+                  <div class="input-group">
+                      <span class="input-group-text"><i class="bi bi-image-fill"></i></span>
+                      <input type="text" class="form-control" placeholder="URL de la imagen" name="imagenProyecto" formControlName="imagenProyecto" [ngModel]="imagenProyectoSelect">
+                  </div><br>
+                  <!-- Gracias al getter que configuramos en el controlador -->
+                  <div class="text-danger" *ngIf="ImagenProyectoEdit?.errors  && ImagenProyectoEdit?.touched">    
+                    <p *ngIf="ImagenProyectoEdit?.hasError('required')" class="error bi bi-x-circle">
+                      La URL de la imagen es obligatoria
+                    </p>
+                  </div>
+                  <span *ngIf="mensajeEditProyectoURL!=''">
+                    <p  class="text-danger bi bi-x-circle"> {{mensajeEditProyectoURL}}</p>
+                  </span>
                   <div>
                       <button type="submit" class="btn btn-primary" 
                       (click)=" editarProyecto(auxIndex)">Editar <i class="bi bi-pencil-square"></i></button>
@@ -129,8 +164,12 @@
               <!-- Modal body -->
               <div class="modal-body">
                 <form [formGroup]="formProyectoDelete">
-                    <h6>{{nombreProyectoSelect}}</h6>
-                    <p>{{descripcionProyectoSelect}}</p>
+                  <div class="card mt-2 mb-2" style="width:95%; margin-left: auto; margin-right: auto;">
+                    <img class="card-img-top" src="{{imagenProyectoSelect}}" alt="Card image">
+                    <div class="card-body">
+                      <h4 class="card-title">{{nombreProyectoSelect}}</h4>
+                    </div>
+                  </div>
                   <div>
                       <button type="submit" class="btn btn-primary" (click)=" eliminarProyecto(auxIndex)">Eliminar <i class="bi bi-trash"></i></button>
                   </div>

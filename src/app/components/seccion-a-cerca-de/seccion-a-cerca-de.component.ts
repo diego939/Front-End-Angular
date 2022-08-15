@@ -3,8 +3,10 @@ import { PortfolioService } from 'src/app/servicios/portfolio.service';
 
 import { ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from "../../servicios/auth.service";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { TokenService } from 'src/app/servicios/token.service';
+import { Persona } from '../../model/persona';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -14,6 +16,10 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 })
 
 export class SeccionACercaDeComponent implements OnInit {
+
+  isLogged = false;
+  isLoginFail = false;
+  roles: string[] = [];
   
   @ViewChild('closebutton') closebutton: any;
   @ViewChild('llamarModalacercaDe') llamarModalacercaDe: any;
@@ -22,28 +28,35 @@ export class SeccionACercaDeComponent implements OnInit {
 
   miPortfolio: any;
 
-  logueado: any;
-
-
-  constructor(private datosPortfolio: PortfolioService, private formBuilder: FormBuilder,private authService: AuthService) { 
+  constructor(
+    private datosPortfolio: PortfolioService, 
+    private formBuilder: FormBuilder,
+    private tokenService: TokenService,
+    private router: Router
+    ) { 
 
     this.form= this.formBuilder.group({
-      sobre_mi: ['', [Validators.required, Validators.minLength(40)]],
+      sobreMi: ['', [Validators.required, Validators.minLength(40)]],
    })
 
   }
 
   ngOnInit(): void {
-    this.datosPortfolio.obtenerDatos().subscribe(data => {
-      console.log(data.Persona);
-      this.miPortfolio = data.Persona;
+    
+    this.datosPortfolio.mostrarPersona().subscribe(data => {
+      this.miPortfolio = data;
     });
 
-    this.logueado = this.authService;
+
+    if (this.tokenService.getToken()) {
+        this.isLogged = true;
+        this.isLoginFail = false;
+        this.roles = this.tokenService.getAuthorities();
+    }
   }
 
   get SobreMi(){
-    return this.form.get("sobre_mi");
+    return this.form.get("sobreMi");
    }
 
    get SobreMiValid(){
@@ -69,13 +82,39 @@ export class SeccionACercaDeComponent implements OnInit {
   }
   
   editarInformacion(item:number){
-
-    if( this.miPortfolio[item].sobre_mi==this.form.value.sobre_mi){
+    //Si no se realiza ninguna modificación mostrará una alerta Sin cambios
+    if( this.miPortfolio[item].sobreMi==this.form.value.sobreMi){
       this.sincambios()
     }else{
       this.cambios()
-    this.miPortfolio[item].sobre_mi=this.form.value.sobre_mi;
+    //Se prepara el objeto Persona para editar
+    let persona1: Persona = {
+      "id": this.miPortfolio[item].id,
+      "nombres": this.miPortfolio[item].nombres,
+			"apellido": this.miPortfolio[item].apellido,
+			"nacionalidad": this.miPortfolio[item].nacionalidad,
+			//"pais": this.miPortfolio[item].pais,
+      //"provincia": this.miPortfolio[item].provincia,
+      //"localidad": this.miPortfolio[item].localidad,
+			"email": this.miPortfolio[item].email,
+			"celular": this.miPortfolio[item].celular,
+			"sobreMi": this.form.value.sobreMi,
+      "ocupacion": this.miPortfolio[item].ocupacion,
+			"imagePortada": this.miPortfolio[item].imagePortada,
+			"imagePerfil": this.miPortfolio[item].imagePerfil
     }
+    //Invocamos a Editar para hacer la edición
+    this.datosPortfolio.editarPersona(persona1).subscribe(
+      data => {
+        //this.router.navigate(['/']);
+      }
+    );
+    //Se refresca el sitio para ver los cambios
+          setTimeout(function(){
+            location.href ='/';
+          }, 1000);
+
+     }
   }
 
   sincambios(){
@@ -85,7 +124,7 @@ export class SeccionACercaDeComponent implements OnInit {
       title: 'Sin cambios!!!',
       showConfirmButton: false,
       timer: 4000
-})
+      })
   }
 
   cambios(){
@@ -96,7 +135,7 @@ export class SeccionACercaDeComponent implements OnInit {
       title: 'Cambios Guardados!!!',
       showConfirmButton: false,
       timer: 4000
-})
+      })
   }
 
 }

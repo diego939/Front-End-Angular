@@ -1,13 +1,14 @@
-import { Component, getNgModuleById, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PortfolioService } from 'src/app/servicios/portfolio.service';
 import { ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from "../../servicios/auth.service";
 import Swal from 'sweetalert2/dist/sweetalert2.js';
-import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
 import { __values } from 'tslib';
-
+import { TokenService } from 'src/app/servicios/token.service';
+import { Persona } from '../../model/persona';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DireccionService } from "src/app/servicios/direccion.service";
+import { Direccion } from "src/app/model/direccion";
 
 
 @Component({
@@ -17,49 +18,83 @@ import { __values } from 'tslib';
 })
 export class HeaderComponent implements OnInit {
 
+  isLogged = false;
+  isLoginFail = false;
+  roles: string[] = [];
+
   @ViewChild('closebutton') closebutton: any;
   @ViewChild('guardarcambios') guardarcambios: any;
+  @ViewChild('cerrarPortada') cerrarPortada: any;
+  @ViewChild('cerrarPerfil') cerrarPerfil: any;
+  @ViewChild('cerrarLocation') cerrarLocation: any;
 
   form: FormGroup;
 
+  formLocation: FormGroup;
+
   miPortfolio: any;
 
-  logueado: any;
+  miDireccion: any;
 
   valoresAceptadosNum = /^[0-9]+$/;
 
   mensajeNum = '';
 
+  //Patrones para validar mail
   ValoresAceptadosMail = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
 
   mensajeMail = '';
 
-  fileName = '';
+  //Patrones para validar La url de las imagenes
+  valoresAceptadosURL = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
 
-  constructor(private datosPortfolio: PortfolioService, private formBuilder: FormBuilder,private authService: AuthService, private http: HttpClient) { 
+  mensajePortadaURL = '';
+
+  mensajePerfilURL = '';
+
+  constructor(
+              private datosPortfolio: PortfolioService,
+              private datosDireccion: DireccionService, 
+              private formBuilder: FormBuilder,
+              private tokenService: TokenService,
+              private router: Router
+              ) { 
 
     this.form= this.formBuilder.group({
       nombres: ['', [Validators.required]],
       apellido: ['', [Validators.required]],
       ocupacion: ['', [Validators.required]],
-      localidad: ['', [Validators.required]],
-      provincia: ['', [Validators.required]],
-      pais: ['', [Validators.required]],
-      mail: ['', [Validators.required]],
+      email: ['', [Validators.required]],
       celular:['', [Validators.required]],
-      image_portada:'',
+      imagePortada:['', [Validators.required]],
+      imagePerfil:['', [Validators.required]],
    })
+
+   this.formLocation= this.formBuilder.group({
+    localidad: ['', [Validators.required]],
+    provincia: ['', [Validators.required]],
+    pais: ['', [Validators.required]],
+    domicilio: ['', [Validators.required]],
+    })
    
   }
 
   ngOnInit(): void {
-    this.datosPortfolio.obtenerDatos().subscribe(data => {
-      console.log(data.Persona);
-      this.miPortfolio = data.Persona;
 
+
+    this.datosPortfolio.mostrarPersona().subscribe(data => {
+      this.miPortfolio = data;
     });
 
-    this.logueado = this.authService;
+    this.datosDireccion.mostrarDireccion().subscribe(data => {
+      this.miDireccion = data;
+    });
+
+    if (this.tokenService.getToken()) {
+      this.isLogged = true;
+      this.isLoginFail = false;
+      this.roles = this.tokenService.getAuthorities();
+    }
   }
 
   get Nombres(){
@@ -74,24 +109,20 @@ export class HeaderComponent implements OnInit {
     return this.form.get("ocupacion");
    }
 
-   get Localidad(){
-    return this.form.get("localidad");
-   }
-
-   get Provincia(){
-    return this.form.get("provincia");
-   }
-
-   get Pais(){
-    return this.form.get("pais");
-   }
-
-   get Mail(){
-    return this.form.get("mail");
+   get Email(){
+    return this.form.get("email");
    }
 
    get Celular(){
     return this.form.get("celular");
+   }
+
+   get ImagePortada(){
+    return this.form.get("imagePortada");
+   }
+
+   get ImagePerfil(){
+    return this.form.get("imagePerfil");
    }
 
    celularValid(): boolean{
@@ -105,7 +136,7 @@ export class HeaderComponent implements OnInit {
    }
 
    mailValid(){
-        if (this.form.value.mail.match(this.ValoresAceptadosMail)){
+        if (this.form.value.email.match(this.ValoresAceptadosMail)){
           //Es mail
           return true;
       } else {
@@ -113,6 +144,26 @@ export class HeaderComponent implements OnInit {
           return false;
       }
    }
+
+   portadaValid(){
+    if (this.form.value.imagePortada.match(this.valoresAceptadosURL)){
+      //Es URL
+      return true;
+    } else {
+      //No es URL
+      return false;
+    }
+  }
+
+  perfilValid(){
+    if (this.form.value.imagePerfil.match(this.valoresAceptadosURL)){
+      //Es URL
+      return true;
+    } else {
+      //No es URL
+      return false;
+    }
+  }
 
    onEnviar(event: Event, item:number){
     // Detenemos la propagación o ejecución del compotamiento submit de un form
@@ -147,35 +198,41 @@ export class HeaderComponent implements OnInit {
  
   }
 
-  editarNombre(item:number){
-    this.miPortfolio.Persona[item].nombres = prompt('Nombres:',this.miPortfolio.Persona[item].nombres)+'';
-    this.miPortfolio.Persona[item].apellido = prompt('apellido',this.miPortfolio.Persona[item].apellido)+'';
-  }
 
   modificarDatos(item:number) {
-
-        this.closebutton.nativeElement.click();
         
-        if( this.miPortfolio[item].nombres==this.form.value.nombres
+        if( 
+             this.miPortfolio[item].nombres==this.form.value.nombres
           && this.miPortfolio[item].apellido==this.form.value.apellido
           && this.miPortfolio[item].ocupacion==this.form.value.ocupacion
-          &&this.miPortfolio[item].localidad==this.form.value.localidad
-          &&this.miPortfolio[item].provincia==this.form.value.provincia
-          &&this.miPortfolio[item].pais==this.form.value.pais
-          &&this.miPortfolio[item].mail==this.form.value.mail
-          &&this.miPortfolio[item].celular==this.form.value.celular
+          && this.miPortfolio[item].email==this.form.value.email
+          && this.miPortfolio[item].celular==this.form.value.celular
           ){
+          this.closebutton.nativeElement.click();
           this.sincambios()
         }else{
           this.cambios()
-        this.miPortfolio[item].nombres=this.form.value.nombres;
-        this.miPortfolio[item].apellido=this.form.value.apellido;
-        this.miPortfolio[item].ocupacion=this.form.value.ocupacion;
-        this.miPortfolio[item].localidad=this.form.value.localidad;
-        this.miPortfolio[item].provincia=this.form.value.provincia;
-        this.miPortfolio[item].pais=this.form.value.pais;
-        this.miPortfolio[item].mail=this.form.value.mail;
-        this.miPortfolio[item].celular=this.form.value.celular;
+          let persona1: Persona = {
+            "id": this.miPortfolio[item].id,
+            "nombres": this.form.value.nombres,
+            "apellido": this.form.value.apellido,
+            "nacionalidad": this.miPortfolio[item].nacionalidad,
+            "email": this.form.value.email,
+            "celular": this.form.value.celular,
+            "sobreMi": this.miPortfolio[item].sobreMi,
+            "ocupacion": this.form.value.ocupacion,
+            "imagePortada": this.miPortfolio[item].imagePortada,
+            "imagePerfil": this.miPortfolio[item].imagePerfil
+          }
+          this.datosPortfolio.editarPersona(persona1).subscribe(
+            data => {
+              //this.router.navigate(['/']);
+            }
+          );
+
+          setTimeout(function(){
+            location.href ='/';
+         }, 1000);
         }
   }
 
@@ -200,72 +257,221 @@ export class HeaderComponent implements OnInit {
 })
   }
 
+  // Funciones de la portada o banner
 
+
+  visualizarPortada(item: number){
+    Swal.fire({
+      imageUrl: this.miPortfolio[item].imagePortada,
+      imageWidth: 2000,
+      width: 2000,
+      imageAlt: 'Custom image',
+      showCancelButton: true,
+      showConfirmButton: false,
+      cancelButtonColor: '#dc3545',
+      cancelButtonText: "Cerrar",
+    })
+  }
+
+
+  onEnviarPortada(event: Event, item:number){
+    // Detenemos la propagación o ejecución del compotamiento submit de un form
+    event.preventDefault; 
+  
+    if (this.form.valid){
+      // Llamamos a nuestro servicio para enviar los datos al servidor
+      // También podríamos ejecutar alguna lógica extra
+      if(this.portadaValid()){
+        //si la URL tiene formato valido modifica la imagen
+        this.modificarPortada(item);
+        this.mensajePortadaURL = "";
+      }else
+      if(!this.portadaValid()){
+        this.mensajePortadaURL = "URL inválida. Iintroduzca una URL válida";
+      }
+      
+      
+    }else{
+      // Corremos todas las validaciones para que se ejecuten los mensajes de error en el template     
+      this.form.markAllAsTouched(); 
+    }
+  
+  }
 
 modificarPortada(item: number){
-  this.miPortfolio[item].image_portada='portada.jpg';
-  //this.closebutton.nativeElement.click();
+
+  if(this.miPortfolio[item].imagePortada==this.form.value.imagePortada){
+    this.cerrarPortada.nativeElement.click();
+    this.sincambios();
+  }else{
+    this.cambios()
+    //instanciamos un objeto de tipo persona para pasar los cambios al servidor
+    let persona1: Persona = {
+      "id": this.miPortfolio[item].id,
+      "nombres": this.miPortfolio[item].nombres,
+			"apellido": this.miPortfolio[item].apellido,
+			"nacionalidad": this.miPortfolio[item].nacionalidad,
+			"email": this.miPortfolio[item].email,
+			"celular": this.miPortfolio[item].celular,
+			"sobreMi": this.miPortfolio[item].sobreMi,
+      "ocupacion": this.miPortfolio[item].ocupacion,
+			"imagePortada": this.form.value.imagePortada,
+			"imagePerfil": this.miPortfolio[item].imagePerfil
+    }
+    //Llamamos al servicio para hacer los cambios en el servidor
+    this.datosPortfolio.editarPersona(persona1).subscribe(
+      data => {
+        //this.router.navigate(['/']);
+      }
+    );
+
+          setTimeout(function(){
+            location.href ='/';
+         }, 1000);
+  }
+     
+}
+
+// fUCIONES PARA LA IMAGEN DE PERFIL
+
+visualizarPerfil(item: number){
+  Swal.fire({
+    imageUrl: this.miPortfolio[item].imagePerfil,
+    imageWidth: 500,
+    width: 500,
+    imageAlt: 'Custom image',
+    showCancelButton: true,
+    showConfirmButton: false,
+    cancelButtonColor: '#dc3545',
+    cancelButtonText: "Cerrar",
+  })
+}
+
+
+onEnviarPerfil(event: Event, item:number){
+  // Detenemos la propagación o ejecución del compotamiento submit de un form
+  event.preventDefault; 
+
+  if (this.form.valid){
+    // Llamamos a nuestro servicio para enviar los datos al servidor
+    // También podríamos ejecutar alguna lógica extra
+    if(this.perfilValid()){
+      //si la URL tiene formato valido modifica la imagen
+      this.modificarPerfil(item);
+      this.mensajePerfilURL = "";
+    }else
+    if(!this.perfilValid()){
+      this.mensajePerfilURL = "URL inválida. Iintroduzca una URL válida";
+    }
+    
+    
+  }else{
+    // Corremos todas las validaciones para que se ejecuten los mensajes de error en el template     
+    this.form.markAllAsTouched(); 
+  }
+
 }
 
 modificarPerfil(item: number){
-  this.miPortfolio[item].image_perfil='avatar.jpg';
-  //this.closebutton.nativeElement.click();
-}
-
-
-cambiarFotoPerfil(index: number){
-  Swal.fire({
-    title: 'Cambiar Perfil',
-    imageUrl: '../../../assets/'+this.miPortfolio[index].image_perfil,
-    input: 'file',
-    imageWidth: 300,
-    imageHeight: 300,
-    imageAlt: 'Custom image',
-    showCancelButton: true,
-    confirmButtonColor: '#0d6efd',
-    cancelButtonColor: '#dc3545',
-    confirmButtonText: "Editar",
-    cancelButtonText: "Cancelar",
-  }).then(resultado => {
-    if (resultado.value) {
-        // Hicieron click en "Editar"
-        this.modificarPerfil(index);
-    } else {
-        // Hicieron click en "Cancelar"
-        this.sincambios();
+  if(this.miPortfolio[item].imagePerfil==this.form.value.imagePerfil){
+    this.cerrarPerfil.nativeElement.click();
+    this.sincambios();
+  }else{
+    this.cambios()
+    let persona1: Persona = {
+      "id": this.miPortfolio[item].id,
+      "nombres": this.miPortfolio[item].nombres,
+			"apellido": this.miPortfolio[item].apellido,
+			"nacionalidad": this.miPortfolio[item].nacionalidad,
+			"email": this.miPortfolio[item].email,
+			"celular": this.miPortfolio[item].celular,
+			"sobreMi": this.miPortfolio[item].sobreMi,
+      "ocupacion": this.miPortfolio[item].ocupacion,
+			"imagePortada": this.miPortfolio[item].imagePortada,
+			"imagePerfil": this.form.value.imagePerfil
     }
-});
+    this.datosPortfolio.editarPersona(persona1).subscribe(
+      data => {
+        //this.router.navigate(['/']);
+      }
+    );
+
+          setTimeout(function(){
+            location.href ='/';
+         }, 1000);
+  }
 }
 
-cambiarFotoPortada(index: number){
-  Swal.fire({
-    title: 'Cambiar Portada',
-    imageUrl: '../../../assets/'+this.miPortfolio[index].image_portada,
-    input: 'file',
-    imageWidth: 500,
-    imageHeight: 200,
-    imageAlt: 'Custom image',
-    showCancelButton: true,
-    confirmButtonColor: '#0d6efd',
-    cancelButtonColor: '#dc3545',
-    confirmButtonText: "Editar",
-    cancelButtonText: "Cancelar",
-  }).then(resultado => {
-    if (resultado.value) {
-        // Hicieron click en "Editar"
-        //this.modificarPortada(index,Swal.getInput()?.value.slice(12));
-        //let nombre =  Swal.getInput()?.value.slice(12).valueOf();
-        //alert(nombre)
-        this.modificarPortada(index)
-    } else {
-        // Hicieron click en "Cancelar"
-        this.sincambios();
+// FUNCIONES PARA EDITAR LOCALIZACIÓN
+
+// Getters para Localización 
+
+get Localidad(){
+  return this.formLocation.get("localidad");
+ }
+
+ get Provincia(){
+  return this.formLocation.get("provincia");
+ }
+
+ get Pais(){
+  return this.formLocation.get("pais");
+ }
+
+ get Domicilio(){
+  return this.formLocation.get("domicilio");
+ }
+
+ onEnviarLocation(event: Event, item:number){
+  // Detenemos la propagación o ejecución del compotamiento submit de un form
+  event.preventDefault; 
+
+  if (this.formLocation.valid){
+
+    // Llamamos a nuestro servicio para enviar los datos al servidor
+    // Cuando la validación es superada pasa a modificar datos
+      this.modificarLocation(item); 
+    
+  }else{
+    // Corremos todas las validaciones para que se ejecuten los mensajes de error en el template     
+    this.form.markAllAsTouched(); 
+  }
+
+}
+
+modificarLocation(item: number){
+  //Si no se produjeron cambios en el formulario se mostrará una alerta que diga sin cambios
+  if(
+      this.miDireccion[item].localidad==this.formLocation.value.localidad
+      && this.miDireccion[item].pais==this.formLocation.value.pais
+      && this.miDireccion[item].provincia==this.formLocation.value.provincia
+      && this.miDireccion[item].domicilio==this.formLocation.value.domicilio
+    ){
+    this. cerrarLocation.nativeElement.click();
+    this.sincambios();
+  }else{
+    //Si se produjeron cambios en el formulario se mostrará una alerta que cambios guardados
+    this.cambios();
+
+    //creamos un objeto de tipo Direccion
+    let direccion: Direccion = {
+      "id": this.miDireccion[item].id,
+			"pais": this.formLocation.value.pais,
+      "provincia": this.formLocation.value.provincia,
+      "localidad": this.formLocation.value.localidad,
+      "domicilio": this.formLocation.value.domicilio
     }
-});
-
+    //Llamamos a nuestro servicio para hacer los cambios en el servidor
+    this.datosDireccion.editarDireccion(direccion).subscribe(
+      data => {
+        //this.router.navigate(['/']);
+      }
+    );
+          //La página se refresca automáticamente luego del tiempo transcurrido
+          setTimeout(function(){
+            location.href ='/';
+         }, 1000);
+  }
 }
-
-
-
 
 }

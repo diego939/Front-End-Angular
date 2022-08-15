@@ -7,9 +7,11 @@
       <a target="blank" href="https://github.com/DiegoDavid17" type="button" class="btn btn-secondary btn-lg btn-floating mx-2">
         <i class="bi bi-github"></i>
       </a>
-      <a target="blank" href="https://wa.me/543795315483" type="button" class="btn btn-secondary btn-lg btn-floating mx-2">
-        <i class="bi bi-whatsapp"></i>
-      </a>
+      <span *ngFor="let item of miContacto, let indice=index">
+        <a *ngIf="indice==0" target="blank" href="https://wa.me/+54{{item.celular}}" type="button" class="btn btn-secondary btn-lg btn-floating mx-2">
+          <i class="bi bi-whatsapp"></i>
+        </a>
+      </span>
       <a target="blank" href="https://www.linkedin.com/in/diego-david-almir%C3%B3n-575832211" type="button" class="btn btn-secondary btn-lg btn-floating mx-2">
         <i class="bi bi-linkedin"></i>
       </a>
@@ -30,10 +32,17 @@
       </div>
       <div class="col-sm-4 text-break"><hr>
         <h4>CONTACTO</h4><hr>
-        <h6><i class="bi bi-geo-alt" ></i> Corrientes, Corrientes (Argentina)</h6>
-        <h6><i class="bi bi-envelope"></i> <a style="text-decoration: none; color: #fff;" href="mailto:diegodavidalmiron17@gmail.com?Subject=Oferta%20de%20empleo"> diegodavidalmiron17@gmail.com</a></h6>
-        <h6><i class="bi bi-phone"></i> + 54 3795 315483</h6>
-        <h6><a target="blank" href="https://wa.me/543795315483" style="text-decoration: none; color: #fff;"> <i class="bi bi-whatsapp"></i> + 54 3795 315483</a></h6>
+        <span *ngFor="let item of miContacto, let indice=index">
+          <span *ngIf="indice==0">
+            <span *ngFor="let i of miDireccion, let indice=index">
+              <h6>{{i.domicilio}}</h6>
+              <h6><i class="bi bi-geo-alt" ></i> {{' ' + i.localidad + ', ' + i.provincia + ' (' + i.pais + ')'}}</h6>
+            </span>
+            <h6><i class="bi bi-envelope"></i> <a style="text-decoration: none; color: #fff;" href="mailto:{{item.email}}?Subject=Oferta%20de%20empleo"> {{item.email}}</a></h6>
+            <h6><i class="bi bi-phone"></i> {{'+54'+item.celular}}</h6>
+            <h6><a target="blank" href="https://wa.me/+54{{item.celular}}" style="text-decoration: none; color: #fff;"> <i class="bi bi-whatsapp"></i> {{'+54'+item.celular}}</a></h6>
+          </span>
+        </span>
       </div>
     </div>
 

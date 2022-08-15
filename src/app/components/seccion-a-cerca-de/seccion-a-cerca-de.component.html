@@ -1,15 +1,21 @@
 <section class="panel-seccion" id="aCercaDe">
     <h1>
       <span class="float-left"><i class="bi bi-chat-right-text-fill"></i> A cerca de mi</span>
-      <span *ngIf="logueado.logueadoEstado()==1" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalACercaDe" #llamarModalacercaDe><i class="bi bi-pencil-fill"></i></span>
+      <span *ngIf="isLogged" class="btn flotar-derecha" data-bs-toggle="modal" data-bs-target="#myModalACercaDe" #llamarModalacercaDe><i class="bi bi-pencil-fill"></i></span>
     </h1><br>
       <span class="fst-italic card shadow-sm border border-dark" style="text-align: justify;">
-        <p id="infoUsuario" class="card-body" *ngFor="let item of miPortfolio">{{item.sobre_mi}}</p>
+        <p id="infoUsuario" class="card-body">
+          <span *ngFor="let item of miPortfolio, let indice=index">
+            <span *ngIf="indice==0">
+              {{item.sobreMi}}
+            </span>
+          </span>
+        </p>
       </span>
   </section> 
 
 
-<!-- The Modal -->
+<!-- Modal Para Editar La Información A cerca De Mi -->
 <div class="modal" id="myModalACercaDe">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -22,9 +28,9 @@
 
       <!-- Modal body -->
       <div class="modal-body" *ngFor="let item of miPortfolio, let indice=index">
-        <form [formGroup]="form" (ngSubmit)="sobreMiEnviar($event,indice)">
+        <form [formGroup]="form" (ngSubmit)="sobreMiEnviar($event,indice)" *ngIf="indice==0">
           <label for="comment" class="mb-3">Editar mi Información:</label>
-            <textarea type="text" class="form-control" rows="7" id="comment" name="sobre_mi" formControlName="sobre_mi" [ngModel]="item.sobre_mi"></textarea>
+            <textarea type="text" class="form-control" rows="7" id="comment" name="sobreMi" formControlName="sobreMi" [ngModel]="item.sobreMi"></textarea>
             <div class="text-danger" *ngIf="SobreMi?.errors  && SobreMi?.touched">    
               <p *ngIf="SobreMi?.hasError('required')" class="error bi bi-x-circle">
                 Tu info personal no puede quedar en blanco
