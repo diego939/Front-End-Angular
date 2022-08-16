@@ -341,18 +341,19 @@ export class ExperienciaYEducacionComponent implements OnInit {
     })
     }else{
 
-            this.misCertificados[item].nombre = this.form3edit.value.nombre;
-            this.misCertificados[item].imagen = this.form3edit.value.imagen;
+            //this.misCertificados[item].nombre = this.form3edit.value.nombre;
+            //this.misCertificados[item].imagen = this.form3edit.value.imagen;
 
             let certificado: Certificado =  {
               "id": this.misCertificados[item].id,
-              "nombre": this.misCertificados[item].nombre, 
-              "imagen": this.misCertificados[item].imagen
+              "nombre": this.form3edit.value.nombre, 
+              "imagen": this.form3edit.value.imagen
             };
 
             this.certificadoService.editarCertificado(certificado).subscribe(
               data => {
-                //this.router.navigate(['/']);
+                this.router.navigate(['/']);
+                
               }
             );
 
