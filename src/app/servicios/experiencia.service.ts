@@ -8,7 +8,7 @@ import { Experiencia } from '../model/experiencia';
 })
 export class ExperienciaService {
 
-  experienciaURL = 'http://localhost:8080/experiencia/';
+  experienciaURL = 'https://almirondiegodavidbackendap.herokuapp.com/experiencia/';
 
   constructor(private http: HttpClient) { }
 

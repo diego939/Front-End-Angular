@@ -8,7 +8,7 @@ import { Instituto } from 'src/app/model/instituto';
 })
 export class InstitutoService {
 
-  institutoURL = 'http://localhost:8080/instituto/';
+  institutoURL = 'https://almirondiegodavidbackendap.herokuapp.com/instituto/';
 
   constructor(private http: HttpClient) { }
 

@@ -8,7 +8,7 @@ import { Habilidad } from 'src/app/model/habilidad';
 })
 export class HabilidadService {
 
-  habilidadURL = 'http://localhost:8080/habilidad/';
+  habilidadURL = 'https://almirondiegodavidbackendap.herokuapp.com/habilidad/';
 
   constructor(private http: HttpClient) { }
 
