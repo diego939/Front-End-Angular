@@ -9,6 +9,7 @@ import { Certificado } from 'src/app/model/certificado';
 export class CertificadoService {
 
   certificadoURL = 'https://almirondiegodavidbackendap.herokuapp.com/certificado/';
+  //certificadoURL = 'http://localhost:8080/certificado/';
 
   constructor(private http: HttpClient) { }
 

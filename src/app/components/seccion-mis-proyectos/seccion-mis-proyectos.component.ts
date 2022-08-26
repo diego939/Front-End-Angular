@@ -90,6 +90,19 @@ export class SeccionMisProyectosComponent implements OnInit {
     this.nombreProyectoSelect= this.misProyectos[this.auxIndex].nombre;
     this.descripcionProyectoSelect=this.misProyectos[this.auxIndex].descripcion;
     this.imagenProyectoSelect = this.misProyectos[this.auxIndex].imageProyecto;
+
+    //La búsqueda la dejo comentada porque opté por hacerla con typescript ya que trae los datos más rápido que consultar al servidor
+    //Pero se puede probar que funciona comentando las lineas de arriba  de la función y descomentando estas:
+      /*
+      this.proyectoService.buscarProyecto(this.misProyectos[item].id).subscribe(
+        data => {
+          this.auxIndex = item;
+          this.nombreProyectoSelect = data.nombre;
+          this.descripcionProyectoSelect = data.descripcion;
+          this.imagenProyectoSelect = data.imageProyecto;
+        }
+      )
+      */
   } 
 
   //Getters de agregar proyecto
@@ -160,23 +173,20 @@ export class SeccionMisProyectosComponent implements OnInit {
       "imageProyecto": this.imagenDeProyecto
     };
 
-    this.proyectoService.crearProyecto(proyecto).subscribe(
-      data => {
-        //this.router.navigate(['/']);
-      }
-    );
-
-    setTimeout(function(){
-      location.href ='/';
-    }, 1000);
-
-
     Swal.fire({
       icon: 'success',
       title: 'Se agregó el proyecto: "'+ this.nombreDeProyecto + '"',
       showConfirmButton: false,
       timer: 4000
     })
+
+    this.proyectoService.crearProyecto(proyecto).subscribe(
+      data => {
+        setTimeout(function(){
+          location.reload();
+        }, 1000);
+      }
+    );
   }
 
   //Métodos para editar proyectos
@@ -246,13 +256,6 @@ export class SeccionMisProyectosComponent implements OnInit {
           timer: 4000
     })
     }else{
-      Swal.fire({
-        icon: 'question',
-        iconHtml: '<i class="bi bi-pencil-fill"></i>',
-        title: 'Se editó el proyecto: "'+ this.misProyectos[item].nombre + '"',
-        showConfirmButton: false,
-        timer: 4000
-        })
 
         this.misProyectos[item].nombre=this.formProyectoEdit.value.nombreProyecto;
         this.misProyectos[item].descripcion=this.formProyectoEdit.value.descripcionProyecto;
@@ -265,16 +268,21 @@ export class SeccionMisProyectosComponent implements OnInit {
           "imageProyecto": this.misProyectos[item].imageProyecto
         };
 
+        Swal.fire({
+          icon: 'question',
+          iconHtml: '<i class="bi bi-pencil-fill"></i>',
+          title: 'Se editó el proyecto: "'+ this.misProyectos[item].nombre + '"',
+          showConfirmButton: false,
+          timer: 4000
+          })
+
         this.proyectoService.editarProyecto(proyecto).subscribe(
           data => {
-            //this.router.navigate(['/']);
+            setTimeout(function(){
+              location.reload();
+              }, 1000);
           }
         );
-
-        setTimeout(function(){
-          location.href ='/';
-          }, 1000);
-
     
     }
   }
@@ -293,13 +301,11 @@ export class SeccionMisProyectosComponent implements OnInit {
 
     this.proyectoService.borrarProyecto(this.misProyectos[indice].id).subscribe(
       data => {
-        //this.router.navigate(['/']);
+        setTimeout(function(){
+          location.reload();
+          }, 1000);
       }
     );
-
-    setTimeout(function(){
-      location.href ='/';
-      }, 1000);
   }
 
 }

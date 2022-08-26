@@ -9,6 +9,7 @@ import { Direccion } from 'src/app/model/direccion';
 export class DireccionService {
 
   direccionURL = 'https://almirondiegodavidbackendap.herokuapp.com/direccion/';
+  //direccionURL = 'http://localhost:8080/direccion/';
 
   constructor(private http: HttpClient) { }
 

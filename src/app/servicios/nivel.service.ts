@@ -9,6 +9,7 @@ import { Nivel } from 'src/app/model/nivel';
 export class NivelService {
 
   nivelURL = 'https://almirondiegodavidbackendap.herokuapp.com/nivel/';
+  //nivelURL = 'http://localhost:8080/nivel/';
 
   constructor(private http: HttpClient) { }
 

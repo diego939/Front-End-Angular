@@ -9,6 +9,7 @@ import { Persona } from '../model/persona';
 export class PortfolioService {
 
   personaURL = 'https://almirondiegodavidbackendap.herokuapp.com/persona/';
+  //personaURL = 'http://localhost:8080/persona/';
 
   constructor(private http: HttpClient) { }
 
@@ -22,6 +23,10 @@ export class PortfolioService {
 
   public editarPersona(persona: Persona): Observable<any>{
     return this.http.put<any>(this.personaURL+'editar',persona);
+  }
+
+  public buscarPersona(id: number): Observable<any> {
+    return this.http.get<any>(this.personaURL + `buscar/${id}`);
   }
 
 

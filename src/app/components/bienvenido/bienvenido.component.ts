@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BienvenidoComponent implements OnInit {
 
+  //Este componente unicamente se utilizó para hacer una prueba pero no cumple ninguna función en el sistema
   saludo: string = 'Bienvenido.....!!!';
 
   constructor() { }

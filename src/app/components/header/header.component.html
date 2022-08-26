@@ -89,84 +89,84 @@
   
   <!-- MODAL PARA EDITAR LOS DATOS PERSONALES -->
   <div class="modal" id="myModalInfoPersonal" *ngFor="let item of miPortfolio, let indice=index">
-    <div class="modal-dialog">
-      <div class="modal-content">
-  
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Mis datos personales</h4>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      <div class="modal-dialog">
+        <div class="modal-content">
+    
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Mis datos personales</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+    
+          <!-- Modal body -->
+          <div class="modal-body" *ngIf="indice==0">
+            <form [formGroup]="form" (ngSubmit)="onEnviar($event, indice)">
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+                <input type="text" class="form-control" placeholder="Nombres" name="nombres" formControlName="nombres" [ngModel]="item.nombres">
+              </div><br>
+              <!-- Gracias al getter que configuramos en el controlador -->
+              <div class="text-danger" *ngIf="Nombres?.errors  && Nombres?.touched">    
+                <p *ngIf="Nombres?.hasError('required')" class="error bi bi-x-circle">
+                  El campo Nombres es obligatorio
+                </p>
+              </div>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+                <input type="text" class="form-control" placeholder="Apellido" name="apellido" formControlName="apellido" [ngModel]="item.apellido">
+              </div><br>
+              <div class="text-danger" *ngIf="Apellido?.errors  && Apellido?.touched">    
+                <p *ngIf="Apellido?.hasError('required')" class="error bi bi-x-circle">
+                  El campo Apellido es obligatorio
+                </p>
+              </div>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-person-workspace"></i></span>
+                <!-- <input type="text" class="form-control" placeholder="ocupacion" name="ocupacion" [value]="item.ocupacion"> -->
+                <input type="text" class="form-control" placeholder="Ocupacion" name="ocupacion" formControlName="ocupacion" [ngModel]="item.ocupacion">
+              </div><br>
+              <div class="text-danger" *ngIf="Ocupacion?.errors  && Ocupacion?.touched">    
+                <p *ngIf="Ocupacion?.hasError('required')" class="error bi bi-x-circle">
+                  El campo Ocupacion es obligatorio
+                </p>
+              </div>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
+                <input type="text" class="form-control" placeholder="Correo" name="email" formControlName="email" [ngModel]="item.email">
+              </div><br>
+              <div class="text-danger" *ngIf="Email?.errors  && Email?.touched">    
+                <p *ngIf="Email?.hasError('required')" class="error bi bi-x-circle">
+                  El campo Correo es obligatorio
+                </p>
+              </div>
+              <span *ngIf="mensajeMail!=''">
+                <p  class="text-danger bi bi-x-circle"> {{mensajeMail}}</p>
+              </span>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-phone-fill"></i></span>
+                <input type="text" class="form-control" placeholder="Celular" name="celular" formControlName="celular" [ngModel]="item.celular">
+              </div><br>
+              <div class="text-danger" *ngIf="Celular?.errors  && Celular?.touched">    
+                <p *ngIf="Celular?.hasError('required')" class="error bi bi-x-circle">
+                  El campo Celular es obligatorio
+                </p>
+              </div>
+              <span *ngIf="mensajeNum!=''">
+                <p  class="text-danger bi bi-x-circle"> {{mensajeNum}}</p>
+              </span>
+              <div>
+                  <button type="submit" class="btn btn-primary" >Editar <i class="bi bi-pencil-square"></i></button>
+              </div>
+            </form>
+          </div>
+    
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebutton>Cancelar</button>
+          </div>
+    
         </div>
-  
-        <!-- Modal body -->
-        <div class="modal-body" *ngIf="indice==0">
-          <form [formGroup]="form" (ngSubmit)="onEnviar($event, indice)">
-            <div class="input-group">
-              <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
-              <input type="text" class="form-control" placeholder="Nombres" name="nombres" formControlName="nombres" [ngModel]="item.nombres">
-            </div><br>
-            <!-- Gracias al getter que configuramos en el controlador -->
-            <div class="text-danger" *ngIf="Nombres?.errors  && Nombres?.touched">    
-              <p *ngIf="Nombres?.hasError('required')" class="error bi bi-x-circle">
-                El campo Nombres es obligatorio
-              </p>
-            </div>
-            <div class="input-group">
-              <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
-              <input type="text" class="form-control" placeholder="Apellido" name="apellido" formControlName="apellido" [ngModel]="item.apellido">
-            </div><br>
-            <div class="text-danger" *ngIf="Apellido?.errors  && Apellido?.touched">    
-              <p *ngIf="Apellido?.hasError('required')" class="error bi bi-x-circle">
-                El campo Apellido es obligatorio
-              </p>
-            </div>
-            <div class="input-group">
-              <span class="input-group-text"><i class="bi bi-person-workspace"></i></span>
-              <!-- <input type="text" class="form-control" placeholder="ocupacion" name="ocupacion" [value]="item.ocupacion"> -->
-              <input type="text" class="form-control" placeholder="Ocupacion" name="ocupacion" formControlName="ocupacion" [ngModel]="item.ocupacion">
-            </div><br>
-            <div class="text-danger" *ngIf="Ocupacion?.errors  && Ocupacion?.touched">    
-              <p *ngIf="Ocupacion?.hasError('required')" class="error bi bi-x-circle">
-                El campo Ocupacion es obligatorio
-              </p>
-            </div>
-            <div class="input-group">
-              <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
-              <input type="text" class="form-control" placeholder="Correo" name="email" formControlName="email" [ngModel]="item.email">
-            </div><br>
-            <div class="text-danger" *ngIf="Email?.errors  && Email?.touched">    
-              <p *ngIf="Email?.hasError('required')" class="error bi bi-x-circle">
-                El campo Correo es obligatorio
-              </p>
-            </div>
-            <span *ngIf="mensajeMail!=''">
-              <p  class="text-danger bi bi-x-circle"> {{mensajeMail}}</p>
-            </span>
-            <div class="input-group">
-              <span class="input-group-text"><i class="bi bi-phone-fill"></i></span>
-              <input type="text" class="form-control" placeholder="Celular" name="celular" formControlName="celular" [ngModel]="item.celular">
-            </div><br>
-            <div class="text-danger" *ngIf="Celular?.errors  && Celular?.touched">    
-              <p *ngIf="Celular?.hasError('required')" class="error bi bi-x-circle">
-                El campo Celular es obligatorio
-              </p>
-            </div>
-            <span *ngIf="mensajeNum!=''">
-              <p  class="text-danger bi bi-x-circle"> {{mensajeNum}}</p>
-            </span>
-            <div>
-                <button type="submit" class="btn btn-primary" >Editar <i class="bi bi-pencil-square"></i></button>
-            </div>
-          </form>
-        </div>
-  
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closebutton>Cancelar</button>
-        </div>
-  
       </div>
-    </div>
   </div>
 
 

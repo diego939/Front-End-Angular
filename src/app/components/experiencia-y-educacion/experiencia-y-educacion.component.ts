@@ -182,15 +182,17 @@ export class ExperienciaYEducacionComponent implements OnInit {
   //Funcion para mostrar certificados
 
   verCertificado(index: number){
-    Swal.fire({
-      title: this.misCertificados[index].nombre,
-      imageUrl: this.misCertificados[index].imagen,
-      imageAlt: 'Custom image',
-      showCancelButton: true,
-      showConfirmButton: false,
-      cancelButtonColor: '#dc3545',
-      cancelButtonText: "Cerrar",
-    })
+
+        Swal.fire({
+          title: this.misCertificados[index].nombre,
+          imageUrl: this.misCertificados[index].imagen,
+          imageAlt: 'Custom image',
+          showCancelButton: true,
+          showConfirmButton: false,
+          cancelButtonColor: '#dc3545',
+          cancelButtonText: "Cerrar",
+        })
+
   }
 
   //fUNCIONES PARA AGREGAR CERTIFICADOS
@@ -247,28 +249,32 @@ export class ExperienciaYEducacionComponent implements OnInit {
     this.nombreCertificado = this.form3add.value.nombre;
     this.imagenCertificado = this.form3add.value.imagen;
 
-
+    //creamos el objeto 
       let certificado: Certificado =  {
         "nombre": this.nombreCertificado, 
         "imagen": this.imagenCertificado
       };
 
+      //mensaje de alerta
+      Swal.fire({
+        icon: 'success',
+        title: 'Se agregó el certificado: "'+ this.nombreCertificado + '"',
+        showConfirmButton: false,
+        timer: 4000
+      })
+
       this.certificadoService.crearCertificado(certificado).subscribe(
         data => {
-          //this.router.navigate(['/']);
+          //el sitio se redirecciona luego de un segundo
+            setTimeout(function(){
+              location.reload();
+            }, 1000);
         }
+
+        
       );
 
-      setTimeout(function(){
-        location.href ='/';
-      }, 1000);
 
-    Swal.fire({
-      icon: 'success',
-      title: 'Se agregó el certificado: "'+ this.nombreCertificado + '"',
-      showConfirmButton: false,
-      timer: 4000
-    })
   }
 
   // Función para mostrar cerificado
@@ -279,6 +285,18 @@ export class ExperienciaYEducacionComponent implements OnInit {
     this.auxIndex = indice;
     this.fotoSelect =  this.misCertificados[this.auxIndex].imagen;
     this.nombreSelect = this.misCertificados[this.auxIndex].nombre;
+
+    //La búsqueda la dejo comentada porque opté por hacerla con typescript ya que trae los datos más rápido que consultar al servidor
+    //Pero se puede probar que funciona comentando las lineas de arriba  de la función y descomentando estas:
+      /*
+    this.certificadoService.buscarCertificado(this.misCertificados[indice].id).subscribe(
+      data =>{
+        this.auxIndex = indice;
+        this.fotoSelect = data.imagen;
+        this.nombreSelect = data.nombre;
+      }
+    )
+    */
     
   }
 
@@ -350,24 +368,24 @@ export class ExperienciaYEducacionComponent implements OnInit {
               "imagen": this.form3edit.value.imagen
             };
 
+            Swal.fire({
+              icon: 'question',
+              iconHtml: '<i class="bi bi-pencil-fill"></i>',
+              title: 'Se editó: "'+ this.form3edit.value.nombre + '"',
+              showConfirmButton: false,
+              timer: 4000
+            })
+
             this.certificadoService.editarCertificado(certificado).subscribe(
               data => {
-                this.router.navigate(['/']);
+
+                setTimeout(function(){
+                  location.reload();
+                }, 1000);
                 
               }
             );
 
-            setTimeout(function(){
-              location.href ='/';
-          }, 1000);
-
-            Swal.fire({
-              icon: 'question',
-              iconHtml: '<i class="bi bi-pencil-fill"></i>',
-              title: 'Se editó: "'+ this.misCertificados[item].nombre + '"',
-              showConfirmButton: false,
-              timer: 4000
-            })
     }
   }
 
@@ -376,23 +394,25 @@ export class ExperienciaYEducacionComponent implements OnInit {
   eliminarCertificado(indice: number){
 
     this.closebuttonEliminarCertificado.nativeElement.click();
-      Swal.fire({
-        icon: 'error',
-        iconHtml: '<i class="bi bi-trash-fill"></i>',
-        title: 'Se eliminó el Certificado: "'+ this.misCertificados[indice].nombre + '"',
-        showConfirmButton: false,
-        timer: 4000
-        })
+
+    Swal.fire({
+      icon: 'error',
+      iconHtml: '<i class="bi bi-trash-fill"></i>',
+      title: 'Se eliminó el Certificado: "'+ this.misCertificados[indice].nombre + '"',
+      showConfirmButton: false,
+      timer: 4000
+      })
+      
 
     this.certificadoService.borrarCertificado(this.misCertificados[indice].id).subscribe(
       data => {
-        //this.router.navigate(['/']);
+
+          setTimeout(function(){
+            location.reload();
+          }, 1000);
       }
     );
 
-    setTimeout(function(){
-      location.href ='/';
-      }, 1000);
   }
 
   // FUNCIONES PARA LOS INSTITUTOS O CENTROS EDUCATIVOS ********************************************************************************+
@@ -528,22 +548,23 @@ export class ExperienciaYEducacionComponent implements OnInit {
         "imageInstituto": this.imagenInstituto
       };
 
+      Swal.fire({
+        icon: 'success',
+        title: 'Se agregó la institución: "'+ this.nombreInstituto + '"',
+        showConfirmButton: false,
+        timer: 4000
+      })
+
       this.institutoService.crearInstituto(instituto).subscribe(
         data => {
-          //this.router.navigate(['/']);
+
+          setTimeout(function(){
+            location.reload();
+          }, 1000);
+
         }
       );
 
-      setTimeout(function(){
-        location.href ='/';
-      }, 1000);
-
-    Swal.fire({
-      icon: 'success',
-      title: 'Se agregó la institución: "'+ this.nombreInstituto + '"',
-      showConfirmButton: false,
-      timer: 4000
-    })
   }
 
 
@@ -662,13 +683,7 @@ export class ExperienciaYEducacionComponent implements OnInit {
           timer: 4000
     })
     }else{
-          Swal.fire({
-            icon: 'question',
-            iconHtml: '<i class="bi bi-pencil-fill"></i>',
-            title: 'Se editó: "'+ this.misTitulos[item].instituto + '"',
-            showConfirmButton: false,
-            timer: 4000
-            })
+          
 
             this.misTitulos[item].instituto = this.form1edit.value.instituto;
             this.misTitulos[item].titulo = this.form1edit.value.titulo;
@@ -685,23 +700,22 @@ export class ExperienciaYEducacionComponent implements OnInit {
               "imageInstituto": this.misTitulos[item].imageInstituto
             };
 
-            this.institutoService.editarInstituto(instituto).subscribe(
-              data => {
-                //this.router.navigate(['/']);
-              }
-            );
-
-            setTimeout(function(){
-              location.href ='/';
-          }, 1000);
-
             Swal.fire({
               icon: 'question',
               iconHtml: '<i class="bi bi-pencil-fill"></i>',
-              title: 'Cambios Guardados!!!',
+              title: 'Se editó: "'+ this.misTitulos[item].instituto + '"',
               showConfirmButton: false,
               timer: 4000
-            })
+              })
+
+            this.institutoService.editarInstituto(instituto).subscribe(
+              data => {
+
+                setTimeout(function(){
+                  location.reload();
+                }, 1000);
+              }
+            );
     }
   }
 
@@ -720,29 +734,48 @@ export class ExperienciaYEducacionComponent implements OnInit {
     this.anioIngresoInstitutoSelect=this.misTitulos[this.auxIndex].anioIngreso;
     this.anioEgresoInstitutoSelect=this.misTitulos[this.auxIndex].anioEgreso;
     this.imagenInstitutoSelect=this.misTitulos[this.auxIndex].imageInstituto;
+
+    //La búsqueda la dejo comentada porque opté por hacerla con typescript ya que trae los datos más rápido que consultar al servidor
+    //Pero se puede probar que funciona comentando las lineas de arriba  de la función y descomentando estas:
+    
+    /*
+    this.institutoService.buscarInstituto(this.misTitulos[item].id).subscribe(
+      data =>{
+
+        this.auxIndex = item;
+        this.nombreInstitutoSelect = data.instituto;
+        this.tituloInstitutoSelect = data.titulo;
+        this.anioIngresoInstitutoSelect = data.anioIngreso;
+        this.anioEgresoInstitutoSelect = data.anioEgreso;
+        this.imagenInstitutoSelect = data.imageInstituto;
+      }
+    )
+    */
   } 
 
 // Funciones para eliminar institución
 
   eliminarTitulo(indice: number){
     this.closebuttonEliminarInstituto.nativeElement.click();
-      Swal.fire({
-        icon: 'error',
-        iconHtml: '<i class="bi bi-trash-fill"></i>',
-        title: 'Se eliminó el Centro educativo: "'+ this.misTitulos[indice].instituto + '"',
-        showConfirmButton: false,
-        timer: 4000
-        })
     //this.misTitulos.splice(indice, 1);
+    Swal.fire({
+      icon: 'error',
+      iconHtml: '<i class="bi bi-trash-fill"></i>',
+      title: 'Se eliminó el Centro educativo: "'+ this.misTitulos[indice].instituto + '"',
+      showConfirmButton: false,
+      timer: 4000
+      })
+
     this.institutoService.borrarInstituto(this.misTitulos[indice].id).subscribe(
       data => {
-        //this.router.navigate(['/']);
+        
+          setTimeout(function(){
+            location.reload();
+            }, 1000);
       }
     );
 
-    setTimeout(function(){
-      location.href ='/';
-      }, 1000);
+
   }
 
   // FUNCIONES DEL AREA EXPERIENCIA *************************************************************************
@@ -875,21 +908,22 @@ export class ExperienciaYEducacionComponent implements OnInit {
                               "imageExperiencia": this.imagenExperiencia
                             };
 
-                            this.experienciaService.crearExperiencia(experiencia).subscribe(
-                              data => {
-                                //this.router.navigate(['/']);
-                              }
-                            );
+                            Swal.fire({
+                              icon: 'success',
+                              title: 'Se agregó nueva Experiencia: "'+ this.puestoExperiencia + '"',
+                              showConfirmButton: false,
+                              timer: 4000
+                            })
 
-                            setTimeout(function(){
-                              location.href ='/';
-                           }, 1000);
-    Swal.fire({
-      icon: 'success',
-      title: 'Se agregó nueva Experiencia: "'+ this.puestoExperiencia + '"',
-      showConfirmButton: false,
-      timer: 4000
-    })
+        this.experienciaService.crearExperiencia(experiencia).subscribe(
+          data => {
+                    setTimeout(function(){
+                      location.reload();
+                    }, 1000);
+
+                  }
+        );
+
   }
 
 
@@ -1028,25 +1062,25 @@ export class ExperienciaYEducacionComponent implements OnInit {
         "imageExperiencia": this.misExperiencias[item].imageExperiencia
       };
 
-      this.experienciaService.editarExperiencia(experiencia).subscribe(
-        data => {
-          //this.router.navigate(['/']);
-        }
-      );
-
-      setTimeout(function(){
-        location.href ='/';
-     }, 1000);
-
       Swal.fire({
         icon: 'question',
         iconHtml: '<i class="bi bi-pencil-fill"></i>',
-        title: 'Cambios Guardados!!!',
+        title: 'Se editó: ' + this.misExperiencias[item].puesto,
         showConfirmButton: false,
         timer: 4000
       })
 
+      this.experienciaService.editarExperiencia(experiencia).subscribe(
+        data => {
 
+
+                  setTimeout(function(){
+                    location.reload();
+                }, 1000);
+
+
+              }
+      );
 
     }
   }
@@ -1055,6 +1089,9 @@ export class ExperienciaYEducacionComponent implements OnInit {
 
   eliminarExperiencia(indice: number){
     this.closebuttonEliminarExperiencia.nativeElement.click();
+    
+    //this.misExperiencias.splice(indice, 1);
+
     Swal.fire({
       icon: 'error',
       iconHtml: '<i class="bi bi-trash-fill"></i>',
@@ -1062,17 +1099,18 @@ export class ExperienciaYEducacionComponent implements OnInit {
       showConfirmButton: false,
       timer: 4000
     })
-    //this.misExperiencias.splice(indice, 1);
 
     this.experienciaService.borrarExperiencia(this.misExperiencias[indice].id).subscribe(
       data => {
-        //this.router.navigate(['/']);
-      }
+
+                setTimeout(function(){
+                  location.reload();
+              }, 1000);
+
+          }
     );
 
-    setTimeout(function(){
-      location.href ='/';
-   }, 1000);
+    
 
   }
 
@@ -1093,6 +1131,24 @@ export class ExperienciaYEducacionComponent implements OnInit {
     this.anioIngresoExperienciaSelect= this.misExperiencias[this.auxIndex].anioIngreso;
     this.anioEgresoExperienciaSelect= this.misExperiencias[this.auxIndex].anioEgreso;
     this.imageExperienciaSelect= this.misExperiencias[this.auxIndex].imageExperiencia;
+
+
+    //La búsqueda la dejo comentada porque opté por hacerla con typescript ya que trae los datos más rápido que consultar al servidor
+    //Pero se puede probar que funciona comentando las lineas de arriba  de la función y descomentando estas:
+
+    /*
+    this.experienciaService.buscarExperiencia(this.misExperiencias[item].id).subscribe(
+      data => {
+        this.auxIndex = item;
+        this.puestoExperienciaSelect = data.puesto;
+        this.empresaExperienciaSelect = data.empresa;
+        this.descripcionExperienciaSelect = data.descripcion;
+        this.anioIngresoExperienciaSelect = data.anioIngreso;
+        this.anioEgresoExperienciaSelect = data.anioEgreso;
+        this.imageExperienciaSelect = data.imageExperiencia;
+      }
+    )
+    */
   }
 
 }

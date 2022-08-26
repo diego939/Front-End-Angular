@@ -167,23 +167,23 @@ export class SeccionHabilidadesComponent implements OnInit {
       
     };
 
-    this.habilidadService.crearHabilidad(habilidad).subscribe(
-      data => {
-        //this.router.navigate(['/']);
-      }
-    );
-
-    setTimeout(function(){
-      location.href ='/';
-    }, 1000);
-
-
     Swal.fire({
       icon: 'success',
       title: 'Se agregó la habilidad: "'+ this.nombreDeHabilidad +'"',
       showConfirmButton: false,
       timer: 4000
     })
+
+    this.habilidadService.crearHabilidad(habilidad).subscribe(
+      data => {
+
+              setTimeout(function(){
+                location.reload();
+              }, 1000);
+
+              }
+    );
+
   }
 
   //Funciones para editar habilidad
@@ -238,16 +238,6 @@ export class SeccionHabilidadesComponent implements OnInit {
           "nivelId": this.misHabilidades[item].nivelId
         };
 
-        this.habilidadService.editarHabilidad(habilidad).subscribe(
-          data => {
-            //this.router.navigate(['/']);
-          }
-        );
-
-        setTimeout(function(){
-          location.href ='/';
-          }, 1000);
-
         Swal.fire({
           icon: 'question',
           iconHtml: '<i class="bi bi-pencil-fill"></i>',
@@ -255,6 +245,15 @@ export class SeccionHabilidadesComponent implements OnInit {
           showConfirmButton: false,
           timer: 4000
         })
+
+        this.habilidadService.editarHabilidad(habilidad).subscribe(
+          data => {
+              setTimeout(function(){
+                location.reload();
+              }, 1000);
+          }
+        );
+
       }
   }
 
@@ -262,9 +261,21 @@ export class SeccionHabilidadesComponent implements OnInit {
   progresoSelect: number = 1;
   auxIndex: number = 0;
   mostrarHabilidad(item: number){
-    this.auxIndex = item;
-    this.nombreHabilidadSelect= this.misHabilidades[this.auxIndex].nombre;
-    this.progresoSelect=this.misHabilidades[this.auxIndex].nivelId;
+      this.auxIndex = item;
+      this.nombreHabilidadSelect= this.misHabilidades[this.auxIndex].nombre;
+      this.progresoSelect=this.misHabilidades[this.auxIndex].nivelId;
+
+      //La búsqueda la dejo comentada porque opté por hacerla con typescript 
+      //Pero se puede probar que funciona comentando las lineas de arriba  de la función y descomentando estas
+      /*
+      this.habilidadService.buscarHabilidad(this.misHabilidades[item].id).subscribe(
+        data => {
+          this.auxIndex = item;
+          this.nombreHabilidadSelect = data.nombre;
+          this.progresoSelect = data.nivelId;
+        }
+      )*/
+      
   } 
 
 
@@ -281,13 +292,11 @@ export class SeccionHabilidadesComponent implements OnInit {
     //this.misHabilidades.splice(indice, 1);
     this.habilidadService.borrarHabilidad(this.misHabilidades[indice].id).subscribe(
       data => {
-        //this.router.navigate(['/']);
+        setTimeout(function(){
+          location.reload();
+        }, 1000);
       }
     );
-
-    setTimeout(function(){
-      location.href ='/';
-      }, 1000);
   }
 
   // CRUD DE TECNOLOGÍAS
@@ -333,17 +342,7 @@ export class SeccionHabilidadesComponent implements OnInit {
       "nombre": this.nombreDeTecnologia, 
       "nivelId": this.nivelDeTecnologia
       
-    };
-
-    this.tecnologiaService.crearTecnologia(tecnologia).subscribe(
-      data => {
-        //this.router.navigate(['/']);
-      }
-    );
-
-    setTimeout(function(){
-      location.href ='/';
-    }, 1000);
+    };+
 
     Swal.fire({
       icon: 'success',
@@ -351,6 +350,15 @@ export class SeccionHabilidadesComponent implements OnInit {
       showConfirmButton: false,
       timer: 4000
     })
+
+    this.tecnologiaService.crearTecnologia(tecnologia).subscribe(
+      data => {
+        setTimeout(function(){
+          location.reload();
+        }, 1000);
+      }
+    );
+
   }
 
   //Getters para editar tecnologias
@@ -403,23 +411,21 @@ export class SeccionHabilidadesComponent implements OnInit {
           "nivelId": this.misTecnologias[item].nivelId
         };
 
+        Swal.fire({
+          icon: 'question',
+          iconHtml: '<i class="bi bi-pencil-fill"></i>',
+          title: 'Se editó la tecnología: "'+ this.misTecnologias[item].nombre + '"',
+          showConfirmButton: false,
+          timer: 4000
+        })
+
         this.tecnologiaService.editarTecnologia(tecnologia).subscribe(
           data => {
-            //this.router.navigate(['/']);
+            setTimeout(function(){
+              location.reload();
+              }, 1000);
           }
         );
-
-        setTimeout(function(){
-          location.href ='/';
-          }, 1000);
-
-            Swal.fire({
-              icon: 'question',
-              iconHtml: '<i class="bi bi-pencil-fill"></i>',
-              title: 'Se editó la tecnología: "'+ this.misTecnologias[item].nombre + '"',
-              showConfirmButton: false,
-              timer: 4000
-          })
       }
   }
 
@@ -435,13 +441,11 @@ export class SeccionHabilidadesComponent implements OnInit {
 
     this.tecnologiaService.borrarTecnologia(this.misTecnologias[indice].id).subscribe(
       data => {
-        //this.router.navigate(['/']);
+        setTimeout(function(){
+          location.reload();
+          }, 1000);
       }
     );
-
-    setTimeout(function(){
-      location.href ='/';
-      }, 1000);
     
   }
 
@@ -452,6 +456,17 @@ export class SeccionHabilidadesComponent implements OnInit {
     this.auxIndex = item;
     this.nombreTecnologiaSelect= this.misTecnologias[this.auxIndex].nombre;
     this.nivelSelect= this.misTecnologias[this.auxIndex].nivelId;
+
+    //La búsqueda la dejo comentada porque opté por hacerla con typescript 
+      //Pero se puede probar que funciona comentando las lineas de arriba  de la función y descomentando estas:
+      /*
+      this.habilidadService.buscarHabilidad(this.misHabilidades[item].id).subscribe(
+        data => {
+          this.auxIndex = item;
+          this.nombreTecnologiaSelect = data.nombre;
+          this.nivelSelect = data.nivelId;
+        }
+      )*/
    
   } 
 

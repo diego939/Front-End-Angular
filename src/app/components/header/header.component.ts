@@ -208,10 +208,12 @@ export class HeaderComponent implements OnInit {
           && this.miPortfolio[item].email==this.form.value.email
           && this.miPortfolio[item].celular==this.form.value.celular
           ){
+          //Cerramos el modal 
           this.closebutton.nativeElement.click();
+          //Si no se produjeron cambios se muestra una alerta que dice sin cambios!
           this.sincambios()
         }else{
-          this.cambios()
+
           let persona1: Persona = {
             "id": this.miPortfolio[item].id,
             "nombres": this.form.value.nombres,
@@ -224,15 +226,18 @@ export class HeaderComponent implements OnInit {
             "imagePortada": this.miPortfolio[item].imagePortada,
             "imagePerfil": this.miPortfolio[item].imagePerfil
           }
+          //Se muestra una alerta cuando se producen cambios (Cambios guardados y un lapicito)
+          this.cambios();
           this.datosPortfolio.editarPersona(persona1).subscribe(
             data => {
-              //this.router.navigate(['/']);
+                  //Se refresca el sitio luego del tiempo indicado
+                  setTimeout(function(){
+                    location.reload();
+                }, 1000);
             }
           );
 
-          setTimeout(function(){
-            location.href ='/';
-         }, 1000);
+          
         }
   }
 
@@ -261,6 +266,7 @@ export class HeaderComponent implements OnInit {
 
 
   visualizarPortada(item: number){
+    //Esta función sirve para ver la foto en una alerta animada
     Swal.fire({
       imageUrl: this.miPortfolio[item].imagePortada,
       imageWidth: 2000,
@@ -301,10 +307,12 @@ export class HeaderComponent implements OnInit {
 modificarPortada(item: number){
 
   if(this.miPortfolio[item].imagePortada==this.form.value.imagePortada){
+    //Cerramos el modal
     this.cerrarPortada.nativeElement.click();
+    //Si no hubo modificaciones se muestra un alerta (sin cambios!)
     this.sincambios();
   }else{
-    this.cambios()
+   
     //instanciamos un objeto de tipo persona para pasar los cambios al servidor
     let persona1: Persona = {
       "id": this.miPortfolio[item].id,
@@ -318,16 +326,20 @@ modificarPortada(item: number){
 			"imagePortada": this.form.value.imagePortada,
 			"imagePerfil": this.miPortfolio[item].imagePerfil
     }
+
+    //Si se produjeron cambios en el formulario se mostrará una alerta que cambios guardados
+    this.cambios();
+
     //Llamamos al servicio para hacer los cambios en el servidor
     this.datosPortfolio.editarPersona(persona1).subscribe(
       data => {
-        //this.router.navigate(['/']);
+              //Luego del tiempo transcurrido se refresca el sitio
+              setTimeout(function(){
+                location.reload();
+            }, 1000);
       }
     );
 
-          setTimeout(function(){
-            location.href ='/';
-         }, 1000);
   }
      
 }
@@ -335,6 +347,7 @@ modificarPortada(item: number){
 // fUCIONES PARA LA IMAGEN DE PERFIL
 
 visualizarPerfil(item: number){
+  //Esta función sirve para ver la foto en una alerta animada
   Swal.fire({
     imageUrl: this.miPortfolio[item].imagePerfil,
     imageWidth: 500,
@@ -377,7 +390,7 @@ modificarPerfil(item: number){
     this.cerrarPerfil.nativeElement.click();
     this.sincambios();
   }else{
-    this.cambios()
+    
     let persona1: Persona = {
       "id": this.miPortfolio[item].id,
       "nombres": this.miPortfolio[item].nombres,
@@ -390,15 +403,21 @@ modificarPerfil(item: number){
 			"imagePortada": this.miPortfolio[item].imagePortada,
 			"imagePerfil": this.form.value.imagePerfil
     }
+
+    //Si se produjeron cambios en el formulario se mostrará una alerta que cambios guardados
+    this.cambios();
+
     this.datosPortfolio.editarPersona(persona1).subscribe(
       data => {
-        //this.router.navigate(['/']);
+        //Luego del tiempo transcurrido se refresca el sitio
+        setTimeout(function(){
+          location.reload();
+       }, 1000);
+
       }
     );
 
-          setTimeout(function(){
-            location.href ='/';
-         }, 1000);
+          
   }
 }
 
@@ -450,8 +469,6 @@ modificarLocation(item: number){
     this. cerrarLocation.nativeElement.click();
     this.sincambios();
   }else{
-    //Si se produjeron cambios en el formulario se mostrará una alerta que cambios guardados
-    this.cambios();
 
     //creamos un objeto de tipo Direccion
     let direccion: Direccion = {
@@ -461,16 +478,22 @@ modificarLocation(item: number){
       "localidad": this.formLocation.value.localidad,
       "domicilio": this.formLocation.value.domicilio
     }
+
+    //Si se produjeron cambios en el formulario se mostrará una alerta que cambios guardados
+    this.cambios();
+
     //Llamamos a nuestro servicio para hacer los cambios en el servidor
     this.datosDireccion.editarDireccion(direccion).subscribe(
       data => {
-        //this.router.navigate(['/']);
+
+        
+        //La página se refresca automáticamente luego del tiempo transcurrido
+        setTimeout(function(){
+          location.reload();
+       }, 1000);
+
       }
     );
-          //La página se refresca automáticamente luego del tiempo transcurrido
-          setTimeout(function(){
-            location.href ='/';
-         }, 1000);
   }
 }
 
